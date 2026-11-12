@@ -1,0 +1,1 @@
+# Qu-mica-Inorg-nica-Descritiva-Ametais-e-Halog-nios-
