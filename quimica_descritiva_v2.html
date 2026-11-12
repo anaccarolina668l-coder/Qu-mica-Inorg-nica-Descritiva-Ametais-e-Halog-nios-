@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Química Descritiva — Não Metais e Blocos d e f | IFES</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      scroll-behavior: smooth;
+    }
+    .tab-section {
+      display: none;
+      animation: fadeIn 0.35s ease-out;
+    }
+    .tab-section.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased">
+
+  <!-- BARRA DE NAVEGAÇÃO SUPERIOR -->
+  <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-lg border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between py-3 gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-bold text-lg shadow-md">
+            ⚗️
+          </div>
+          <div>
+            <h1 class="font-bold text-base sm:text-lg tracking-tight leading-tight">Química Descritiva</h1>
+            <p class="text-xs text-slate-400">Não Metais & Blocos <em>d</em> e <em>f</em> • Shriver & Atkins</p>
+          </div>
+        </div>
+
+        <!-- Menu de Seção Única (SPA) -->
+        <nav class="flex flex-wrap gap-1.5" id="main-nav">
+          <button onclick="switchSection('inicio')" data-target="inicio" class="nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition bg-indigo-600 text-white shadow">
+            1. Início & Projeto
+          </button>
+          <button onclick="switchSection('naometais')" data-target="naometais" class="nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition text-slate-300 hover:bg-slate-800">
+            2. Não Metais (N, P, O, S)
+          </button>
+          <button onclick="switchSection('halogenios')" data-target="halogenios" class="nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition text-slate-300 hover:bg-slate-800">
+            3. Halogênios (Grupo 17)
+          </button>
+          <button onclick="switchSection('blocosdf')" data-target="blocosdf" class="nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition text-slate-300 hover:bg-slate-800">
+            4. Blocos <em>d</em> e <em>f</em>
+          </button>
+          <button onclick="switchSection('jogos')" data-target="jogos" class="nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition text-slate-300 hover:bg-slate-800">
+            5. Jogos & Explorador
+          </button>
+          <button onclick="switchSection('referencias')" data-target="referencias" class="nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition text-slate-300 hover:bg-slate-800">
+            6. Referências
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL (SEÇÃO ÚNICA POR VEZ) -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- ===================================================================== -->
+    <!-- SEÇÃO 1: INÍCIO & PROJETO ACADÊMICO -->
+    <!-- ===================================================================== -->
+    <section id="sec-inicio" class="tab-section active space-y-8">
+      <div class="rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-950 text-white p-6 sm:p-10 shadow-xl border border-indigo-800/40 relative overflow-hidden">
+        <div class="relative z-10 max-w-4xl space-y-5">
+          <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-200 text-xs font-semibold">
+            <span>🎓 Licenciatura em Química • IFES</span>
+            <span>•</span>
+            <span>Química Inorgânica I</span>
+            <span>•</span>
+            <span>Novembro de 2026</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+            Portal Didático de <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-300 to-pink-400">Química Descritiva</span>
+          </h2>
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+            Uma plataforma interativa e fundamentada na literatura clássica (<strong>Shriver & Atkins</strong>, J. D. Lee, Housecroft & Sharpe) dedicada ao estudo estrutural, periódico e reacional dos <strong>Não Metais (N, P, O, S e Halogênios)</strong> e dos <strong>Metais dos Blocos <em>d</em> e <em>f</em></strong>.
+          </p>
+
+          <!-- Selo de Transparência e Autoria -->
+          <div class="p-4 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md text-sm space-y-2">
+            <p class="font-semibold text-amber-300 flex items-center gap-2">
+              🤖 Transparência Tecnológica & Co-criação com Inteligência Artificial
+            </p>
+            <p class="text-slate-200 text-xs sm:text-sm leading-relaxed">
+              Este ambiente educacional foi idealizado e estruturado em <strong>novembro de 2026</strong> pelas graduandas em Licenciatura em Química <strong>Ana Carolina Nascimento Gomes</strong> e <strong>Jhovanna Katherine P. Linhares</strong>, em atendimento à atividade proposta pelo <strong>Prof. Mauro</strong> na disciplina de <strong>Química Inorgânica I</strong>. Para viabilizar a programação web interativa, visualizações e analogias didáticas, utilizou-se <strong>Inteligência Artificial (IA)</strong> como ferramenta de apoio técnico sob curadoria acadêmica das autoras.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade: Como, Quando, Por que e Por quem -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="glass-card rounded-2xl p-6 shadow-sm border-t-4 border-indigo-600">
+          <span class="text-2xl">👩‍🔬</span>
+          <h3 class="font-bold text-slate-900 text-lg mt-2">Por Quem</h3>
+          <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            Desenvolvido pelas licenciandas em Química <strong>Ana Carolina Nascimento Gomes</strong> e <strong>Jhovanna Katherine P. Linhares</strong>, sob orientação e solicitação do <strong>Professor Mauro</strong> (disciplina de <em>Química Inorgânica I</em>).
+          </p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 shadow-sm border-t-4 border-purple-600">
+          <span class="text-2xl">📅</span>
+          <h3 class="font-bold text-slate-900 text-lg mt-2">Quando</h3>
+          <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            Conceitualizado, revisado bibliograficamente e desenvolvido ao longo de <strong>novembro de 2026</strong>, integrando conteúdos do semestre letivo de Química Inorgânica I.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 shadow-sm border-t-4 border-pink-600">
+          <span class="text-2xl">🎯</span>
+          <h3 class="font-bold text-slate-900 text-lg mt-2">Por Quê</h3>
+          <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            Superar a memorização mecânica da Química Descritiva, conectando propriedades periódicas (eletronegatividade, teoria HSAB, magnetismo e orbitais) a <strong>analogias didáticas</strong> acessíveis.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 shadow-sm border-t-4 border-emerald-600">
+          <span class="text-2xl">💻</span>
+          <h3 class="font-bold text-slate-900 text-lg mt-2">Como Foi Feito</h3>
+          <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            Curadoria teórica baseada em <em>Química Inorgânica</em> (Shriver & Atkins) combinada ao desenvolvimento web (HTML5, Tailwind CSS e JS) assistido por <strong>Inteligência Artificial (IA)</strong>, incluindo simuladores e jogos interativos.
+          </p>
+        </div>
+      </div>
+
+      <!-- Conceitos Transversais: Duros/Macios, Eletronegatividade e Magnetismo -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="border-b border-slate-200 pb-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Fundamentos Essenciais (Shriver & Atkins)</span>
+          <h3 class="text-2xl font-bold text-slate-900 mt-1">Os 3 Pilares para Compreender os Não Metais e Halogênios</h3>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Pilar 1: HSAB -->
+          <div class="rounded-2xl bg-amber-50/70 border border-amber-200 p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-amber-950 text-base">1. Ácidos e Bases Duros e Macios (HSAB)</h4>
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-amber-200 text-amber-900">Pearson</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              <strong>Bases Duras</strong> (ex.: <span class="font-mono">F⁻, O²⁻, OH⁻, N³⁻</span>) possuem raio pequeno, alta eletronegatividade e baixa polarizabilidade — formam ligações predominantemente iônicas com ácidos duros (<span class="font-mono">H⁺, Ti⁴⁺, Al³⁺</span>).<br>
+              <strong>Bases Macias</strong> (ex.: <span class="font-mono">I⁻, S²⁻, RS⁻, CN⁻</span>) têm nuvem eletrônica volumosa e facilmente deformável, preferindo ácidos macios (<span class="font-mono">Ag⁺, Hg²⁺, Pt²⁺</span>) via covalência.
+            </p>
+            <div class="p-3 rounded-xl bg-white border border-amber-200 text-xs text-amber-900">
+              <strong>💡 Analogia Didática:</strong> Pense em <em>bolas de bilhar</em> (duros: rígidos, não se deformam e se atraem por carga pura) versus <em>travesseiros de espuma</em> (macios: grandes, moldáveis e que se encaixam compartilhando espaço).
+            </div>
+          </div>
+
+          <!-- Pilar 2: Eletronegatividade -->
+          <div class="rounded-2xl bg-sky-50/70 border border-sky-200 p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-sky-950 text-base">2. Eletronegatividade (χ de Pauling)</h4>
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-sky-200 text-sky-900">Polaridade</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              Os não metais concentram as maiores eletronegatividades da Tabela Periódica: <strong>F (3,98) > O (3,44) > Cl (3,16) > N (3,04) > Br (2,96) > I (2,66) > S (2,58) > P (2,19)</strong>. Isso explica por que o flúor assume exclusivamente estado de oxidação <strong>−1</strong> e por que os não metais atuam como fortes agentes oxidantes.
+            </p>
+            <div class="p-3 rounded-xl bg-white border border-sky-200 text-xs text-sky-900">
+              <strong>💡 Analogia Didática:</strong> É como um <em>cabo de guerra eletrônico</em>: o Flúor é o atleta mais forte da tabela — em qualquer ligação heteronuclear, ele puxa o "pano" (densidade eletrônica) para o seu lado.
+            </div>
+          </div>
+
+          <!-- Pilar 3: Magnetismo -->
+          <div class="rounded-2xl bg-purple-50/70 border border-purple-200 p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-purple-950 text-base">3. Paramagnetismo vs. Diamagnetismo</h4>
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-purple-200 text-purple-900">Orbitais</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              <strong>Paramagnéticas:</strong> Espécies com <em>elétrons desemparelhados</em>, atraídas por campos magnéticos externos (ex.: <span class="font-mono">O₂</span> com 2 elétrons em <span class="font-mono">π*₂p</span>, <span class="font-mono">NO</span>, <span class="font-mono">NO₂</span>, <span class="font-mono">ClO₂</span>).<br>
+              <strong>Diamagnéticas:</strong> Todos os elétrons estão <em>emparelhados</em>, sofrendo leve repulsão magnética (ex.: <span class="font-mono">N₂, P₄, S₈, F₂, Cl₂</span>).
+            </p>
+            <div class="p-3 rounded-xl bg-white border border-purple-200 text-xs text-purple-900">
+              <strong>💡 Analogia Didática:</strong> Em uma festa, casais dançando juntos (<em>emparelhados</em>) ignoram o DJ (campo magnético) = <strong>Diamagnetismo</strong>. Pessoas sozinhas na pista (<em>desemparelhadas</em>) são atraídas pelo palco = <strong>Paramagnetismo</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navegação inferior -->
+      <div class="flex justify-end">
+        <button onclick="switchSection('naometais')" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow transition">
+          Próxima Seção: Não Metais (N, P, O, S) →
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SEÇÃO 2: NÃO METAIS (N, P, O, S) -->
+    <!-- ===================================================================== -->
+    <section id="sec-naometais" class="tab-section space-y-8">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Capítulo 14 & 15 • Shriver & Atkins</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Não Metais dos Grupos 15 e 16: N, P, O e S</h2>
+          <p class="text-slate-600 text-sm sm:text-base mt-2">
+            Análise comparativa entre os elementos leves do 2º período (<strong>N, O</strong>) e seus congêneres mais pesados do 3º período (<strong>P, S</strong>), destacando o Princípio da Singularidade, alotropia, propriedades magnéticas e processos industriais.
+          </p>
+        </div>
+
+        <!-- Princípio da Singularidade + Tabela de Entalpias -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-slate-50 p-5 rounded-2xl border border-slate-200">
+          <div class="space-y-3">
+            <h3 class="font-bold text-lg text-slate-900">Por que N₂ e O₂ são gases diatômicos, enquanto P₄ e S₈ são sólidos poliatômicos?</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Segundo <strong>Shriver & Atkins</strong>, elementos do 2º período possuem raios atômicos pequenos, permitindo sobreposição lateral eficiente de orbitais <span class="font-mono">2p</span> para formar ligações múltiplas fortes (<span class="font-mono">N≡N</span> = 945 kJ/mol; <span class="font-mono">O=O</span> = 498 kJ/mol). Em contrapartida, suas ligações simples (<span class="font-mono">N–N</span> e <span class="font-mono">O–O</span>) são enfraquecidas pela forte repulsão entre pares isolados próximos. Já no 3º período (<strong>P</strong> e <strong>S</strong>), átomos maiores têm sobreposição <span class="font-mono">3pπ–3pπ</span> ineficiente, favorecendo redes de ligações simples (<span class="font-mono">P₄</span> tetraédrico e anéis <span class="font-mono">S₈</span>).
+            </p>
+            <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-950">
+              <strong>💡 Analogia Didática:</strong> Dois amigos baixinhos conseguem dar um abraço duplo apertado (<span class="font-mono">π</span>), mas se ficarem de mãos dadas apenas, seus cotovelos batem (repulsão dos pares isolados). Já dois jogadores de basquete (P e S) não conseguem se abraçar lateralmente, então formam uma roda dando as mãos em cadeia (<span class="font-mono">P₄</span> e <span class="font-mono">S₈</span>).
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs sm:text-sm text-left border-collapse bg-white rounded-xl overflow-hidden shadow-sm">
+              <thead class="bg-slate-800 text-white">
+                <tr>
+                  <th class="p-3">Ligação</th>
+                  <th class="p-3">Entalpia (kJ/mol)</th>
+                  <th class="p-3">Ligação</th>
+                  <th class="p-3">Entalpia (kJ/mol)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200">
+                <tr>
+                  <td class="p-3 font-mono font-bold text-indigo-700">N–N (simples)</td>
+                  <td class="p-3">163 (fraca)</td>
+                  <td class="p-3 font-mono font-bold text-emerald-700">P–P (simples)</td>
+                  <td class="p-3">200 (mais forte)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-mono font-bold text-indigo-700">N≡N (tripla)</td>
+                  <td class="p-3">945 (fortíssima)</td>
+                  <td class="p-3 font-mono font-bold text-emerald-700">P≡P (tripla)</td>
+                  <td class="p-3">490 (instável)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-mono font-bold text-indigo-700">O–O (simples)</td>
+                  <td class="p-3">146 (fraca)</td>
+                  <td class="p-3 font-mono font-bold text-emerald-700">S–S (simples)</td>
+                  <td class="p-3">266 (catenação)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-mono font-bold text-indigo-700">O=O (dupla)</td>
+                  <td class="p-3">498 (estável)</td>
+                  <td class="p-3 font-mono font-bold text-emerald-700">S=S (dupla)</td>
+                  <td class="p-3">425</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Cards Detalhados: N, P, O, S -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- NITROGÊNIO -->
+          <div class="rounded-2xl border border-indigo-200 bg-indigo-50/40 p-6 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-bold text-indigo-950">Nitrogênio (N • Z = 7)</h3>
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-600 text-white">χ = 3,04 | Diamagnético (N₂)</span>
+            </div>
+            <ul class="text-sm text-slate-700 space-y-1.5 list-disc pl-5">
+              <li><strong>Estados de oxidação:</strong> Varia de <strong>−3</strong> (<span class="font-mono">NH₃</span>) a <strong>+5</strong> (<span class="font-mono">HNO₃, N₂O₅</span>).</li>
+              <li><strong>Classificação HSAB:</strong> <span class="font-mono">NH₃</span> e aminas são <strong>bases duras</strong>; <span class="font-mono">N₃⁻</span> (azida) tem caráter intermediário/macio.</li>
+              <li><strong>Magnetismo:</strong> <span class="font-mono">N₂</span> é diamagnético, mas seus óxidos ímpares <span class="font-mono">NO</span> (11 e⁻ de valência) e <span class="font-mono">NO₂</span> (17 e⁻) são radicais livres <strong>paramagnéticos</strong>.</li>
+              <li><strong>Processos Industriais:</strong> <em>Haber-Bosch</em> (<span class="font-mono">N₂ + 3H₂ ⇌ 2NH₃</span>, catálise de Fe) e <em>Ostwald</em> (oxidação de <span class="font-mono">NH₃</span> a <span class="font-mono">HNO₃</span> sobre Pt/Rh).</li>
+            </ul>
+            <div class="p-3 rounded-xl bg-white border border-indigo-200 text-xs text-indigo-950">
+              <strong>💡 Analogia:</strong> A molécula <span class="font-mono">N₂</span> é como um <em>cofre trancado com três cadeados</em> (ligação tripla de 945 kJ/mol): é extremamente inerte à temperatura ambiente, exigindo catalisadores e alta pressão no processo Haber-Bosch para ser "aberta".
+            </div>
+          </div>
+
+          <!-- FÓSFORO -->
+          <div class="rounded-2xl border border-purple-200 bg-purple-50/40 p-6 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-bold text-purple-950">Fósforo (P • Z = 15)</h3>
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-purple-600 text-white">χ = 2,19 | Diamagnético</span>
+            </div>
+            <ul class="text-sm text-slate-700 space-y-1.5 list-disc pl-5">
+              <li><strong>Alotropia:</strong> <em>Fósforo branco (<span class="font-mono">P₄</span>)</em> — tetraédrico, ângulos tensionados de 60°, pirofórico e tóxico; <em>Fósforo vermelho</em> — polimérico amorfo mais estável; <em>Fósforo negro</em> — estrutura em camadas tipo grafite, semicondutor.</li>
+              <li><strong>Classificação HSAB:</strong> Fosfinas (<span class="font-mono">PR₃</span>) são <strong>bases macias</strong> clássicas, fundamentais como ligantes estabilizadores de metais de transição em catálise homogênea.</li>
+              <li><strong>Oxoácidos (Shriver & Atkins):</strong> <span class="font-mono">H₃PO₄</span> (triprótico), <span class="font-mono">H₃PO₃</span> (diprótico, pois possui 1 ligação P–H não ionizável) e <span class="font-mono">H₃PO₂</span> (monoprótico, 2 ligações P–H).</li>
+            </ul>
+            <div class="p-3 rounded-xl bg-white border border-purple-200 text-xs text-purple-950">
+              <strong>💡 Analogia:</strong> O tetraedro <span class="font-mono">P₄</span> é como um <em>arco tensionado ao máximo</em> (ângulos de 60° em vez de 109,5°): qualquer faísca ou contato com o ar libera essa tensão de forma explosiva (pirofórica).
+            </div>
+          </div>
+
+          <!-- OXIGÊNIO -->
+          <div class="rounded-2xl border border-rose-200 bg-rose-50/40 p-6 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-bold text-rose-950">Oxigênio (O • Z = 8)</h3>
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-600 text-white">χ = 3,44 | Paramagnético (O₂)</span>
+            </div>
+            <ul class="text-sm text-slate-700 space-y-1.5 list-disc pl-5">
+              <li><strong>Teoria do Orbital Molecular (TOM):</strong> O <span class="font-mono">O₂</span> no estado fundamental (triplete, <span class="font-mono">³Σg⁻</span>) possui ordem de ligação 2 e <strong>dois elétrons desemparelhados</strong> nos orbitais degenerados <span class="font-mono">π*₂p</span>, tornando o <span class="font-mono">O₂</span> líquido visivelmente atraído por ímãs!</li>
+              <li><strong>Alótropos:</strong> Dioxigênio (<span class="font-mono">O₂</span>) e Ozônio (<span class="font-mono">O₃</span>, angular, diamagnético, forte oxidante na estratosfera).</li>
+              <li><strong>Classificação HSAB:</strong> <span class="font-mono">O²⁻, OH⁻, H₂O</span> são <strong>bases duras</strong> por excelência devido ao pequeno raio e alta eletronegatividade.</li>
+            </ul>
+            <div class="p-3 rounded-xl bg-white border border-rose-200 text-xs text-rose-950">
+              <strong>💡 Analogia:</strong> A estrutura de Lewis tradicional (<span class="font-mono">O=O</span>) engana ao sugerir que todos os elétrons estão emparelhados. Na realidade (TOM), o <span class="font-mono">O₂</span> tem dois "elétrons solteiros" nos orbitais <span class="font-mono">π*</span> que funcionam como micro-ímãs permanentes.
+            </div>
+          </div>
+
+          <!-- ENXOFRE -->
+          <div class="rounded-2xl border border-amber-200 bg-amber-50/40 p-6 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-bold text-amber-950">Enxofre (S • Z = 16)</h3>
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-600 text-white">χ = 2,58 | Diamagnético (S₈)</span>
+            </div>
+            <ul class="text-sm text-slate-700 space-y-1.5 list-disc pl-5">
+              <li><strong>Alotropia e Catenação:</strong> Forma anéis coroa de <span class="font-mono">S₈</span> (enxofre ortorrômbico <span class="font-mono">Sα</span> e monoclínico <span class="font-mono">Sβ</span>); acima de 160 °C, os anéis rompem formando cadeias poliméricas viscosas (<span class="font-mono">S∞</span>).</li>
+              <li><strong>Classificação HSAB:</strong> <span class="font-mono">S²⁻, HS⁻, R₂S</span> são <strong>bases macias</strong> (explicando a ocorrência natural de minérios calcófilos como <span class="font-mono">PbS, HgS, Ag₂S</span>).</li>
+              <li><strong>Hipervalência e Inércia Cinética:</strong> O <span class="font-mono">SF₆</span> (octaédrico) é termodinamicamente instável frente à hidrólise, mas <strong>cineticamente inerte</strong> devido ao impedimento estérico dos 6 átomos de flúor blindando o enxofre.</li>
+            </ul>
+            <div class="p-3 rounded-xl bg-white border border-amber-200 text-xs text-amber-950">
+              <strong>💡 Analogia:</strong> O <span class="font-mono">SF₆</span> é como uma <em>armadura medieval fechada</em>: o átomo de enxofre central está completamente cercado por seis átomos de flúor, impedindo que moléculas de água consigam atacar o centro.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <button onclick="switchSection('inicio')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold text-sm transition">
+          ← Anterior: Início
+        </button>
+        <button onclick="switchSection('halogenios')" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow transition">
+          Próxima Seção: Halogênios (Grupo 17) →
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SEÇÃO 3: HALOGÊNIOS (GRUPO 17 COMPLETO) -->
+    <!-- ===================================================================== -->
+    <section id="sec-halogenios" class="tab-section space-y-8">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-cyan-600">Capítulo 17 • Shriver & Atkins</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Halogênios (Grupo 17): F, Cl, Br, I e At</h2>
+          <p class="text-slate-600 text-sm sm:text-base mt-2">
+            Estudo completo dos formadores de sais (<em>halos + gen</em>): anomalias periódicas do flúor, força ácida de HX, compostos inter-halogênios (<span class="font-mono">XYₙ</span>), polialetos, pseudo-halogênios e oxoácidos.
+          </p>
+        </div>
+
+        <!-- Tabela Comparativa dos Halogênios -->
+        <div class="overflow-x-auto rounded-2xl border border-slate-200">
+          <table class="w-full text-xs sm:text-sm text-left border-collapse">
+            <thead class="bg-cyan-900 text-white">
+              <tr>
+                <th class="p-3">Elemento</th>
+                <th class="p-3">Estado Físico (25 °C)</th>
+                <th class="p-3">Eletroneg. (χ)</th>
+                <th class="p-3">Entalpia X–X (kJ/mol)</th>
+                <th class="p-3">HSAB (Íon X⁻)</th>
+                <th class="p-3">Magnetismo (X₂)</th>
+                <th class="p-3">E° (X₂/X⁻)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 bg-white">
+              <tr>
+                <td class="p-3 font-bold text-emerald-700">Flúor (F₂)</td>
+                <td class="p-3">Gás amarelo-pálido</td>
+                <td class="p-3 font-mono font-bold">3,98</td>
+                <td class="p-3 font-mono text-rose-600 font-bold">159 (anômala!)</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-semibold">Base Dura</span></td>
+                <td class="p-3">Diamagnético</td>
+                <td class="p-3 font-mono">+2,87 V</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-lime-700">Cloro (Cl₂)</td>
+                <td class="p-3">Gás verde-amarelado</td>
+                <td class="p-3 font-mono">3,16</td>
+                <td class="p-3 font-mono">243 (máxima)</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-800 font-semibold">Base Dura/Interm.</span></td>
+                <td class="p-3">Diamagnético</td>
+                <td class="p-3 font-mono">+1,36 V</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-amber-800">Bromo (Br₂)</td>
+                <td class="p-3">Líquido castanho-avermelhado</td>
+                <td class="p-3 font-mono">2,96</td>
+                <td class="p-3 font-mono">193</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded bg-sky-100 text-sky-900 font-semibold">Intermediária</span></td>
+                <td class="p-3">Diamagnético</td>
+                <td class="p-3 font-mono">+1,07 V</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-purple-800">Iodo (I₂)</td>
+                <td class="p-3">Sólido violeta-escuro metálico</td>
+                <td class="p-3 font-mono">2,66</td>
+                <td class="p-3 font-mono">151</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-100 text-purple-900 font-semibold">Base Macia</span></td>
+                <td class="p-3">Diamagnético</td>
+                <td class="p-3 font-mono">+0,54 V</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 4 Blocos Aprofundados (Shriver & Atkins) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+            <h3 class="font-bold text-slate-900 text-lg">1. Anomalias do Flúor e Força dos Hidroácidos (HX)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A energia de dissociação do <span class="font-mono">F₂</span> (159 kJ/mol) é anormalmente baixa devido à repulsão entre os pares eletrônicos não ligantes muito próximos no pequeno átomo de flúor. Somado à altíssima entalpia de hidratação do <span class="font-mono">F⁻</span>, isso torna o <span class="font-mono">F₂</span> o mais poderoso oxidante elemental (<span class="font-mono">E° = +2,87 V</span>).<br>
+              Em solução aquosa diluída, a acidez cresce na ordem: <strong>HF (ácido fraco, pKa = 3,17) ≪ HCl &lt; HBr &lt; HI</strong>, pois a ligação H–F é muito forte (565 kJ/mol) e forma pares iônicos por ligação de hidrogênio (<span class="font-mono">[F–H···F]⁻</span>).
+            </p>
+            <div class="p-3 rounded-xl bg-cyan-50 border border-cyan-200 text-xs text-cyan-950">
+              <strong>💡 Analogia:</strong> O <span class="font-mono">HF</span> é como um <em>pai superprotetor</em> que segura o próton (<span class="font-mono">H⁺</span>) com tanta força que não o deixa sair livremente na água; já o <span class="font-mono">HI</span> tem uma ligação longa e frouxa, liberando o <span class="font-mono">H⁺</span> instantaneamente.
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+            <h3 class="font-bold text-slate-900 text-lg">2. Compostos Inter-halogênios (<span class="font-mono">XYₙ</span>, n = 1, 3, 5, 7)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Formados pela combinação direta entre dois halogênios distintos, onde <strong>X</strong> é o halogênio central mais pesado e menos eletronegativo e <strong>Y</strong> é o halogênio periférico mais leve (geralmente F). Geometrias previstas pelo modelo VSEPR (Shriver & Atkins):
+            </p>
+            <ul class="text-xs sm:text-sm text-slate-700 list-disc pl-5 space-y-1">
+              <li><span class="font-mono">XY</span> (ex.: <span class="font-mono">ClF, BrCl, ICl</span>): Linear.</li>
+              <li><span class="font-mono">XY₃</span> (ex.: <span class="font-mono">ClF₃, BrF₃</span>): <strong>Forma de T</strong> (2 pares isolados equatoriais).</li>
+              <li><span class="font-mono">XY₅</span> (ex.: <span class="font-mono">BrF₅, IF₅</span>): Pirâmide de base quadrada (1 par isolado).</li>
+              <li><span class="font-mono">XY₇</span> (ex.: <span class="font-mono">IF₇</span>): Bipirâmide pentagonal (único exemplo neutro estável).</li>
+            </ul>
+            <div class="p-3 rounded-xl bg-cyan-50 border border-cyan-200 text-xs text-cyan-950">
+              <strong>💡 Analogia:</strong> Para acomodar 7 átomos de flúor ao redor de um único átomo central (<span class="font-mono">IF₇</span>), o átomo central precisa ser "espaçoso" como o Iodo — tentar colocar 7 flúores ao redor do Cloro seria como tentar estacionar 7 caminhões em uma vaga de moto.
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+            <h3 class="font-bold text-slate-900 text-lg">3. Polialetos e Pseudo-halogênios</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              <strong>Polialetos:</strong> O <span class="font-mono">I₂</span> é pouco solúvel em água pura, mas dissolve-se prontamente em solução de <span class="font-mono">KI</span> formando o íon tri-iodeto linear <span class="font-mono">I₃⁻</span> (<span class="font-mono">I₂ + I⁻ ⇌ I₃⁻</span>), explicado por ligação de 3 centros e 4 elétrons (3c-4e).<br>
+              <strong>Pseudo-halogênios:</strong> Grupos poliatômicos que mimetizam a química dos halogênios, formando dímeros voláteis (<span class="font-mono">X₂</span>) e sais de prata insolúveis (<span class="font-mono">AgX</span>). Exemplos: <strong>Cianeto (<span class="font-mono">CN⁻</span> / cianogênio <span class="font-mono">(CN)₂</span>)</strong>, <strong>Tiocianato (<span class="font-mono">SCN⁻</span>)</strong> e <strong>Azida (<span class="font-mono">N₃⁻</span>)</strong>.
+            </p>
+            <div class="p-3 rounded-xl bg-cyan-50 border border-cyan-200 text-xs text-cyan-950">
+              <strong>💡 Analogia:</strong> Pseudo-halogênios são como <em>atores dublês</em> no cinema: embora sejam compostos por vários átomos (como C e N no <span class="font-mono">CN⁻</span>), atuam nas reações químicas exatamente como se fossem um halogênio tradicional.
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+            <h3 class="font-bold text-slate-900 text-lg">4. Oxoácidos dos Halogênios & Regras de Pauling</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Para a série do cloro: <span class="font-mono">HClO</span> (hipocloroso, +1, pKa 7,5) &lt; <span class="font-mono">HClO₂</span> (cloroso, +3, pKa 2,0) &lt; <span class="font-mono">HClO₃</span> (clórico, +5, forte) &lt; <span class="font-mono">HClO₄</span> (perclórico, +7, superácido em água). Quanto maior o número de oxigênios terminais (<span class="font-mono">p</span> na fórmula <span class="font-mono">XOₚ(OH)q</span>), maior a deslocalização da carga negativa na base conjugada e maior a acidez.
+            </p>
+            <div class="p-3 rounded-xl bg-cyan-50 border border-cyan-200 text-xs text-cyan-950">
+              <strong>💡 Analogia:</strong> Os oxigênios terminais funcionam como <em>esponjas de carga negativa</em>: quanto mais oxigênios extras ligados ao cloro, mais espalhada e estável fica a carga após a saída do <span class="font-mono">H⁺</span>, facilitando a ionização.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <button onclick="switchSection('naometais')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold text-sm transition">
+          ← Anterior: Não Metais
+        </button>
+        <button onclick="switchSection('blocosdf')" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow transition">
+          Próxima Seção: Metais dos Blocos d e f →
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SEÇÃO 4: METAIS DOS BLOCOS D E F -->
+    <!-- ===================================================================== -->
+    <section id="sec-blocosdf" class="tab-section space-y-8">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-8">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Capítulos 19, 20 & 23 • Shriver & Atkins</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Metais de Transição (Bloco <em>d</em>) e Transição Interna (Bloco <em>f</em>)</h2>
+          <p class="text-slate-600 text-sm sm:text-base mt-2">
+            Química de coordenação, Teoria do Campo Cristalino (TCC), magnetismo, espectroscopia e a Contração Lantanídica.
+          </p>
+        </div>
+
+        <!-- Simulador Interativo TCC -->
+        <div class="rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-6 space-y-5">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Laboratório Virtual • Campo Octaédrico</span>
+              <h3 class="text-xl font-bold mt-0.5">Simulador da Teoria do Campo Cristalino (TCC)</h3>
+              <p class="text-xs text-slate-300">Selecione a configuração <em>dⁿ</em> e a força do ligante (Série Espectroquímica) para observar o preenchimento de <span class="font-mono">t₂g</span> e <span class="font-mono">eg</span> e o magnetismo.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <select id="tcc-dn" onchange="updateTCC()" class="bg-slate-800 border border-slate-600 text-white text-sm rounded-xl px-3 py-2">
+                <option value="3">d³ (ex.: Cr³⁺)</option>
+                <option value="4">d⁴ (ex.: Cr²⁺, Mn³⁺)</option>
+                <option value="5">d⁵ (ex.: Mn²⁺, Fe³⁺)</option>
+                <option value="6" selected>d⁶ (ex.: Fe²⁺, Co³⁺)</option>
+                <option value="7">d⁷ (ex.: Co²⁺)</option>
+                <option value="8">d⁸ (ex.: Ni²⁺)</option>
+              </select>
+              <select id="tcc-field" onchange="updateTCC()" class="bg-slate-800 border border-slate-600 text-white text-sm rounded-xl px-3 py-2">
+                <option value="weak">Campo Fraco (Spin Alto • ex.: H₂O, F⁻)</option>
+                <option value="strong">Campo Forte (Spin Baixo • ex.: CN⁻, CO)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-white/5 rounded-2xl p-5 border border-white/10">
+            <div class="space-y-4">
+              <div>
+                <div class="text-xs text-slate-400 mb-1 font-mono">Orbitais eg (dx²-y², dz²) — Alta Energia (+0,6 Δo)</div>
+                <div id="eg-boxes" class="flex gap-3"></div>
+              </div>
+              <div class="border-t border-dashed border-slate-600 pt-3">
+                <div class="text-xs text-slate-400 mb-1 font-mono">Orbitais t₂g (dxy, dxz, dyz) — Baixa Energia (-0,4 Δo)</div>
+                <div id="t2g-boxes" class="flex gap-3"></div>
+              </div>
+            </div>
+
+            <div id="tcc-result" class="bg-slate-900/80 rounded-xl p-4 border border-indigo-500/30 space-y-2 text-sm">
+              <!-- Preenchido via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Bloco d vs Bloco f + Contração Lantanídica -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="rounded-2xl border border-slate-200 p-6 space-y-3">
+            <h3 class="text-xl font-bold text-slate-900">Características do Bloco <em>d</em> (Metais de Transição)</h3>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc pl-5">
+              <li><strong>Estados de Oxidação Variáveis:</strong> Devido à proximidade energética entre os orbitais <span class="font-mono">(n−1)d</span> e <span class="font-mono">ns</span> (ex.: Manganês varia de +2 em <span class="font-mono">Mn²⁺</span> a +7 em <span class="font-mono">MnO₄⁻</span>).</li>
+              <li><strong>HSAB no Bloco <em>d</em>:</strong> Metais iniciais em altos estados de oxidação (<span class="font-mono">Ti⁴⁺, Cr³⁺, Fe³⁺</span>) são <strong>ácidos duros</strong>; metais tardios em baixos estados de oxidação (<span class="font-mono">Cu⁺, Ag⁺, Au⁺, Pt²⁺, Hg²⁺</span>) são <strong>ácidos macios</strong>.</li>
+              <li><strong>Cor e Catálise:</strong> Transições eletrônicas <span class="font-mono">d–d</span> e transferência de carga (TCML/TCLM) conferem cores intensas; a capacidade de alternar estados de oxidação e coordenar substratos torna-os catalisadores essenciais (<span class="font-mono">V₂O₅</span> no processo de Contato, <span class="font-mono">Fe</span> no Haber-Bosch).</li>
+            </ul>
+            <div class="p-3 rounded-xl bg-purple-50 border border-purple-200 text-xs text-purple-950">
+              <strong>💡 Analogia:</strong> Os ligantes ao redor do metal funcionam como <em>filtros de luz</em>: dependendo da força do ligante (Série Espectroquímica), o espaçamento energético <span class="font-mono">Δo</span> muda, fazendo o complexo absorver uma cor e refletir sua cor complementar.
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-slate-200 p-6 space-y-3">
+            <h3 class="text-xl font-bold text-slate-900">Bloco <em>f</em> (Lantanídeos & Actinídeos) e Contração Lantanídica</h3>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc pl-5">
+              <li><strong>Blindagem Deficiente dos Orbitais 4<em>f</em>:</strong> Como os orbitais <span class="font-mono">4f</span> são muito difusos e internos, blindam mal a carga nuclear crescente ao longo da série de La (Z=57) a Lu (Z=71), causando uma contração contínua do raio iônico de <span class="font-mono">Ln³⁺</span> (<strong>Contração Lantanídica</strong>).</li>
+              <li><strong>Consequência no Bloco <em>d</em>:</strong> Faz com que os metais da 3ª série de transição (5<em>d</em>) tenham raios quase idênticos aos da 2ª série (4<em>d</em>), como os pares <strong>Zr/Hf</strong> e <strong>Nb/Ta</strong>.</li>
+              <li><strong>Estado de Oxidação e HSAB:</strong> Predomínio absoluto do estado <strong>+3</strong> (<span class="font-mono">Ln³⁺</span>), comportando-se como <strong>ácidos duros</strong> (afinidade por ligantes oxigenados e fluoretos).</li>
+              <li><strong>Actinídeos (5<em>f</em>):</strong> Todos radioativos; os primeiros actinídeos (Th a Pu) exibem estados de oxidação mais variados (ex.: <span class="font-mono">UO₂²⁺</span>, uranila +6) pois os orbitais <span class="font-mono">5f</span> são mais estendidos espacialmente que os <span class="font-mono">4f</span>.</li>
+            </ul>
+            <div class="p-3 rounded-xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-950">
+              <strong>💡 Analogia:</strong> A blindagem dos elétrons <span class="font-mono">4f</span> é como uma <em>cortina transparente</em>: mesmo acrescentando mais elétrons na cortina, os elétrons externos sentem quase toda a atração extra dos prótons do núcleo, encolhendo o átomo.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <button onclick="switchSection('halogenios')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold text-sm transition">
+          ← Anterior: Halogênios
+        </button>
+        <button onclick="switchSection('jogos')" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow transition">
+          Próxima Seção: Jogos & Explorador →
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SEÇÃO 5: JOGOS DINÂMICOS (7 MECÂNICAS SORTIDAS) & EXPLORADOR -->
+    <!-- ===================================================================== -->
+    <section id="sec-jogos" class="tab-section space-y-8">
+      <!-- JOGO INTERATIVO COM 7 MECÂNICAS SORTIDAS E INTERCALADAS -->
+      <div class="rounded-3xl bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 text-white p-6 sm:p-8 shadow-xl border border-indigo-700/40 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
+          <div>
+            <span class="px-3 py-1 rounded-full bg-pink-500/20 border border-pink-400/30 text-pink-300 text-xs font-bold">
+              🎮 Arcade Inorgânico • 7 Dinâmicas Sortidas & Intercaladas
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">Desafio Mix de Química Descritiva</h2>
+            <p class="text-slate-300 text-xs sm:text-sm mt-1">
+              A cada rodada, o sistema sorteia aleatoriamente entre <strong>7 mecânicas diferentes</strong> (Detetive, Duelo de Cartas, Geometria VSEPR, Verdadeiro/Falso, Ordenação Periódica, HSAB Duro/Macio e Campo Cristalino).
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3 bg-white/10 px-4 py-3 rounded-2xl border border-white/15">
+            <div class="text-center">
+              <div class="text-[10px] uppercase tracking-wider text-slate-400">Pontos</div>
+              <div id="game-score" class="text-xl font-extrabold text-cyan-400 font-mono">0</div>
+            </div>
+            <div class="h-8 w-px bg-white/15"></div>
+            <div class="text-center">
+              <div class="text-[10px] uppercase tracking-wider text-slate-400">Combo</div>
+              <div id="game-streak" class="text-xl font-extrabold text-amber-400 font-mono">0x</div>
+            </div>
+            <button onclick="nextRandomChallenge()" class="ml-2 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold shadow transition">
+              🔀 Sortear Nova Dinâmica
+            </button>
+          </div>
+        </div>
+
+        <!-- Palco do Jogo -->
+        <div id="game-stage" class="bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-7 min-h-[280px] flex flex-col justify-between">
+          <!-- Renderizado dinamicamente via JavaScript -->
+        </div>
+      </div>
+
+      <!-- EXPLORADOR RÁPIDO DE ESPÉCIES -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-5">
+        <div>
+          <h3 class="text-xl font-bold text-slate-900">🔍 Fichário Rápido de Espécies Inorgânicas</h3>
+          <p class="text-sm text-slate-600">Clique em uma espécie para visualizar sua ficha completa (Geometria, Magnetismo, HSAB, Eletronegatividade e Analogia):</p>
+        </div>
+        <div id="species-buttons" class="flex flex-wrap gap-2"></div>
+        <div id="species-card" class="rounded-2xl bg-slate-50 border border-slate-200 p-5"></div>
+      </div>
+
+      <div class="flex justify-between">
+        <button onclick="switchSection('blocosdf')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold text-sm transition">
+          ← Anterior: Blocos d e f
+        </button>
+        <button onclick="switchSection('referencias')" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow transition">
+          Próxima Seção: Referências Bibliográficas →
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SEÇÃO 6: REFERÊNCIAS BIBLIOGRÁFICAS -->
+    <!-- ===================================================================== -->
+    <section id="sec-referencias" class="tab-section space-y-8">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Embasamento Científico</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Referências Bibliográficas (Livros e Artigos)</h2>
+          <p class="text-slate-600 text-sm mt-1">
+            Fontes acadêmicas consultadas para a elaboração dos conteúdos teóricos, tabelas termodinâmicas e classificações HSAB.
+          </p>
+        </div>
+
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200">
+            <span class="text-xs font-bold uppercase text-indigo-700">Obra Principal</span>
+            <p class="mt-1">
+              <strong>WELLER, M.; OVERTON, T.; ROURKE, J.; ARMSTRONG, F.</strong> <em>Química Inorgânica</em> (Shriver & Atkins). 6. ed. Porto Alegre: Bookman, 2017. (Capítulos 4, 14, 15, 16, 17, 19, 20 e 23).
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-xs font-bold uppercase text-slate-600">Livros Complementares</span>
+            <ul class="mt-2 space-y-2 list-disc pl-5">
+              <li><strong>LEE, J. D.</strong> <em>Química Inorgânica Não Tão Concisa</em>. 5. ed. São Paulo: Blucher, 1999.</li>
+              <li><strong>HOUSECROFT, C. E.; SHARPE, A. G.</strong> <em>Química Inorgânica</em>. 4. ed. Rio de Janeiro: LTC, 2013. v. 1 e 2.</li>
+              <li><strong>MIESSLER, G. L.; FISCHER, P. J.; TARR, D. A.</strong> <em>Química Inorgânica</em>. 5. ed. São Paulo: Pearson, 2014.</li>
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-xs font-bold uppercase text-slate-600">Artigos Científicos & Ensino de Química</span>
+            <ul class="mt-2 space-y-2 list-disc pl-5">
+              <li><strong>PEARSON, R. G.</strong> Hard and Soft Acids and Bases. <em>Journal of the American Chemical Society</em>, v. 85, n. 22, p. 3533–3539, 1963.</li>
+              <li><strong>PEARSON, R. G.</strong> Acids and Bases: Hard and Soft. <em>Journal of Chemical Education</em>, v. 45, n. 9, p. 581–587, 1968.</li>
+              <li><strong>CHAGAS, A. P.</strong> O ensino de química descritiva e a sistematização das propriedades periódicas. <em>Química Nova</em>, São Paulo, SBQ.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-start">
+        <button onclick="switchSection('jogos')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold text-sm transition">
+          ← Anterior: Jogos & Explorador
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- RODAPÉ INSTITUCIONAL PERMANENTE -->
+  <!-- ===================================================================== -->
+  <footer class="bg-slate-950 text-slate-300 border-t border-slate-800 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+      <div class="space-y-1">
+        <p class="text-sm font-bold text-white">
+          Criado por: <span class="text-indigo-400">Ana Carolina Nascimento Gomes</span> & <span class="text-pink-400">Jhovanna Katherine P. Linhares</span>
+        </p>
+        <p class="text-xs text-slate-400">
+          Alunas de Licenciatura em Química • Disciplina: <strong>Química Inorgânica I</strong> • Solicitado pelo <strong>Prof. Mauro</strong> • Novembro de 2026
+        </p>
+      </div>
+      <div class="text-xs text-slate-400 bg-slate-900 px-4 py-2.5 rounded-xl border border-slate-800">
+        🤖 Desenvolvido com apoio de <strong>Inteligência Artificial (IA)</strong> • Fundamentado em <em>Shriver & Atkins</em>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- LÓGICA INTERATIVA (NAVEGAÇÃO, SIMULADOR TCC, FICHÁRIO E 7 JOGOS) -->
+  <!-- ===================================================================== -->
+  <script>
+    function switchSection(sectionId) {
+      document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+      const target = document.getElementById('sec-' + sectionId);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.dataset.target === sectionId) {
+          btn.classList.remove('text-slate-300', 'hover:bg-slate-800');
+          btn.classList.add('bg-indigo-600', 'text-white', 'shadow');
+        } else {
+          btn.classList.remove('bg-indigo-600', 'text-white', 'shadow');
+          btn.classList.add('text-slate-300', 'hover:bg-slate-800');
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateTCC() {
+      const dn = parseInt(document.getElementById('tcc-dn').value);
+      const field = document.getElementById('tcc-field').value;
+
+      let t2g = 0, eg = 0;
+      if (dn <= 3) {
+        t2g = dn; eg = 0;
+      } else if (dn === 8) {
+        t2g = 6; eg = 2;
+      } else {
+        if (field === 'weak') {
+          if (dn === 4) { t2g = 3; eg = 1; }
+          if (dn === 5) { t2g = 3; eg = 2; }
+          if (dn === 6) { t2g = 4; eg = 2; }
+          if (dn === 7) { t2g = 5; eg = 2; }
+        } else {
+          if (dn === 4) { t2g = 4; eg = 0; }
+          if (dn === 5) { t2g = 5; eg = 0; }
+          if (dn === 6) { t2g = 6; eg = 0; }
+          if (dn === 7) { t2g = 6; eg = 1; }
+        }
+      }
+
+      const unpaired = (t2g <= 3 ? t2g : 6 - t2g) + (eg <= 2 ? eg : 4 - eg);
+      const mag = unpaired > 0 ? `Paramagnético (${unpaired} e⁻ desemparelhado${unpaired > 1 ? 's' : ''})` : 'Diamagnético (0 e⁻ desemparelhados)';
+      const eecc = (-0.4 * t2g + 0.6 * eg).toFixed(1);
+
+      document.getElementById('t2g-boxes').innerHTML = renderBoxes(3, t2g);
+      document.getElementById('eg-boxes').innerHTML = renderBoxes(2, eg);
+      document.getElementById('tcc-result').innerHTML = `
+        <div class="font-bold text-cyan-300 text-base">Configuração: t₂g<sup>${t2g}</sup> eg<sup>${eg}</sup></div>
+        <div><strong>Magnetismo:</strong> <span class="${unpaired > 0 ? 'text-amber-300' : 'text-emerald-300'}">${mag}</span></div>
+        <div><strong>EECC:</strong> <span class="font-mono">${eecc} Δo</span></div>
+      `;
+    }
+
+    function renderBoxes(numBoxes, electrons) {
+      let up = Math.min(numBoxes, electrons);
+      let down = Math.max(0, electrons - numBoxes);
+      let html = '';
+      for (let i = 0; i < numBoxes; i++) {
+        let arrows = '';
+        if (i < up) arrows += '<span class="text-cyan-400 font-bold">↑</span>';
+        if (i < down) arrows += '<span class="text-pink-400 font-bold">↓</span>';
+        html += `<div class="w-12 h-10 rounded-lg border border-slate-500 bg-slate-800 flex items-center justify-center text-base font-mono">${arrows || '·'}</div>`;
+      }
+      return html;
+    }
+
+    const speciesData = [
+      {
+        id: 'O2', label: 'O₂ (Dioxigênio)',
+        geo: 'Linear (Diatômica)', mag: 'Paramagnético (2 e⁻ em π*₂p)', hsab: 'Ligante neutro / O²⁻ é Base Dura',
+        chi: 'χ(O) = 3,44',
+        desc: 'Possui ordem de ligação 2 segundo a TOM. Seu paramagnetismo é a prova clássica da superioridade da Teoria do Orbital Molecular sobre a estrutura de Lewis.',
+        analogy: 'Como dois dançarinos sozinhos na pista (orbitais π*), o O₂ responde imediatamente à presença de um campo magnético.'
+      },
+      {
+        id: 'ClF3', label: 'ClF₃ (Trifluoreto de Cloro)',
+        geo: 'Forma de T (VSEPR AX₃E₂)', mag: 'Diamagnético', hsab: 'Agente fluorante duro/oxidante',
+        chi: 'χ(F)=3,98 | χ(Cl)=3,16',
+        desc: 'Composto inter-halogênio extremamente reativo. Os dois pares isolados ocupam posições equatoriais da bipirâmide trigonal para minimizar repulsões a 90°.',
+        analogy: 'Os dois pares de elétrons livres são como "passageiros folgados" que exigem os assentos mais largos (equatoriais), empurrando os três flúores para formar um T.'
+      },
+      {
+        id: 'SF6', label: 'SF₆ (Hexafluoreto de Enxofre)',
+        geo: 'Octaédrica (AX₆)', mag: 'Diamagnético', hsab: 'Cineticamente inerte / Base muito fraca',
+        chi: 'χ(F)=3,98 | χ(S)=2,58',
+        desc: 'Gás denso e isolante elétrico. Apesar de a hidrólise a SO₃ + 6HF ser termodinamicamente favorável, não reage com água devido ao bloqueio estérico do enxofre.',
+        analogy: 'O enxofre central está protegido por um "escudo esférico" de seis átomos de flúor que impede a aproximação de nucleófilos.'
+      },
+      {
+        id: 'I3-', label: 'I₃⁻ (Íon Tri-iodeto)',
+        geo: 'Linear (AX₂E₃)', mag: 'Diamagnético', hsab: 'Base Macia e polarizável',
+        chi: 'χ(I) = 2,66',
+        desc: 'Formado pela reação de I₂ com I⁻. Estabilizado por ligação de 3 centros e 4 elétrons (3c-4e) e responsável pela cor azul-escura intensa em complexo com amido.',
+        analogy: 'O íon I⁻ atua como uma base de Lewis macia que "abraça" a molécula de I₂, permitindo que o iodo se dissolva na água.'
+      },
+      {
+        id: 'NO2', label: 'NO₂ (Dióxido de Nitrogênio)',
+        geo: 'Angular (134°)', mag: 'Paramagnético (1 e⁻ desemparelhado)', hsab: 'Radical livre / Dimeriza a N₂O₄',
+        chi: 'χ(N)=3,04 | χ(O)=3,44',
+        desc: 'Gás castanho-avermelhado com 17 elétrons de valência. Em baixas temperaturas dimeriza formando N₂O₄ incolor e diamagnético.',
+        analogy: 'Por ter um elétron "solteiro" no nitrogênio, duas moléculas de NO₂ dão as mãos no frio para formar um casal estável (N₂O₄).'
+      }
+    ];
+
+    function initSpeciesExplorer() {
+      const btnContainer = document.getElementById('species-buttons');
+      btnContainer.innerHTML = speciesData.map((sp, idx) => `
+        <button onclick="selectSpecies(${idx})" class="sp-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition ${idx === 0 ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}">
+          ${sp.label}
+        </button>
+      `).join('');
+      selectSpecies(0);
+    }
+
+    function selectSpecies(idx) {
+      const sp = speciesData[idx];
+      document.querySelectorAll('.sp-btn').forEach((b, i) => {
+        b.className = `sp-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition ${i === idx ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}`;
+      });
+      document.getElementById('species-card').innerHTML = `
+        <div class="space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h4 class="text-lg font-extrabold text-slate-900">${sp.label}</h4>
+            <div class="flex flex-wrap gap-1.5 text-xs font-semibold">
+              <span class="px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800">${sp.geo}</span>
+              <span class="px-2.5 py-1 rounded-lg bg-purple-100 text-purple-800">${sp.mag}</span>
+              <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800">${sp.hsab}</span>
+              <span class="px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-800">${sp.chi}</span>
+            </div>
+          </div>
+          <p class="text-sm text-slate-700 leading-relaxed">${sp.desc}</p>
+          <div class="p-3 rounded-xl bg-white border border-slate-200 text-xs text-slate-800">
+            <strong>💡 Analogia Didática:</strong> ${sp.analogy}
+          </div>
+        </div>
+      `;
+    }
+
+    let score = 0;
+    let streak = 0;
+    let lastMechanic = -1;
+    let orderSelection = [];
+
+    const challengeBank = [
+      {
+        mechanicId: 1,
+        badge: '🕵️ Detetive do Laboratório',
+        prompt: 'Pista 1: Sou uma molécula diatômica homonuclear do 2º período. Pista 2: No estado líquido sou atraído por um ímã forte devido a 2 elétrons em orbitais π*₂p. Quem sou eu?',
+        type: 'choice',
+        options: ['Dioxigênio (O₂)', 'Dinitrogênio (N₂)', 'Diflúor (F₂)', 'Monóxido de Carbono (CO)'],
+        answer: 'Dioxigênio (O₂)',
+        explanation: 'Segundo a TOM, o O₂ possui dois elétrons desemparelhados nos orbitais π*₂p, sendo paramagnético.'
+      },
+      {
+        mechanicId: 2,
+        badge: '⚔️ Duelo de Cartas (Shriver & Atkins)',
+        prompt: 'Qual espécie vence o duelo de MAIOR ENERGIA DE DISSOCIAÇÃO DE LIGAÇÃO (kJ/mol)?',
+        type: 'choice',
+        options: ['Cl₂ (243 kJ/mol)', 'F₂ (159 kJ/mol)', 'Br₂ (193 kJ/mol)', 'I₂ (151 kJ/mol)'],
+        answer: 'Cl₂ (243 kJ/mol)',
+        explanation: 'Anomalia clássica do Grupo 17: o F₂ tem entalpia menor devido à forte repulsão entre pares isolados.'
+      },
+      {
+        mechanicId: 3,
+        badge: '📐 Geometria VSEPR & Inter-halogênios',
+        prompt: 'No composto inter-halogênio ClF₃ (3 ligantes + 2 pares isolados), qual é a geometria molecular?',
+        type: 'choice',
+        options: ['Forma de T', 'Trigonal Plana', 'Piramidal Trigonal', 'Gangorra'],
+        answer: 'Forma de T',
+        explanation: 'Os 2 pares isolados ocupam posições equatoriais na bipirâmide trigonal, resultando em geometria em Forma de T.'
+      },
+      {
+        mechanicId: 4,
+        badge: '⚡ Verdadeiro ou Falso Relâmpago',
+        prompt: 'Afirmação: "Em solução aquosa diluída, o ácido fluorídrico (HF) é o ácido mais forte entre todos os hidroácidos halogenados."',
+        type: 'choice',
+        options: ['FALSO — HF é ácido fraco (pKa = 3,17) devido à forte ligação H–F', 'VERDADEIRO — Alta eletronegatividade sempre gera ácido forte'],
+        answer: 'FALSO — HF é ácido fraco (pKa = 3,17) devido à forte ligação H–F',
+        explanation: 'A elevadíssima entalpia da ligação H–F (565 kJ/mol) torna o HF um ácido fraco em água.'
+      },
+      {
+        mechanicId: 5,
+        badge: '🔢 Ordenação Química Crescente',
+        prompt: 'Clique nos oxoácidos na ordem CRESCENTE de força ácida (Regras de Pauling):',
+        type: 'order',
+        items: ['HClO', 'HClO₂', 'HClO₃', 'HClO₄'],
+        explanation: 'Quanto maior o número de oxigênios terminais, maior a deslocalização da carga: HClO < HClO₂ < HClO₃ < HClO₄.'
+      }
+    ];
+
+    function nextRandomChallenge() {
+      orderSelection = [];
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * challengeBank.length);
+      } while (idx === lastMechanic && challengeBank.length > 1);
+      lastMechanic = idx;
+
+      const ch = challengeBank[idx];
+      const stage = document.getElementById('game-stage');
+
+      if (ch.type === 'choice') {
+        const shuffled = [...ch.options].sort(() => Math.random() - 0.5);
+        stage.innerHTML = `
+          <div class="space-y-4">
+            <span class="inline-block px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 text-xs font-bold">${ch.badge}</span>
+            <p class="text-base sm:text-lg font-semibold text-white leading-relaxed">${ch.prompt}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              ${shuffled.map(opt => `
+                <button onclick="checkChoiceAnswer(this, '${opt.replace(/'/g, "\'")}', '${ch.answer.replace(/'/g, "\'")}', '${ch.explanation.replace(/'/g, "\'")}')"
+                  class="game-opt text-left p-4 rounded-xl bg-slate-800/90 hover:bg-indigo-600/40 border border-slate-600 hover:border-indigo-400 text-sm font-medium transition">
+                  ${opt}
+                </button>
+              `).join('')}
+            </div>
+            <div id="game-feedback" class="hidden p-4 rounded-xl text-sm"></div>
+          </div>
+        `;
+      } else if (ch.type === 'order') {
+        const shuffled = [...ch.items].sort(() => Math.random() - 0.5);
+        stage.innerHTML = `
+          <div class="space-y-4">
+            <span class="inline-block px-3 py-1 rounded-full bg-amber-500/30 text-amber-200 text-xs font-bold">${ch.badge}</span>
+            <p class="text-base sm:text-lg font-semibold text-white leading-relaxed">${ch.prompt}</p>
+            <div class="flex flex-wrap gap-3 pt-2" id="order-pool">
+              ${shuffled.map(item => `
+                <button onclick="selectOrderItem(this, '${item}')" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-amber-600/40 border border-slate-600 font-mono font-bold text-base transition">
+                  ${item}
+                </button>
+              `).join('')}
+            </div>
+            <div class="text-xs text-slate-300">Sua sequência: <span id="order-preview" class="font-mono font-bold text-cyan-300">Clique nos itens acima...</span></div>
+            <div id="game-feedback" class="hidden p-4 rounded-xl text-sm"></div>
+          </div>
+        `;
+      }
+    }
+
+    function checkChoiceAnswer(btn, selected, correct, explanation) {
+      const fb = document.getElementById('game-feedback');
+      document.querySelectorAll('.game-opt').forEach(b => b.disabled = true);
+
+      if (selected === correct) {
+        score += 100 + streak * 20;
+        streak++;
+        btn.classList.add('bg-emerald-600', 'border-emerald-400');
+        fb.className = 'p-4 rounded-xl text-sm bg-emerald-950/90 border border-emerald-500 text-emerald-100 block';
+        fb.innerHTML = `<strong>✅ Excelente!</strong> ${explanation}`;
+      } else {
+        streak = 0;
+        btn.classList.add('bg-rose-600', 'border-rose-400');
+        fb.className = 'p-4 rounded-xl text-sm bg-rose-950/90 border border-rose-500 text-rose-100 block';
+        fb.innerHTML = `<strong>❌ Resposta correta: ${correct}.</strong> ${explanation}`;
+      }
+      document.getElementById('game-score').textContent = score;
+      document.getElementById('game-streak').textContent = streak + 'x';
+    }
+
+    function selectOrderItem(btn, item) {
+      btn.disabled = true;
+      btn.classList.add('opacity-40');
+      orderSelection.push(item);
+      document.getElementById('order-preview').textContent = orderSelection.join('  <  ');
+
+      const ch = challengeBank[lastMechanic];
+      if (orderSelection.length === ch.items.length) {
+        const fb = document.getElementById('game-feedback');
+        const isCorrect = JSON.stringify(orderSelection) === JSON.stringify(ch.items);
+        if (isCorrect) {
+          score += 150 + streak * 20;
+          streak++;
+          fb.className = 'p-4 rounded-xl text-sm bg-emerald-950/90 border border-emerald-500 text-emerald-100 block';
+          fb.innerHTML = `<strong>✅ Ordem Perfeita!</strong> ${ch.explanation}`;
+        } else {
+          streak = 0;
+          fb.className = 'p-4 rounded-xl text-sm bg-rose-950/90 border border-rose-500 text-rose-100 block';
+          fb.innerHTML = `<strong>❌ Ordem esperada: ${ch.items.join(' < ')}.</strong> ${ch.explanation}`;
+        }
+        document.getElementById('game-score').textContent = score;
+        document.getElementById('game-streak').textContent = streak + 'x';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateTCC();
+      initSpeciesExplorer();
+      nextRandomChallenge();
+    });
+  </script>
+</body>
+</html>
