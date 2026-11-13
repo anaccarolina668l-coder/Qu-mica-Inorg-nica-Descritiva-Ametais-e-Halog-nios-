@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChemLab Descritiva — Química Inorgânica: Não Metais & Halogênios</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #070b14;
+      --bg-secondary: #0d1424;
+      --bg-card: #111b30;
+      --bg-card-hover: #162440;
+      --border: #1e2f52;
+      --text-primary: #e6edf8;
+      --text-secondary: #9fb0cc;
+      --text-muted: #6c80a3;
+      --accent-cyan: #00d4ff;
+      --accent-blue: #3b82f6;
+      --accent-violet: #8b5cf6;
+      --accent-amber: #f59e0b;
+      --accent-emerald: #10b981;
+      --accent-rose: #f43f5e;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    body.light-theme {
+      --bg-primary: #f4f7fb;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #eef3fa;
+      --border: #d4dfee;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent-cyan: #0284c7;
+      --accent-blue: #2563eb;
+      --accent-violet: #7c3aed;
+      --accent-amber: #d97706;
+      --accent-emerald: #059669;
+      --accent-rose: #e11d48;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.65;
+      overflow-x: hidden;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    /* Header */
+    header.topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 20, 36, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    body.light-theme header.topbar {
+      background: rgba(255, 255, 255, 0.92);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 800;
+      font-size: 1.15rem;
+      cursor: pointer;
+    }
+    .brand-icon {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+      display: grid; place-items: center;
+      color: #fff; font-weight: 900;
+    }
+    .badge-tag {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(0, 212, 255, 0.14);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0, 212, 255, 0.35);
+    }
+    .search-box {
+      flex: 1;
+      max-width: 380px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+    .search-results {
+      position: absolute;
+      top: 110%; left: 0; right: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+      z-index: 200;
+    }
+    .search-item {
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 0.88rem;
+    }
+    .search-item:hover { background: var(--bg-card-hover); }
+
+    .btn {
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn:hover { border-color: var(--accent-cyan); transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+      color: #fff;
+      border: none;
+    }
+    .btn-amber {
+      background: var(--accent-amber);
+      color: #0b0f19;
+      border: none;
+    }
+
+    /* Layout */
+    .layout {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      min-height: calc(100vh - 60px);
+    }
+    aside.sidebar {
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      padding: 1rem;
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+    }
+    .nav-group-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin: 1rem 0 0.4rem 0.5rem;
+      font-weight: 700;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.88rem;
+      margin-bottom: 0.2rem;
+      transition: all 0.15s;
+    }
+    .nav-item:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+    .nav-item.active {
+      background: rgba(0, 212, 255, 0.14);
+      color: var(--accent-cyan);
+      font-weight: 700;
+      border-left: 3px solid var(--accent-cyan);
+    }
+
+    main.content {
+      padding: 1.5rem 2rem 4rem;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .breadcrumb {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .breadcrumb span { color: var(--accent-cyan); font-weight: 600; }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.16), rgba(139, 92, 246, 0.16));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero h1 { font-size: 2rem; margin-bottom: 0.6rem; line-height: 1.25; }
+    .hero p { color: var(--text-secondary); max-width: 860px; font-size: 1rem; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.1rem; }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.35rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.25rem;
+    }
+    .card h2 { font-size: 1.3rem; margin-bottom: 0.75rem; color: var(--accent-cyan); }
+    .card h3 { font-size: 1.08rem; margin: 1rem 0 0.45rem; color: var(--text-primary); }
+    .card p, .card li { color: var(--text-secondary); font-size: 0.94rem; }
+    .card ul { padding-left: 1.25rem; margin: 0.4rem 0; }
+    .card li { margin-bottom: 0.35rem; }
+
+    .highlight-box {
+      border-left: 4px solid var(--accent-amber);
+      background: rgba(245, 158, 11, 0.08);
+      padding: 1rem 1.2rem;
+      border-radius: 0 10px 10px 0;
+      margin: 1rem 0;
+    }
+    .info-box {
+      border-left: 4px solid var(--accent-cyan);
+      background: rgba(0, 212, 255, 0.08);
+      padding: 1rem 1.2rem;
+      border-radius: 0 10px 10px 0;
+      margin: 1rem 0;
+    }
+    .danger-box {
+      border-left: 4px solid var(--accent-rose);
+      background: rgba(244, 63, 94, 0.1);
+      padding: 1rem 1.2rem;
+      border-radius: 0 10px 10px 0;
+      margin: 1rem 0;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-right: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    .pill-para { background: rgba(245, 158, 11, 0.18); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.45); }
+    .pill-dia { background: rgba(16, 185, 129, 0.18); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.45); }
+    .pill-nonmetal { background: rgba(0, 212, 255, 0.16); color: var(--accent-cyan); border: 1px solid rgba(0, 212, 255, 0.4); }
+    .pill-halogen { background: rgba(139, 92, 246, 0.18); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.45); }
+
+    /* Periodic Table */
+    .ptable-wrap { overflow-x: auto; padding-bottom: 0.5rem; }
+    .ptable {
+      display: grid;
+      grid-template-columns: repeat(18, minmax(52px, 1fr));
+      gap: 4px;
+      min-width: 960px;
+    }
+    .pt-cell {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+      min-height: 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .pt-cell:hover { transform: scale(1.07); border-color: var(--accent-cyan); z-index: 5; }
+    .pt-cell.study-nm {
+      background: rgba(0, 212, 255, 0.18);
+      border: 2px solid var(--accent-cyan);
+    }
+    .pt-cell.study-hal {
+      background: rgba(139, 92, 246, 0.22);
+      border: 2px solid var(--accent-violet);
+    }
+    .pt-num { font-size: 0.65rem; color: var(--text-muted); }
+    .pt-sym { font-size: 0.98rem; font-weight: 800; }
+    .pt-name { font-size: 0.58rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pt-empty { background: transparent; border: none; pointer-events: none; }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; margin-top: 0.75rem; border-radius: 10px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+    th, td { padding: 0.65rem 0.8rem; border-bottom: 1px solid var(--border); text-align: left; }
+    th { background: rgba(59, 130, 246, 0.12); color: var(--accent-cyan); font-weight: 700; cursor: pointer; }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    .val-max { color: var(--accent-emerald); font-weight: 700; }
+    .val-min { color: var(--accent-rose); font-weight: 700; }
+
+    /* 3D Canvas Containers */
+    .viewport-3d {
+      width: 100%;
+      height: 410px;
+      background: radial-gradient(circle at center, #111c33 0%, #050811 100%);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hud-overlay {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: rgba(7, 11, 20, 0.82);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 10px;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.8rem;
+      color: #e6edf8;
+      max-width: 290px;
+      pointer-events: none;
+    }
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      align-items: center;
+    }
+    select, input[type="range"], input[type="number"] {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.7rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+      padding: 1rem;
+    }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      max-width: 580px;
+      width: 100%;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Mobile */
+    .menu-toggle { display: none; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      aside.sidebar {
+        position: fixed;
+        left: -290px;
+        top: 60px;
+        width: 270px;
+        z-index: 300;
+        transition: left 0.25s;
+      }
+      aside.sidebar.open { left: 0; }
+      .menu-toggle { display: inline-flex; }
+      main.content { padding: 1rem; }
+      .hero h1 { font-size: 1.45rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:0.6rem;">
+    <button class="btn menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="brand" onclick="navigate('mod1')">
+      <div class="brand-icon">⚛</div>
+      <span>ChemLab</span>
+      <span class="badge-tag">DESCRITIVA</span>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="globalSearch" placeholder="Pesquisar elemento, fórmula (ClF₃, S₈), conceito..." oninput="handleSearch(this.value)" />
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <button class="btn" onclick="toggleTheme()" id="themeBtn">☀️ Tema Claro</button>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="nav-group-title">Módulo 01 — Fundamentos</div>
+    <div class="nav-item active" data-route="mod1" onclick="navigate('mod1')">🏠 Apresentação, Conceitos & Tabela</div>
+
+    <div class="nav-group-title">Módulo 02 — Não Metais (Bloco p)</div>
+    <div class="nav-item" data-route="nm-overview" onclick="navigate('nm-overview')">📘 Visão Geral dos Não Metais</div>
+    <div class="nav-item" data-route="el-N" onclick="navigate('el-N')"><span>7 • Nitrogênio (N)</span><span class="badge-tag">2p³</span></div>
+    <div class="nav-item" data-route="el-P" onclick="navigate('el-P')"><span>15 • Fósforo (P)</span><span class="badge-tag">3p³</span></div>
+    <div class="nav-item" data-route="el-O" onclick="navigate('el-O')"><span>8 • Oxigênio (O)</span><span class="badge-tag">2p⁴</span></div>
+    <div class="nav-item" data-route="el-S" onclick="navigate('el-S')"><span>16 • Enxofre (S)</span><span class="badge-tag">3p⁴</span></div>
+
+    <div class="nav-group-title">Módulo 03 — Halogênios (Grupo 17)</div>
+    <div class="nav-item" data-route="hal-overview" onclick="navigate('hal-overview')">📗 Visão Geral dos Halogênios</div>
+    <div class="nav-item" data-route="el-F" onclick="navigate('el-F')"><span>9 • Flúor (F)</span><span class="badge-tag">2p⁵</span></div>
+    <div class="nav-item" data-route="el-Cl" onclick="navigate('el-Cl')"><span>17 • Cloro (Cl)</span><span class="badge-tag">3p⁵</span></div>
+    <div class="nav-item" data-route="el-Br" onclick="navigate('el-Br')"><span>35 • Bromo (Br)</span><span class="badge-tag">4p⁵</span></div>
+    <div class="nav-item" data-route="el-I" onclick="navigate('el-I')"><span>53 • Iodo (I)</span><span class="badge-tag">5p⁵</span></div>
+    <div class="nav-item" data-route="el-At" onclick="navigate('el-At')"><span>85 • Astato (At)</span><span class="badge-tag">6p⁵</span></div>
+    <div class="nav-item" data-route="el-Ts" onclick="navigate('el-Ts')"><span>117 • Tenessino (Ts)</span><span class="badge-tag">7p⁵</span></div>
+
+    <div class="nav-group-title">Módulo 04 — Dados & Termodinâmica</div>
+    <div class="nav-item" data-route="mod4" onclick="navigate('mod4')">📊 Tabelas Interativas & Born-Haber</div>
+
+    <div class="nav-group-title">Módulo 05 — Laboratório Virtual 3D</div>
+    <div class="nav-item" data-route="lab-atoms" onclick="navigate('lab-atoms')">⚛ Átomos 3D em Movimento</div>
+    <div class="nav-item" data-route="lab-molecules" onclick="navigate('lab-molecules')">🧬 Moléculas 3D & VSEPR</div>
+    <div class="nav-item" data-route="lab-crystals" onclick="navigate('lab-crystals')">💎 Empacotamento Cristalino 3D</div>
+
+    <div class="nav-group-title">Módulo 06 — Dinâmica & Nuclear</div>
+    <div class="nav-item" data-route="mod6" onclick="navigate('mod6')">🧲 Diagrama TOM, Animações & Decaimento</div>
+
+    <div class="nav-group-title">Módulo 07 — Segurança & Casos Reais</div>
+    <div class="nav-item" data-route="mod7" onclick="navigate('mod7')">☣ Toxicidade GHS & Acidentes Reais</div>
+  </aside>
+
+  <main class="content" id="mainContent"></main>
+</div>
+
+<!-- Modal Tabela Periódica -->
+<div class="modal-backdrop" id="ptModal" onclick="if(event.target===this) closeModal()">
+  <div class="modal-box" id="ptModalBody"></div>
+</div>
+
+<script>
+// ============================================================================
+// BANCO DE DADOS CIENTÍFICO (SHRIVER & ATKINS / J.D. LEE)
+// ============================================================================
+const ELEMENTS = {
+  N: {
+    Z: 7, sym: 'N', name: 'Nitrogênio', group: 'Grupo 15 (Pnictogênios)', period: 2, block: 'p',
+    category: 'Não Metal', mass: '14,007 u', config: '[He] 2s² 2p³', valence: '2s² 2p³',
+    state: 'Gás incolor (298 K)', mp: 63.15, bp: 77.36, density: '1,251 g/L (CNTP)',
+    en: 3.04, ie1: 1402, ea: -7, rCov: '71 pm', rIon: '146 pm (N³⁻)',
+    oxStates: '-3, -2, -1, 0, +1, +2, +3, +4, +5',
+    simpleSub: 'N₂ (Dinitrogênio)', magnetism: 'Diamagnética (N₂ — 0 e⁻ desemparelhados; NO é Paramagnética)',
+    protons: 7, neutrons: 7, shells: [2, 5],
+    etymology: 'Do grego nítron (salitre/nitrato) + gennán (gerar): "formador de salitre", proposto por Jean-Antoine Chaptal em 1790. Lavoisier o chamou de "azote" (do grego a-zoe, "sem vida"), origem do símbolo Az em textos antigos e da nomenclatura de azidas e compostos azo.',
+    discovery: 'Isolado em 1772 pelo médico escocês Daniel Rutherford ("ar nocivo/flogisticado"), e estudado independentemente no mesmo período por Carl Wilhelm Scheele, Henry Cavendish e Joseph Priestley.',
+    occurrence: 'Constitui 78,08% em volume (75,5% em massa) da atmosfera terrestre como N₂. Na crosta é relativamente escasso (~19 ppm), concentrado em depósitos evaporíticos de nitrato de sódio (salitre-do-Chile, NaNO₃) e na biomassa (proteínas e ácidos nucleicos).',
+    theory: `Segundo <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong>, o nitrogênio apresenta química singular no Grupo 15 devido ao seu pequeno raio covalente (71 pm) e ausência de orbitais d de baixa energia. A sobreposição lateral eficiente dos orbitais 2p forma a ligação tripla N≡N (comprimento 109,8 pm; entalpia de dissociação = 945 kJ/mol, uma das mais altas da química), tornando o N₂ cineticamente inerte em condições ambientes.<br><br>
+    Diferente do fósforo (que forma tetraedros P₄ com ligações simples P–P), o nitrogênio favorece ligações múltiplas pπ–pπ (N≡N, C≡N, N=O) porque a repulsão entre pares isolados em ligações simples N–N (163 kJ/mol) enfraquece a ligação simples, enquanto a sobreposição 2pπ–2pπ é extremamente forte. Em solução aquosa, o diagrama de Frost mostra que espécies em estados intermediários (como HNO₂ e NH₂OH) tendem ao desproporcionamento.`,
+    allotropes: 'Não possui alótropos sólidos estáveis em condições ambientes. Sob pressões extremas (> 110 GPa) forma fases poliméricas de rede covalente simples ("nitrogênio cúbico gauche", cg-N), com altíssima densidade energética.',
+    compounds: 'NH₃ (amônia, piramidal trigonal, ligações de hidrogênio), N₂H₄ (hidrazina, redutor e propelente), HN₃ (ácido hidrazoico), óxidos NO (radicalar, paramagnético), N₂O (gás hilariante, linear), NO₂ (paramagnético, dimeriza a N₂O₄ diamagnético), HNO₃ (ácido nítrico, oxidante forte) e nitratos (NO₃⁻, trigonal planar).',
+    industrialBio: 'Processo <strong>Haber-Bosch</strong>: N₂(g) + 3 H₂(g) ⇌ 2 NH₃(g) (ΔH° = -92,4 kJ/mol, 400–500 °C, 150–300 atm, catalisador Fe promovido com K₂O/Al₂O₃), seguido pelo <strong>Processo Ostwald</strong> para obtenção de HNO₃. Biologicamente, a enzima nitrogenase (cofator FeMo) realiza a fixação biológica do N₂ para síntese de aminoácidos, ATP, DNA e RNA.',
+    isotopes: 'Estáveis: ¹⁴N (99,636%) e ¹⁵N (0,364%, spin I = 1/2, usado em RMN e traçadores isotópicos). Radioativos: ¹³N (t½ = 9,97 min, emissor β⁺ usado em tomografia PET).',
+    toxicity: 'N₂ gasoso não é tóxico, mas atua como asfixiante simples por deslocamento de O₂. Nitrogênio líquido (77 K) causa queimaduras criogênicas severas. Óxidos NOₓ são tóxicos pulmonares e precursores de chuva ácida e smog fotoquímico.'
+  },
+  P: {
+    Z: 15, sym: 'P', name: 'Fósforo', group: 'Grupo 15 (Pnictogênios)', period: 3, block: 'p',
+    category: 'Não Metal', mass: '30,974 u', config: '[Ne] 3s² 3p³', valence: '3s² 3p³',
+    state: 'Sólido (branco, vermelho, violeta ou negro)', mp: 317.3, bp: 553.7, density: '1,82 g/cm³ (branco) / 2,69 g/cm³ (negro)',
+    en: 2.19, ie1: 1012, ea: -72, rCov: '107 pm', rIon: '212 pm (P³⁻)',
+    oxStates: '-3, -2, -1, 0, +1, +3, +4, +5',
+    simpleSub: 'P₄ (Fósforo branco) / Pₙ (vermelho/negro)', magnetism: 'Diamagnética (P₄, P vermelho e P negro — todos os elétrons emparelhados)',
+    protons: 15, neutrons: 16, shells: [2, 8, 5],
+    etymology: 'Do grego phōsphóros (φωσφόρος = "portador da luz", de phōs = luz + phérein = carregar), alusão à quimioluminescência esverdeada observada na oxidação lenta do fósforo branco exposto ao ar.',
+    discovery: 'Descoberto em 1669 em Hamburgo pelo alquimista alemão Hennig Brand, ao destilar resíduos evaporados de urina humana em busca da pedra filosofal.',
+    occurrence: 'Nunca ocorre livre na natureza devido à alta reatividade. É o 11º elemento mais abundante da crosta terrestre (~1050 ppm), ocorrendo como minerais fosfatados da família da apatita: fluorapatita Ca₅(PO₄)₃F, hidroxiapatita Ca₅(PO₄)₃OH e fosforita.',
+    theory: `Como destacam <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong>, ao descer do N para o P, o aumento do raio atômico (107 pm) reduz drasticamente a sobreposição lateral 3pπ–3pπ, enquanto a repulsão entre pares isolados nas ligações simples P–P (201 kJ/mol) é bem menor do que em N–N. Consequentemente, o fósforo cateniza-se formando ligações simples P–P em vez de moléculas diatômicas triplas (P₂ só existe em fase gasosa a altíssimas temperaturas).<br><br>
+    Além disso, o fósforo expande sua esfera de coordenação (hipervalência, como em PF₅, PCl₅ e PO₄³⁻), explicada modernamente por ligações 3-centros 4-elétrons (3c–4e) e retrodoação pπ–σ* nas ligações fosforila (P=O).`,
+    allotropes: '<strong>Fósforo Branco (α-P₄):</strong> moléculas tetraédricas P₄ com ângulos de 60° (alta tensão angular), cera mole, solúvel em CS₂, pirofórico no ar (> 30 °C) e altamente tóxico.<br><strong>Fósforo Vermelho:</strong> polímero amorfo/semicristalino obtido aquecendo P₄ a ~250–300 °C na ausência de ar; muito menos reativo, não pirofórico.<br><strong>Fósforo Violeta (Hittorf):</strong> estrutura tubular complexa cristalina.<br><strong>Fósforo Negro:</strong> alótropo termodinamicamente mais estável, estrutura ortorrômbica em camadas onduladas (semelhante ao grafite), semicondutor e base para o fosforeno.',
+    compounds: 'PH₃ (fosfina, gás tóxico de odor aliáceo), P₄O₆ (óxido de fósforo(III)), P₄O₁₀ (agente dessecante extremamente potente), H₃PO₄ (ácido fosfórico, triprótico), H₃PO₃ (ácido fosfônico, diprótico), H₃PO₂ (ácido fosfínico, monoprótico), PCl₃ e PCl₅.',
+    industrialBio: 'Obtido industrialmente pela redução eletrotérmica de rocha fosfática com coque e sílica: 2 Ca₃(PO₄)₂ + 6 SiO₂ + 10 C → 6 CaSiO₃ + 10 CO + P₄ (1400–1500 °C). Essencial à vida: espinha dorsal fosfodiéster do DNA e RNA, transferência energética via ATP/ADP, bicamadas de fosfolipídios e mineralização óssea (hidroxiapatita).',
+    isotopes: 'Estável: ³¹P (100%, spin I = 1/2, fundamental em espectroscopia de RMN de ³¹P). Radioativos: ³²P (t½ = 14,27 dias, emissor β⁻ puro usado em biologia molecular e radioterapia) e ³³P (t½ = 25,3 dias, β⁻).',
+    toxicity: 'Fósforo branco é letal (dose fatal ~50–100 mg): causa necrose hepática aguda, queimaduras químicas profundas e osteonecrose mandibular ("mandíbula de fósforo"). Fosfina (PH₃) é um veneno mitocondrial fulminante.'
+  },
+  O: {
+    Z: 8, sym: 'O', name: 'Oxigênio', group: 'Grupo 16 (Calcogênios)', period: 2, block: 'p',
+    category: 'Não Metal', mass: '15,999 u', config: '[He] 2s² 2p⁴', valence: '2s² 2p⁴',
+    state: 'Gás incolor (298 K); líquido azul-pálido', mp: 54.36, bp: 90.20, density: '1,429 g/L (CNTP)',
+    en: 3.44, ie1: 1314, ea: -141, rCov: '66 pm', rIon: '140 pm (O²⁻)',
+    oxStates: '-2 (predominante), -1 (peróxidos), -1/2 (superóxidos), 0, +1 (O₂F₂), +2 (OF₂)',
+    simpleSub: 'O₂ (Dioxigênio) e O₃ (Ozônio)', magnetism: 'O₂ é PARAMAGNÉTICA (2 e⁻ desemparelhados nos orbitais π*); O₃ é DIAMAGNÉTICA',
+    protons: 8, neutrons: 8, shells: [2, 6],
+    etymology: 'Do grego oxýs (ὀξύς = ácido/azedo) + gennán (γεννᾶν = gerar): "gerador de ácidos", cunhado por Antoine Lavoisier em 1777 por acreditar erroneamente que todo ácido continha oxigênio (hipótese refutada posteriormente por Humphry Davy ao estudar o HCl).',
+    discovery: 'Descoberto independentemente por Carl Wilhelm Scheele (Suécia, ~1771–1772, aquecendo HgO e nitratos, "ar de fogo") e Joseph Priestley (Inglaterra, 1774, "ar desflogisticado"), sendo sua natureza elementar compreendida por Lavoisier.',
+    occurrence: 'Elemento mais abundante da crosta terrestre (~46,6% em massa, na forma de silicatos, aluminossilicatos e óxidos), constitui 88,8% da massa da água dos oceanos e 20,95% em volume da atmosfera terrestre.',
+    theory: `O caso clássico da <strong>Teoria dos Orbitais Moleculares (TOM)</strong> apresentado por <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong> é o dioxigênio (O₂). Enquanto a estrutura de Lewis (:Ö=Ö:) prevê todos os elétrons emparelhados, a TOM mostra a configuração (σ₂s)²(σ*₂s)²(σ₂pz)²(π₂px)²(π₂py)²(π*₂px)¹(π*₂py)¹. Pela Regra de Hund, os dois últimos elétrons ocupam orbitais antiligantes π* degenerados com spins paralelos (S = 1, estado fundamental triplete ³Σg⁻), explicando o forte <strong>paramagnetismo</strong> do O₂ líquido (que fica suspenso entre os polos de um ímã) e sua ordem de ligação 2 (comprimento 121 pm, energia 498 kJ/mol).`,
+    allotropes: '<strong>Dioxigênio (O₂):</strong> gás incolor, líquido e sólido azul-pálido (cor devida a transições eletrônicas cooperativas bimoleculares).<br><strong>Ozônio (O₃):</strong> molécula angular (ângulo 116,8°, simetria C₂v) estabilizada por ressonância (ordem de ligação 1,5), gás azulado de odor pungente, diamagnético, oxidante muito mais forte que o O₂ (E° = +2,07 V em meio ácido) e escudo estratosférico contra radiação UV-B/UV-C.',
+    compounds: 'Água (H₂O, angular 104,5°, rede de ligações de hidrogênio), peróxido de hidrogênio (H₂O₂, estrutura em livro aberto), óxidos iônicos (CaO, MgO), óxidos covalentes ácidos (CO₂, SO₃, N₂O₅), óxidos anfóteros (Al₂O₃, ZnO), peróxidos (Na₂O₂, BaO₂) e superóxidos (KO₂).',
+    industrialBio: 'Obtido em escala megatonelada pela destilação fracionada do ar liquefeito (processo Linde). Usado em siderurgia (conversor LD), soldagem oxiacetilênica, síntese química e suporte respiratório. Biologicamente é o aceptor final de elétrons na fosforilação oxidativa mitocondrial e produto da fotólise da água na fotossíntese.',
+    isotopes: 'Estáveis: ¹⁶O (99,757%), ¹⁷O (0,038%, spin I = 5/2, usado em RMN) e ¹⁸O (0,205%, usado em paleoclimatologia via razão ¹⁸O/¹⁶O e mecanismos de reação). Radioativo: ¹⁵O (t½ = 122 s, β⁺).',
+    toxicity: 'Atmosferas enriquecidas em O₂ aumentam drasticamente o risco de incêndios explosivos. Hiperóxia prolongada (> 0,5 atm de pO₂) gera espécies reativas de oxigênio (ERO: O₂•⁻, •OH) causando toxicidade pulmonar (efeito Lorrain Smith) e neurológica (efeito Paul Bert). Ozônio troposférico é altamente irritante respiratório.'
+  },
+  S: {
+    Z: 16, sym: 'S', name: 'Enxofre', group: 'Grupo 16 (Calcogênios)', period: 3, block: 'p',
+    category: 'Não Metal', mass: '32,06 u', config: '[Ne] 3s² 3p⁴', valence: '3s² 3p⁴',
+    state: 'Sólido amarelo cristalino (298 K)', mp: 388.36, bp: 717.8, density: '2,07 g/cm³ (α-rômbico)',
+    en: 2.58, ie1: 1000, ea: -200, rCov: '105 pm', rIon: '184 pm (S²⁻)',
+    oxStates: '-2, -1, 0, +2, +4, +6',
+    simpleSub: 'Ciclo-octaenxofre (S₈)', magnetism: 'Diamagnética (S₈ sólido e líquido são diamagnéticos; vapor S₂ a alta T é Paramagnético)',
+    protons: 16, neutrons: 16, shells: [2, 8, 6],
+    etymology: 'Do latim sulphur / sulfur (pedra que queima), possivelmente relacionado ao sânscrito śulbāri ("inimigo do cobre", pois reage facilmente formando sulfetos metálicos escuros).',
+    discovery: 'Conhecido desde a Antiguidade (Bíblia, Homero, alquimistas chineses e árabes como Jabir ibn Hayyan). Reconhecido definitivamente como elemento químico por Antoine Lavoisier em 1777.',
+    occurrence: 'Abundância crustal ~350 ppm. Ocorre em estado nativo em domos salinos e regiões vulcânicas, em sulfetos metálicos (pirita FeS₂, galena PbS, esfalerita ZnS, calcopirita CuFeS₂), sulfatos (gipsita CaSO₄·2H₂O, barita BaSO₄) e como H₂S no gás natural e compostos organossulfurados no petróleo.',
+    theory: `Segundo <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong>, o enxofre exibe a mais rica variedade de alótropos entre todos os elementos (mais de 30 formas caracterizadas), devido à alta estabilidade da ligação simples S–S (266 kJ/mol — a maior ligação simples homonuclear do período 3) e à flexibilidade do ângulo diedro S–S–S–S (74°–106°). Enquanto O₂ possui ligação dupla forte, S₂ é instável à temperatura ambiente e polimeriza em anéis S₈ em formato de coroa (simetria D₄d). Diferente do oxigênio, o enxofre forma compostos hipervalentes estáveis como SF₆ (octaédrico, cineticamente inerte) e SO₃.`,
+    allotropes: '<strong>Enxofre Rômbico (α-S₈):</strong> ortorrômbico, estável até 95,3 °C.<br><strong>Enxofre Monoclínico (β-S₈):</strong> agulhas prismáticas estáveis entre 95,3 °C e 119,6 °C.<br><strong>Enxofre Líquido e Plástico (μ-S):</strong> ao aquecer acima de 159 °C (transição λ), os anéis S₈ rompem-se formando dirradicais que polimerizam em longas cadeias helicoidais, elevando a viscosidade em mais de 10.000 vezes; o resfriamento brusco em água gera o enxofre plástico amorfo.',
+    compounds: 'H₂S (sulfeto de hidrogênio, angular 92,1°, ácido fraco e redutor), SO₂ (angular 119°, poluente e conservante), SO₃ (trigonal planar em fase gasosa, trímero S₃O₉ sólido), H₂SO₄ (ácido sulfúrico, "rei dos produtos químicos", produzido pelo Processo de Contato com catalisador V₂O₅), SF₆ (gás isolante de alta tensão, potente gás de efeito estufa) e tiossulfatos (S₂O₃²⁻).',
+    industrialBio: 'Obtido pelo <strong>Processo Frasch</strong> (injeção de água superaquecida a 165 °C em jazidas subterrâneas) e principalmente pelo <strong>Processo Claus</strong> (dessulfurização do gás natural e petróleo: 2 H₂S + SO₂ → 3/8 S₈ + 2 H₂O). Biologicamente presente nos aminoácidos cisteína e metionina (pontes dissulfeto –S–S– que estabilizam proteínas), biotina, tiamina e coenzima A.',
+    isotopes: 'Estáveis: ³²S (94,99%), ³³S (0,75%, spin I = 3/2), ³⁴S (4,25%) e ³⁶S (0,01%). Radioativo: ³⁵S (t½ = 87,37 dias, emissor β⁻ usado na marcação de proteínas e ácidos nucleicos).',
+    toxicity: 'Enxofre elementar tem baixa toxicidade aguda, mas H₂S é extremamente letal (paralisa o nervo olfatório acima de 100 ppm e inibe a citocromo c oxidase mitocondrial). SO₂ e SO₃ causam broncoespasmo severo e geram chuva ácida (H₂SO₃ / H₂SO₄).'
+  },
+  F: {
+    Z: 9, sym: 'F', name: 'Flúor', group: 'Grupo 17 (Halogênios)', period: 2, block: 'p',
+    category: 'Halogênio', mass: '18,998 u', config: '[He] 2s² 2p⁵', valence: '2s² 2p⁵',
+    state: 'Gás amarelo-pálido extremamente corrosivo (298 K)', mp: 53.48, bp: 85.03, density: '1,696 g/L (CNTP)',
+    en: 3.98, ie1: 1681, ea: -328, rCov: '57 pm', rIon: '133 pm (F⁻)',
+    oxStates: '-1 (único estado de oxidação em compostos)',
+    simpleSub: 'F₂ (Diflúor)', magnetism: 'Diamagnética (F₂ — todos os elétrons emparelhados)',
+    protons: 9, neutrons: 10, shells: [2, 7],
+    etymology: 'Do latim fluere ("fluir"), derivado do mineral fluorita (CaF₂), utilizado desde o século XVI por Georgius Agricola como fundente metalúrgico para baixar o ponto de fusão de escórias.',
+    discovery: 'Isolado pela primeira vez em 26 de junho de 1886 pelo químico francês Henri Moissan por eletrólise de uma solução de KF em HF anidro a -23 °C usando eletrodos de platina-irídio (feito que lhe rendeu o Prêmio Nobel de Química de 1906, após vários químicos anteriores sofrerem intoxicações graves ou morrerem tentando isolá-lo).',
+    occurrence: 'Abundância crustal ~585 ppm (o mais abundante dos halogênios na crosta). Principais minerais: fluorita (CaF₂), criolita (Na₃AlF₆) e fluorapatita Ca₅(PO₄)₃F.',
+    theory: `Conforme explicado em <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong>, o flúor é o elemento mais eletronegativo (χ = 3,98) e o mais poderoso oxidante elementar (E°(F₂/F⁻) = +2,87 V), estabilizando estados de oxidação máximos em outros elementos (ex.: SF₆, IF₇, PtF₆, XeF₆).<br><br>
+    <strong>Anomalia da energia de ligação F–F e afinidade eletrônica:</strong> A energia de dissociação da molécula F₂ (158 kJ/mol) é anormalmente baixa comparada ao Cl₂ (243 kJ/mol) devido à forte repulsão eletrostática entre os pares de elétrons não ligantes (2p) nos dois átomos muito pequenos e próximos (142 pm). Pelo mesmo motivo (alta densidade eletrônica na camada 2p compacta), sua afinidade eletrônica (-328 kJ/mol) é ligeiramente menor em módulo que a do cloro (-349 kJ/mol). Apesar disso, a enorme entalpia de hidratação do íon pequeno F⁻ (-515 kJ/mol) e as ligações muito fortes que forma com outros elementos (H–F: 565 kJ/mol; C–F: 485 kJ/mol) tornam suas reações altamente exotérmicas.`,
+    allotropes: 'Não apresenta alótropos; existe apenas como molécula diatômica F₂.',
+    compounds: 'HF (ácido fluorídrico: líquido associativo com fortes ligações de hidrogênio em zigue-zague; em solução aquosa diluída é ácido fraco pKa = 3,17 devido ao forte par iônico [H₃O⁺···F⁻], mas em concentrações elevadas torna-se superácido por homoassociação formando [HF₂]⁻), NaF, CaF₂, UF₆ (enriquecimento de urânio), PTFE/Teflon (-(CF₂-CF₂)ₙ-) e CFCs/HFCs.',
+    industrialBio: 'Produzido exclusivamente por eletrólise de misturas fundidas KF·2HF (~80–100 °C) em células de aço/Monel. Aplicado na produção de UF₆, SF₆, polímeros fluorados e fluoretação de água/cremes dentais (conversão de hidroxiapatita em fluorapatita, mais resistente à desmineralização ácida).',
+    isotopes: 'Mononuclídico estável: ¹⁹F (100%, spin I = 1/2, amplamente usado em RMN de ¹⁹F). Radioisótopo sintético de grande importância médica: ¹⁸F (t½ = 109,7 min, emissor β⁺ usado no radiofármaco ¹⁸F-FDG para exames PET-CT oncológicos).',
+    toxicity: 'F₂ e HF são extremamente perigosos. O HF penetra rapidamente na pele intacta sem causar dor imediata; o íon F⁻ sequestra Ca²⁺ e Mg²⁺ dos tecidos e do sangue, causando necrose profunda, hipocalcemia fulminante e parada cardíaca (antídoto específico: gel/injeção de gluconato de cálcio).'
+  },
+  Cl: {
+    Z: 17, sym: 'Cl', name: 'Cloro', group: 'Grupo 17 (Halogênios)', period: 3, block: 'p',
+    category: 'Halogênio', mass: '35,45 u', config: '[Ne] 3s² 3p⁵', valence: '3s² 3p⁵',
+    state: 'Gás amarelo-esverdeado (298 K)', mp: 171.6, bp: 239.11, density: '3,214 g/L (CNTP)',
+    en: 3.16, ie1: 1251, ea: -349, rCov: '102 pm', rIon: '181 pm (Cl⁻)',
+    oxStates: '-1, +1, +3, +4, +5, +7',
+    simpleSub: 'Cl₂ (Dicloro)', magnetism: 'Diamagnética (Cl₂ — todos os elétrons emparelhados; ClO₂ é Paramagnética)',
+    protons: 17, neutrons: 18, shells: [2, 8, 7],
+    etymology: 'Do grego khlōrós (χλωρός = "verde-amarelado / verde-pálido"), nome dado por Sir Humphry Davy em 1810 após provar que a substância era um elemento químico simples e não um óxido ("ácido oximuriático").',
+    discovery: 'Obtido pela primeira vez em 1774 pelo químico sueco Carl Wilhelm Scheele ao reagir dióxido de manganês (MnO₂) com ácido clorídrico (HCl), denominando-o "ar muriático desflogisticado".',
+    occurrence: 'Abundância crustal ~145 ppm, mas extremamente abundante nos oceanos (~1,94% em massa como íon Cl⁻). Ocorre em evaporitos como halita (NaCl), silvita (KCl) e carnalita (KMgCl₃·6H₂O).',
+    theory: `Segundo <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong>, o cloro possui a <strong>maior afinidade eletrônica em módulo de toda a Tabela Periódica</strong> (-349 kJ/mol), pois seu orbital 3p acomoda um elétron adicional com menor repulsão intereletrônica do que o orbital 2p compacto do flúor. Em solução aquosa, o Cl₂ sofre desproporcionamento: Cl₂ + H₂O ⇌ HCl + HClO (em meio básico forma Cl⁻ e ClO⁻). Apresenta rica química de oxoânions com estados positivos (+1 a +7), cuja força ácida cresce drasticamente com o número de átomos de oxigênio terminais: HClO (pKa 7,5) < HClO₂ (pKa 1,9) < HClO₃ (pKa -1) < HClO₄ (pKa ~ -10, um dos ácidos mais fortes conhecidos).`,
+    allotropes: 'Não possui alótropos; existe como molécula diatômica Cl₂ (comprimento de ligação 199 pm).',
+    compounds: 'HCl (cloreto de hidrogênio / ácido clorídrico), NaCl, hipoclorito (ClO⁻, alvejante e desinfetante), clorito (ClO₂⁻), dióxido de cloro (ClO₂, radical paramagnético usado no branqueamento de celulose), clorato (ClO₃⁻), perclorato (ClO₄⁻, tetraédrico) e PVC (policloreto de vinila).',
+    industrialBio: 'Produzido em escala industrial pelo <strong>Processo Cloro-Álcali</strong> (eletrólise de salmoura saturada de NaCl em células de membrana de troca iônica): 2 NaCl + 2 H₂O → Cl₂ + H₂ + 2 NaOH. Biologicamente, o íon Cl⁻ regula o equilíbrio osmótico, o potencial de membrana e compõe o suco gástrico (HCl).',
+    isotopes: 'Estáveis: ³⁵Cl (75,76%) e ³⁷Cl (24,24%), razão isotópica 3:1 facilmente identificável em espectrometria de massas. Radioativo: ³⁶Cl (t½ = 3,01 × 10⁵ anos, traçador hidrogeológico).',
+    toxicity: 'Gás mais denso que o ar (~2,5×), acumula-se em áreas baixas. Em contato com a mucosa pulmonar forma HCl e HClO, provocando edema pulmonar agudo. Foi utilizado como arma química na Primeira Guerra Mundial (Ypres, 1915).'
+  },
+  Br: {
+    Z: 35, sym: 'Br', name: 'Bromo', group: 'Grupo 17 (Halogênios)', period: 4, block: 'p',
+    category: 'Halogênio', mass: '79,904 u', config: '[Ar] 3d¹⁰ 4s² 4p⁵', valence: '4s² 4p⁵',
+    state: 'Líquido vermelho-acastanhado volátil (298 K)', mp: 265.8, bp: 332.0, density: '3,1028 g/cm³ (líquido)',
+    en: 2.96, ie1: 1140, ea: -325, rCov: '120 pm', rIon: '196 pm (Br⁻)',
+    oxStates: '-1, +1, +3, +4, +5, +7',
+    simpleSub: 'Br₂ (Dibromo)', magnetism: 'Diamagnética (Br₂ — todos os elétrons emparelhados)',
+    protons: 35, neutrons: 45, shells: [2, 8, 18, 7],
+    etymology: 'Do grego brōmos (βρῶμος = "mau cheiro / fedor"), devido ao odor acre, sufocante e altamente irritante de seus vapores vermelho-alaranjados.',
+    discovery: 'Descoberto em 1826 pelo químico francês Antoine Jérôme Balard a partir das águas-mães de salinas de Montpellier (e observado pouco antes por Carl Jacob Löwig em 1825).',
+    occurrence: 'Abundância crustal ~2,4 ppm; presente na água do mar (~65 ppm de Br⁻), no Mar Morto (~5.000 ppm) e em salmouras subterrâneas.',
+    theory: `O bromo é um dos <strong>únicos dois elementos líquidos à temperatura ambiente</strong> (junto com o mercúrio). Segundo <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong>, o aumento do número de elétrons (Z = 35) eleva substancialmente a <strong>polarizabilidade</strong> da nuvem eletrônica do Br₂, intensificando as forças de dispersão de London o suficiente para manter o estado líquido a 298 K (PE = 58,8 °C). O preenchimento da subcamada 3d¹⁰ (contração do bloco d) gera uma carga nuclear efetiva relativamente alta, explicando sua eletronegatividade (2,96) e o comportamento do íon perbromato (BrO₄⁻), que é um oxidante muito mais forte e difícil de sintetizar do que ClO₄⁻ e IO₄⁻ (instabilidade relativa do estado máximo pós-transição 3d).`,
+    allotropes: 'Não possui alótropos; líquido molecular Br₂ (comprimento de ligação 228 pm).',
+    compounds: 'HBr (ácido bromídrico, ácido forte), KBr, AgBr (fotografia clássica fotossensível), bromatos (BrO₃⁻), perbromatos (BrO₄⁻, sintetizado apenas em 1968 com XeF₂ ou F₂), retardantes de chama bromados e compostos organobromados.',
+    industrialBio: 'Extraído por oxidação de salmouras ricas em Br⁻ com gás cloro (Cl₂ + 2 Br⁻ → 2 Cl⁻ + Br₂), seguida de arraste com vapor ou ar ("steaming-out"). Biologicamente participa da síntese de colágeno IV (cofator da peroxidasina) e compostos marinhos.',
+    isotopes: 'Estáveis: ⁷⁹Br (50,69%) e ⁸¹Br (49,31%) — proporção quase 1:1 que produz dubletos característicos separados por 2 u em espectrometria de massas.',
+    toxicity: 'O bromo líquido provoca queimaduras químicas profundas e dolorosas de cicatrização muito lenta; seus vapores causam lacrimejamento severo, espasmo laríngeo e edema pulmonar.'
+  },
+  I: {
+    Z: 53, sym: 'I', name: 'Iodo', group: 'Grupo 17 (Halogênios)', period: 5, block: 'p',
+    category: 'Halogênio', mass: '126,90 u', config: '[Kr] 4d¹⁰ 5s² 5p⁵', valence: '5s² 5p⁵',
+    state: 'Sólido cristalino cinza-violáceo com brilho submetálico (298 K)', mp: 386.85, bp: 457.4, density: '4,933 g/cm³',
+    en: 2.66, ie1: 1008, ea: -295, rCov: '139 pm', rIon: '220 pm (I⁻)',
+    oxStates: '-1, +1, +3, +5, +7',
+    simpleSub: 'I₂ (Di-iodo cristalino)', magnetism: 'Diamagnética (I₂ — todos os elétrons emparelhados)',
+    protons: 53, neutrons: 74, shells: [2, 8, 18, 18, 7],
+    etymology: 'Do grego iōdēs (ἰώδης = "semelhante à violeta / violáceo"), nome proposto por Joseph Louis Gay-Lussac em 1813 pela cor violeta intensa de seu vapor.',
+    discovery: 'Descoberto em 1811 pelo químico industrial francês Bernard Courtois ao tratar cinzas de algas marinhas (vareque) com excesso de ácido sulfúrico concentrado durante a fabricação de salitre para pólvora.',
+    occurrence: 'Elemento relativamente escasso na crosta (~0,45 ppm), concentrado por algas marinhas (laminárias) e encontrado como iodato de sódio (NaIO₃, lautarita) nos depósitos de salitre do deserto do Atacama (Chile) e em salmouras de poços de gás natural.',
+    theory: `Conforme analisado por <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong>, o iodo possui altíssima polarizabilidade e a menor energia de ionização entre os halogênios estáveis (1008 kJ/mol). Isso resulta em:<br>
+    1. <strong>Brilho submetálico e semicondutividade:</strong> no cristal ortorrômbico (grupo espacial <em>Cmca</em>), as moléculas I₂ dispõem-se em camadas planas onde a distância intermolecular entre átomos de moléculas vizinhas (350 pm) é muito menor que a soma dos raios de van der Waals (430 pm), indicando interações secundárias significativas e fraca semicondutividade bidimensional.<br>
+    2. <strong>Solvatocromismo:</strong> soluções de I₂ em solventes apolares (CCl₄, hexano) são violetas (moléculas I₂ pouco perturbadas), enquanto em solventes doadores de pares eletrônicos (etanol, acetona, H₂O) tornam-se castanhas devido à formação de complexos de transferência de carga (aductos ácido-base de Lewis).<br>
+    3. <strong>Poli-iodetos e cátions poliatômicos:</strong> forma facilmente o íon linear tri-iodeto (I₃⁻), além de cátions como I₂⁺ e I₃⁺ em meios superácidos.`,
+    allotropes: 'Não apresenta alótropos moleculares distintos, mas sob pressões elevadas (> 21 GPa) sofre transição metal-isolante tornando-se um metal monoatômico condutor.',
+    compounds: 'HI (ácido iodídrico, o mais forte dos hidrácidos halogenados em água, pKa ≈ -10, e forte agente redutor), KI, I₃⁻ (complexo azul-escuro com amilose/amido), ácido iódico (HIO₃), ácido periódico (H₅IO₆, octaédrico, e HIO₄), e inter-halogênios hipervalentes como IF₅ (pirâmide quadrada) e IF₇ (bipirâmide pentagonal).',
+    industrialBio: 'Obtido pela redução de iodatos (NaIO₃) com hidrogenossulfito de sódio (NaHSO₃) ou oxidação de salmouras iodadas com Cl₂. Biologicamente indispensável para a síntese dos hormônios tireoidianos tiroxina (T₄) e tri-iodotironina (T₃), que regulam o metabolismo basal e o desenvolvimento neurológico.',
+    isotopes: 'Mononuclídico estável: ¹²⁷I (100%). Radioisótopos clínicos cruciais: ¹³¹I (t½ = 8,02 dias, emissor β⁻/γ usado no tratamento de hipertireoidismo e câncer de tireoide) e ¹²³I (t½ = 13,2 h, diagnóstico por cintilografia).',
+    toxicity: 'I₂ sólido é corrosivo para pele e mucosas; vapores irritam severamente os olhos e vias respiratórias. Excesso crônico ou exposição radioativa a ¹³¹I afeta a glândula tireoide.'
+  },
+  At: {
+    Z: 85, sym: 'At', name: 'Astato', group: 'Grupo 17 (Halogênios)', period: 6, block: 'p',
+    category: 'Halogênio (Radioativo)', mass: '[210] u', config: '[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁵', valence: '6s² 6p⁵',
+    state: 'Sólido previsto (submetálico/metálico sob pressão)', mp: 575, bp: 610, density: '~6,4 g/cm³ (estimado)',
+    en: 2.20, ie1: 899, ea: -233, rCov: '150 pm', rIon: '227 pm (At⁻, est.)',
+    oxStates: '-1, +1, +3, +5, +7',
+    simpleSub: 'At / At₂ (previsão relativística: fase condensada monoatômica metálica)', magnetism: 'Previsto: At₂ gasoso Diamagnético; fase condensada metálica paramagnética de Pauli',
+    protons: 85, neutrons: 125, shells: [2, 8, 18, 32, 18, 7],
+    etymology: 'Do grego ástatos (ἄστατος = "instável"), em referência à ausência de qualquer isótopo estável e ao seu rápido decaimento radioativo.',
+    discovery: 'Sintetizado artificialmente em 1940 na Universidade da Califórnia em Berkeley por Dale R. Corson, Kenneth Ross MacKenzie e Emilio Segrè, bombardeando bismuto-209 com partículas alfa em um cíclotron: ²⁰⁹Bi + ⁴He → ²¹¹At + 2n.',
+    occurrence: 'É o <strong>elemento natural mais raro da crosta terrestre</strong>: estima-se que existam menos de 30 gramas de astato em toda a crosta em um dado instante, formados transitoriamente como intermediários menores nas cadeias de decaimento natural do urânio e tório.',
+    theory: `Como enfatizam <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong>, a química do astato é fortemente governada pela <strong>contração lantanídica</strong> e pelos <strong>efeitos relativísticos</strong> (especialmente o forte acoplamento spin-órbita que desdobra o nível 6p em subníveis 6p₁/₂ estabilizado e 6p₃/₂ desestabilizado). Cálculos relativísticos recentes (Hoffmann, Hermann & Schwerdtfeger) indicam que a ligação At–At é tão enfraquecida pelo acoplamento spin-órbita que, no estado sólido à pressão ambiente, o astato condensa provavelmente como um <strong>sólido monoatômico metálico</strong> (comportamento metaloide/metálico mais pronunciado que o iodo). Em solução aquosa ultradiluída (10⁻¹⁵ a 10⁻¹¹ M), forma o íon astateto (At⁻), o cátion aquoso At⁺ (ou AtO⁺) e oxiânions AtO₃⁻ e AtO₄⁻.`,
+    allotropes: 'Nenhuma amostra macroscópica visível já foi isolada (o calor gerado por seu próprio decaimento alfa vaporizaria instantaneamente qualquer cristal visível).',
+    compounds: 'HAt (ácido astatídrico, muito instável), At⁻ (astateto), At⁺, inter-halogênios detectados por espectrometria de massas (AtI, AtBr, AtCl) e oxiânions AtO₃⁻ / AtO₄⁻.',
+    industrialBio: 'Sem aplicações industriais devido à escassez e meia-vida curta. Grande interesse em <strong>medicina nuclear (terapia alfa-alvo, TAT)</strong>: o isótopo ²¹¹At (t½ = 7,21 h) emite partículas alfa de alta transferência linear de energia (LET) capazes de destruir células tumorais micrometastáticas com mínimo dano aos tecidos sadios adjacentes.',
+    isotopes: 'Nenhum isótopo estável. Principais radioisótopos: ²¹⁰At (t½ = 8,1 h, o de maior meia-vida, decai por captura eletrônica e α) e ²¹¹At (t½ = 7,21 h, uso médico).',
+    toxicity: 'Extremamente radiotóxico devido à emissão alfa de alta energia; acumula-se parcialmente na glândula tireoide (semelhante ao iodo), embora com menor afinidade.'
+  },
+  Ts: {
+    Z: 117, sym: 'Ts', name: 'Tenessino', group: 'Grupo 17 (Halogênios)', period: 7, block: 'p',
+    category: 'Halogênio Superpesado (Sintético)', mass: '[294] u', config: '[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁵', valence: '7s² 7p⁵',
+    state: 'Sólido metálico/semimetálico previsto (298 K)', mp: 700, bp: 883, density: '~7,2 g/cm³ (previsto)',
+    en: 2.0, ie1: 743, ea: -166, rCov: '165 pm (prev.)', rIon: '240 pm (Ts⁻, prev.)',
+    oxStates: '-1, +1, +3, +5 (previstos; +1 e +3 favorecidos)',
+    simpleSub: 'Ts (previsão relativística: sólido metálico / ligação Ts–Ts extremamente fraca)', magnetism: 'Previsto: estado sólido metálico (paramagnetismo de Pauli); átomo isolado ²P₃/₂ paramagnético',
+    protons: 117, neutrons: 177, shells: [2, 8, 18, 32, 32, 18, 7],
+    etymology: 'Nomeado em homenagem ao estado norte-americano do Tennessee, reconhecendo as contribuições científicas do Oak Ridge National Laboratory (ORNL), Universidade Vanderbilt e Universidade do Tennessee.',
+    discovery: 'Descoberto em abril de 2010 por uma colaboração russo-americana no Instituto Conjunto de Pesquisa Nuclear (JINR) em Dubna (Rússia), liderada por Yuri Oganessian, bombardeando um alvo radioativo de berquélio-249 (produzido em Oak Ridge) com íons de cálcio-48: ²⁴⁹Bk + ⁴⁸Ca → ²⁹⁴Ts + 3n e ²⁹³Ts + 4n.',
+    occurrence: 'Elemento puramente sintético; não existe na natureza. Apenas alguns átomos foram produzidos até hoje em aceleradores de íons pesados.',
+    theory: `O tenessino é o elemento mais pesado do Grupo 17 e ilustra os limites extremos da tabela periódica em <strong>Shriver & Atkins</strong>. Os <strong>efeitos relativísticos</strong> em Z = 117 são gigantescos:<br>
+    1. <strong>Contração relativística do orbital 7s²:</strong> os elétrons 7s atingem velocidades relativísticas, contraem-se e estabilizam-se fortemente (efeito do par inerte extremo), tornando o estado +7 inacessível e desfavorecendo até o estado +5.<br>
+    2. <strong>Desdobramento spin-órbita gigante do nível 7p:</strong> a camada 7p divide-se em 7p₁/₂ (totalmente preenchida com 2 elétrons e fortemente estabilizada) e 7p₃/₂ (com 3 elétrons), deixando apenas um elétron desemparelhado efetivo na subcamada de valência externa. Como resultado, Ts deve perder a tendência clássica de formar ânion Ts⁻ facilmente e comportar-se quimicamente mais como um <strong>metal pós-transição ou semimetal</strong> (semelhante a Tl ou Bi), com ponto de fusão e ebulição muito superiores aos do astato e do iodo.`,
+    allotropes: 'Desconhecidos (apenas poucos átomos isolados foram detectados via cadeias de decaimento alfa).',
+    compounds: 'Nenhum composto foi sintetizado experimentalmente devido à meia-vida de milissegundos; cálculos químicos relativísticos preveem fluoretos como TsF e TsF₃ e hidreto HTs altamente covalente/polarizado.',
+    industrialBio: 'Nenhuma aplicação prática ou biológica; importância estritamente fundamental para testar modelos de estrutura nuclear ("ilha de estabilidade") e química quântica relativística.',
+    isotopes: 'Nenhum isótopo estável. Isótopos sintetizados: ²⁹⁴Ts (t½ ≈ 51 ms, decaimento α para ²⁹⁰Mc) e ²⁹³Ts (t½ ≈ 22 ms, decaimento α para ²⁸⁹Mc).',
+    toxicity: 'Sem risco toxicológico prático devido à produção de átomos individuais que decaem em milissegundos.'
+  }
+};
+
+// ============================================================================
+// TABELA PERIÓDICA COMPLETA (118 ELEMENTOS RESUMIDOS PARA INTERATIVIDADE)
+// ============================================================================
+const PTABLE_LAYOUT = [
+  [1,'H','Hidrogênio','1,008','1s¹'],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[2,'He','Hélio','4,0026','1s²'],
+  [3,'Li','Lítio','6,94','[He] 2s¹'],[4,'Be','Berílio','9,012','[He] 2s²'],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[5,'B','Boro','10,81','[He] 2s² 2p¹'],[6,'C','Carbono','12,011','[He] 2s² 2p²'],[7,'N','Nitrogênio','14,007','[He] 2s² 2p³','study-nm'],[8,'O','Oxigênio','15,999','[He] 2s² 2p⁴','study-nm'],[9,'F','Flúor','18,998','[He] 2s² 2p⁵','study-hal'],[10,'Ne','Neônio','20,180','[He] 2s² 2p⁶'],
+  [11,'Na','Sódio','22,990','[Ne] 3s¹'],[12,'Mg','Magnésio','24,305','[Ne] 3s²'],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[13,'Al','Alumínio','26,982','[Ne] 3s² 3p¹'],[14,'Si','Silício','28,085','[Ne] 3s² 3p²'],[15,'P','Fósforo','30,974','[Ne] 3s² 3p³','study-nm'],[16,'S','Enxofre','32,06','[Ne] 3s² 3p⁴','study-nm'],[17,'Cl','Cloro','35,45','[Ne] 3s² 3p⁵','study-hal'],[18,'Ar','Argônio','39,948','[Ne] 3s² 3p⁶'],
+  [19,'K','Potássio','39,098','[Ar] 4s¹'],[20,'Ca','Cálcio','40,078','[Ar] 4s²'],[21,'Sc','Escândio','44,956','[Ar] 3d¹ 4s²'],[22,'Ti','Titânio','47,867','[Ar] 3d² 4s²'],[23,'V','Vanádio','50,942','[Ar] 3d³ 4s²'],[24,'Cr','Cromo','51,996','[Ar] 3d⁵ 4s¹'],[25,'Mn','Manganês','54,938','[Ar] 3d⁵ 4s²'],[26,'Fe','Ferro','55,845','[Ar] 3d⁶ 4s²'],[27,'Co','Cobalto','58,933','[Ar] 3d⁷ 4s²'],[28,'Ni','Níquel','58,693','[Ar] 3d⁸ 4s²'],[29,'Cu','Cobre','63,546','[Ar] 3d¹⁰ 4s¹'],[30,'Zn','Zinco','65,38','[Ar] 3d¹⁰ 4s²'],[31,'Ga','Gálio','69,723','[Ar] 3d¹⁰ 4s² 4p¹'],[32,'Ge','Germânio','72,630','[Ar] 3d¹⁰ 4s² 4p²'],[33,'As','Arsênio','74,922','[Ar] 3d¹⁰ 4s² 4p³'],[34,'Se','Selênio','78,971','[Ar] 3d¹⁰ 4s² 4p⁴'],[35,'Br','Bromo','79,904','[Ar] 3d¹⁰ 4s² 4p⁵','study-hal'],[36,'Kr','Criptônio','83,798','[Ar] 3d¹⁰ 4s² 4p⁶'],
+  [37,'Rb','Rubídio','85,468','[Kr] 5s¹'],[38,'Sr','Estrôncio','87,62','[Kr] 5s²'],[39,'Y','Ítrio','88,906','[Kr] 4d¹ 5s²'],[40,'Zr','Zircônio','91,224','[Kr] 4d² 5s²'],[41,'Nb','Nióbio','92,906','[Kr] 4d⁴ 5s¹'],[42,'Mo','Molibdênio','95,95','[Kr] 4d⁵ 5s¹'],[43,'Tc','Tecnécio','[98]','[Kr] 4d⁵ 5s²'],[44,'Ru','Rutênio','101,07','[Kr] 4d⁷ 5s¹'],[45,'Rh','Ródio','102,91','[Kr] 4d⁸ 5s¹'],[46,'Pd','Paládio','106,42','[Kr] 4d¹⁰'],[47,'Ag','Prata','107,87','[Kr] 4d¹⁰ 5s¹'],[48,'Cd','Cádmio','112,41','[Kr] 4d¹⁰ 5s²'],[49,'In','Índio','114,82','[Kr] 4d¹⁰ 5s² 5p¹'],[50,'Sn','Estanho','118,71','[Kr] 4d¹⁰ 5s² 5p²'],[51,'Sb','Antimônio','121,76','[Kr] 4d¹⁰ 5s² 5p³'],[52,'Te','Telúrio','127,60','[Kr] 4d¹⁰ 5s² 5p⁴'],[53,'I','Iodo','126,90','[Kr] 4d¹⁰ 5s² 5p⁵','study-hal'],[54,'Xe','Xenônio','131,29','[Kr] 4d¹⁰ 5s² 5p⁶'],
+  [55,'Cs','Césio','132,91','[Xe] 6s¹'],[56,'Ba','Bário','137,33','[Xe] 6s²'],[57,'La-Lu','Lantanídeos','—','4f¹⁻¹⁴'],[72,'Hf','Háfnio','178,49','[Xe] 4f¹⁴ 5d² 6s²'],[73,'Ta','Tântalo','180,95','[Xe] 4f¹⁴ 5d³ 6s²'],[74,'W','Tungstênio','183,84','[Xe] 4f¹⁴ 5d⁴ 6s²'],[75,'Re','Rênio','186,21','[Xe] 4f¹⁴ 5d⁵ 6s²'],[76,'Os','Ósmio','190,23','[Xe] 4f¹⁴ 5d⁶ 6s²'],[77,'Ir','Irídio','192,22','[Xe] 4f¹⁴ 5d⁷ 6s²'],[78,'Pt','Platina','195,08','[Xe] 4f¹⁴ 5d⁹ 6s¹'],[79,'Au','Ouro','196,97','[Xe] 4f¹⁴ 5d¹⁰ 6s¹'],[80,'Hg','Mercúrio','200,59','[Xe] 4f¹⁴ 5d¹⁰ 6s²'],[81,'Tl','Tálio','204,38','[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p¹'],[82,'Pb','Chumbo','207,2','[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p²'],[83,'Bi','Bismuto','208,98','[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p³'],[84,'Po','Polônio','[209]','[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁴'],[85,'At','Astato','[210]','[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁵','study-hal'],[86,'Rn','Radônio','[222]','[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁶'],
+  [87,'Fr','Frâncio','[223]','[Rn] 7s¹'],[88,'Ra','Rádio','[226]','[Rn] 7s²'],[89,'Ac-Lr','Actinídeos','—','5f¹⁻¹⁴'],[104,'Rf','Rutherfórdio','[267]','[Rn] 5f¹⁴ 6d² 7s²'],[105,'Db','Dúbnio','[268]','[Rn] 5f¹⁴ 6d³ 7s²'],[106,'Sg','Seabórgio','[269]','[Rn] 5f¹⁴ 6d⁴ 7s²'],[107,'Bh','Bóhrio','[270]','[Rn] 5f¹⁴ 6d⁵ 7s²'],[108,'Hs','Hássio','[277]','[Rn] 5f¹⁴ 6d⁶ 7s²'],[109,'Mt','Meitnério','[278]','[Rn] 5f¹⁴ 6d⁷ 7s²'],[110,'Ds','Darmstádtio','[281]','[Rn] 5f¹⁴ 6d⁸ 7s²'],[111,'Rg','Roentgênio','[282]','[Rn] 5f¹⁴ 6d⁹ 7s²'],[112,'Cn','Copernício','[285]','[Rn] 5f¹⁴ 6d¹⁰ 7s²'],[113,'Nh','Nihônio','[286]','[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p¹'],[114,'Fl','Fleróvio','[289]','[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p²'],[115,'Mc','Moscóvio','[290]','[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p³'],[116,'Lv','Livermório','[293]','[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁴'],[117,'Ts','Tenessino','[294]','[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁵','study-hal'],[118,'Og','Oganessônio','[294]','[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁶']
+];
+
+// ============================================================================
+// MOLÉCULAS 3D (23 ESPÉCIES COM PROPRIEDADE MAGNÉTICA E VSEPR)
+// ============================================================================
+const CPK_COLORS = {
+  N: 0x3b82f6, P: 0xf97316, O: 0xef4444, S: 0xeab308,
+  F: 0x22c55e, Cl: 0x10b981, Br: 0x991b1b, I: 0x7e22ce,
+  H: 0xf8fafc, At: 0x64748b, Ts: 0x06b6d4
+};
+const CPK_RADII = { H: 0.32, F: 0.45, O: 0.48, N: 0.50, Cl: 0.58, S: 0.62, P: 0.64, Br: 0.66, I: 0.74 };
+
+const MOLECULES_3D = {
+  N2: { name: 'Dinitrogênio (N₂)', geom: 'Linear (D∞h)', angle: '180°', bondLen: '109,8 pm (N≡N)', mag: 'Diamagnética', hyb: 'sp', atoms: [['N',-0.55,0,0],['N',0.55,0,0]], bonds: [[0,1,3]] },
+  O2: { name: 'Dioxigênio (O₂)', geom: 'Linear (D∞h)', angle: '180°', bondLen: '121,0 pm (O=O)', mag: 'Paramagnética (2 e⁻ desemparelhados em π*)', hyb: 'TOM (ordem 2)', atoms: [['O',-0.6,0,0],['O',0.6,0,0]], bonds: [[0,1,2]] },
+  O3: { name: 'Ozônio (O₃)', geom: 'Angular (C₂v)', angle: '116,8°', bondLen: '127,8 pm (ordem 1,5)', mag: 'Diamagnética', hyb: 'sp²', atoms: [['O',0,0.55,0],['O',-1.08,-0.12,0],['O',1.08,-0.12,0]], bonds: [[0,1,1],[0,2,1]] },
+  P4: { name: 'Fósforo Branco (P₄)', geom: 'Tetraédrica (Td)', angle: '60,0° (alta tensão)', bondLen: '221 pm (P–P)', mag: 'Diamagnética', hyb: 'p puro / sp³ tensionado', atoms: [['P',1,1,1],['P',1,-1,-1],['P',-1,1,-1],['P',-1,-1,1]], bonds: [[0,1,1],[0,2,1],[0,3,1],[1,2,1],[1,3,1],[2,3,1]] },
+  S8: { name: 'Ciclo-octaenxofre (S₈)', geom: 'Coroa / Anel pregueado (D₄d)', angle: '108,0° (diedro 98,3°)', bondLen: '206 pm (S–S)', mag: 'Diamagnética', hyb: 'sp³', atoms: Array.from({length:8},(_,i)=>{const a=i*Math.PI/4;return ['S',1.85*Math.cos(a),1.85*Math.sin(a),(i%2===0?0.45:-0.45)];}), bonds: [[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[7,0,1]] },
+  NH3: { name: 'Amônia (NH₃)', geom: 'Piramidal Trigonal (C₃v)', angle: '107,8°', bondLen: '101,7 pm (N–H)', mag: 'Diamagnética', hyb: 'sp³', atoms: [['N',0,0.35,0],['H',0.94,-0.25,0],['H',-0.47,-0.25,0.81],['H',-0.47,-0.25,-0.81]], bonds: [[0,1,1],[0,2,1],[0,3,1]] },
+  H2S: { name: 'Sulfeto de Hidrogênio (H₂S)', geom: 'Angular (C₂v)', angle: '92,1°', bondLen: '133,6 pm (S–H)', mag: 'Diamagnética', hyb: 'caráter p predominante', atoms: [['S',0,0.4,0],['H',0.96,-0.55,0],['H',-0.96,-0.55,0]], bonds: [[0,1,1],[0,2,1]] },
+  SO2: { name: 'Dióxido de Enxofre (SO₂)', geom: 'Angular (C₂v)', angle: '119,0°', bondLen: '143,1 pm (S=O)', mag: 'Diamagnética', hyb: 'sp²', atoms: [['S',0,0.45,0],['O',-1.23,-0.28,0],['O',1.23,-0.28,0]], bonds: [[0,1,2],[0,2,2]] },
+  SO3: { name: 'Trióxido de Enxofre (SO₃)', geom: 'Trigonal Planar (D₃h)', angle: '120,0°', bondLen: '142,0 pm (S=O)', mag: 'Diamagnética', hyb: 'sp²', atoms: [['S',0,0,0],['O',1.42,0,0],['O',-0.71,1.23,0],['O',-0.71,-1.23,0]], bonds: [[0,1,2],[0,2,2],[0,3,2]] },
+  H2SO4: { name: 'Ácido Sulfúrico (H₂SO₄)', geom: 'Tetraédrica distorcida (C₂)', angle: '101°–123°', bondLen: '142 pm (S=O) / 157 pm (S–OH)', mag: 'Diamagnética', hyb: 'sp³', atoms: [['S',0,0,0],['O',0.9,0.9,0.7],['O',-0.9,0.9,-0.7],['O',0.85,-0.9,-0.75],['O',-0.85,-0.9,0.75],['H',1.55,-0.75,-1.2],['H',-1.55,-0.75,1.2]], bonds: [[0,1,2],[0,2,2],[0,3,1],[0,4,1],[3,5,1],[4,6,1]] },
+  PCl3: { name: 'Tricloreto de Fósforo (PCl₃)', geom: 'Piramidal Trigonal (C₃v)', angle: '100,3°', bondLen: '204 pm (P–Cl)', mag: 'Diamagnética', hyb: 'sp³', atoms: [['P',0,0.45,0],['Cl',1.65,-0.35,0],['Cl',-0.82,-0.35,1.43],['Cl',-0.82,-0.35,-1.43]], bonds: [[0,1,1],[0,2,1],[0,3,1]] },
+  PCl5: { name: 'Pentacloreto de Fósforo (PCl₅ gasoso)', geom: 'Bipirâmide Trigonal (D₃h)', angle: '120° (eq) / 90° (ax)', bondLen: '202 pm (eq) / 214 pm (ax)', mag: 'Diamagnética', hyb: '3c–4e / sp³d', atoms: [['P',0,0,0],['Cl',0,1.95,0],['Cl',0,-1.95,0],['Cl',1.8,0,0],['Cl',-0.9,0,1.56],['Cl',-0.9,0,-1.56]], bonds: [[0,1,1],[0,2,1],[0,3,1],[0,4,1],[0,5,1]] },
+  F2: { name: 'Diflúor (F₂)', geom: 'Linear (D∞h)', angle: '180°', bondLen: '141,7 pm (F–F)', mag: 'Diamagnética', hyb: 'TOM (ordem 1)', atoms: [['F',-0.7,0,0],['F',0.7,0,0]], bonds: [[0,1,1]] },
+  Cl2: { name: 'Dicloro (Cl₂)', geom: 'Linear (D∞h)', angle: '180°', bondLen: '198,8 pm (Cl–Cl)', mag: 'Diamagnética', hyb: 'TOM (ordem 1)', atoms: [['Cl',-0.95,0,0],['Cl',0.95,0,0]], bonds: [[0,1,1]] },
+  Br2: { name: 'Dibromo (Br₂)', geom: 'Linear (D∞h)', angle: '180°', bondLen: '228,1 pm (Br–Br)', mag: 'Diamagnética', hyb: 'TOM (ordem 1)', atoms: [['Br',-1.1,0,0],['Br',1.1,0,0]], bonds: [[0,1,1]] },
+  I2: { name: 'Di-iodo (I₂)', geom: 'Linear (D∞h)', angle: '180°', bondLen: '266,6 pm (I–I)', mag: 'Diamagnética', hyb: 'TOM (ordem 1)', atoms: [['I',-1.3,0,0],['I',1.3,0,0]], bonds: [[0,1,1]] },
+  HF: { name: 'Fluoreto de Hidrogênio (HF)', geom: 'Linear (C∞v)', angle: '180°', bondLen: '91,7 pm (H–F)', mag: 'Diamagnética', hyb: 'σ (1s-2p)', atoms: [['F',-0.45,0,0],['H',0.55,0,0]], bonds: [[0,1,1]] },
+  HCl: { name: 'Cloreto de Hidrogênio (HCl)', geom: 'Linear (C∞v)', angle: '180°', bondLen: '127,5 pm (H–Cl)', mag: 'Diamagnética', hyb: 'σ (1s-3p)', atoms: [['Cl',-0.55,0,0],['H',0.72,0,0]], bonds: [[0,1,1]] },
+  HBr: { name: 'Brometo de Hidrogênio (HBr)', geom: 'Linear (C∞v)', angle: '180°', bondLen: '141,4 pm (H–Br)', mag: 'Diamagnética', hyb: 'σ (1s-4p)', atoms: [['Br',-0.6,0,0],['H',0.82,0,0]], bonds: [[0,1,1]] },
+  HI: { name: 'Iodeto de Hidrogênio (HI)', geom: 'Linear (C∞v)', angle: '180°', bondLen: '160,9 pm (H–I)', mag: 'Diamagnética', hyb: 'σ (1s-5p)', atoms: [['I',-0.68,0,0],['H',0.93,0,0]], bonds: [[0,1,1]] },
+  ClF3: { name: 'Trifluoreto de Cloro (ClF₃)', geom: 'Em forma de T (C₂v — AX₃E₂)', angle: '87,5° (F_ax–Cl–F_eq)', bondLen: '159,8 pm (eq) / 169,8 pm (ax)', mag: 'Diamagnética', hyb: '3c–4e (AX₃E₂)', atoms: [['Cl',0,0,0],['F',1.55,0,0],['F',-0.07,1.68,0],['F',-0.07,-1.68,0]], bonds: [[0,1,1],[0,2,1],[0,3,1]] },
+  IF5: { name: 'Pentafluoreto de Iodo (IF₅)', geom: 'Pirâmide Quadrada (C₄v — AX₅E)', angle: '81,9° (F_ax–I–F_eq)', bondLen: '184 pm (ax) / 187 pm (eq)', mag: 'Diamagnética', hyb: '3c–4e (AX₅E)', atoms: [['I',0,-0.25,0],['F',0,1.6,0],['F',1.82,-0.45,0],['F',-1.82,-0.45,0],['F',0,-0.45,1.82],['F',0,-0.45,-1.82]], bonds: [[0,1,1],[0,2,1],[0,3,1],[0,4,1],[0,5,1]] },
+  IF7: { name: 'Heptafluoreto de Iodo (IF₇)', geom: 'Bipirâmide Pentagonal (D₅h — AX₇)', angle: '72° (eq) / 90° (ax)', bondLen: '178,6 pm (ax) / 185,8 pm (eq)', mag: 'Diamagnética', hyb: 'Multicentro (AX₇)', atoms: [['I',0,0,0],['F',0,1.78,0],['F',0,-1.78,0],...Array.from({length:5},(_,k)=>{const a=k*2*Math.PI/5;return ['F',1.86*Math.cos(a),0,1.86*Math.sin(a)];})], bonds: [[0,1,1],[0,2,1],[0,3,1],[0,4,1],[0,5,1],[0,6,1],[0,7,1]] }
+};
+
+// ============================================================================
+// GERENCIAMENTO DE ROTAS E TEMA
+// ============================================================================
+let activeAnimFrames = [];
+function clearAnimFrames() {
+  activeAnimFrames.forEach(id => cancelAnimationFrame(id));
+  activeAnimFrames = [];
+}
+
+function toggleTheme() {
+  document.body.classList.toggle('light-theme');
+  const isLight = document.body.classList.contains('light-theme');
+  document.getElementById('themeBtn').textContent = isLight ? '🌙 Tema Escuro' : '☀️ Tema Claro';
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+function navigate(route) {
+  clearAnimFrames();
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.route === route);
+  });
+  document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const main = document.getElementById('mainContent');
+  if (route === 'mod1') renderMod1(main);
+  else if (route === 'nm-overview') renderNMOverview(main);
+  else if (route === 'hal-overview') renderHalOverview(main);
+  else if (route.startsWith('el-')) renderElementPage(main, route.replace('el-', ''));
+  else if (route === 'mod4') renderMod4(main);
+  else if (route === 'lab-atoms') renderLabAtoms(main);
+  else if (route === 'lab-molecules') renderLabMolecules(main);
+  else if (route === 'lab-crystals') renderLabCrystals(main);
+  else if (route === 'mod6') renderMod6(main);
+  else if (route === 'mod7') renderMod7(main);
+}
+
+// ============================================================================
+// BUSCA GLOBAL
+// ============================================================================
+function handleSearch(q) {
+  const box = document.getElementById('searchResults');
+  q = q.trim().toLowerCase();
+  if (!q) { box.style.display = 'none'; return; }
+
+  const index = [
+    { title: 'O que é Metal, Não Metal e Halogênio (Lavoisier, Berzelius, Schweigger)', route: 'mod1' },
+    { title: 'Tabela Periódica Interativa', route: 'mod1' },
+    { title: 'Átomos 3D em Movimento (Todos os 10 Elementos)', route: 'lab-atoms' },
+    { title: 'Moléculas 3D, VSEPR e Paramagnetismo/Diamagnetismo', route: 'lab-molecules' },
+    { title: 'Empacotamento Cristalino 3D (S₈, P negro, I₂, CFC, CCC, HC)', route: 'lab-crystals' },
+    { title: 'Tabelas Comparativas & Ciclo de Born-Haber', route: 'mod4' },
+    { title: 'Diagrama TOM (O₂, N₂, F₂...) & Simulador de Decaimento Radioativo', route: 'mod6' },
+    { title: 'Toxicidade GHS & Acidentes Químicos Reais', route: 'mod7' }
+  ];
+  Object.values(ELEMENTS).forEach(el => {
+    index.push({ title: `${el.name} (${el.sym}) — Z=${el.Z} | ${el.category} | ${el.magnetism}`, route: `el-${el.sym}` });
+  });
+  Object.entries(MOLECULES_3D).forEach(([k, m]) => {
+    index.push({ title: `Molécula 3D: ${m.name} — ${m.geom} (${m.mag})`, route: 'lab-molecules' });
+  });
+
+  const hits = index.filter(i => i.title.toLowerCase().includes(q)).slice(0, 10);
+  if (!hits.length) {
+    box.innerHTML = '<div class="search-item">Nenhum resultado encontrado.</div>';
+  } else {
+    box.innerHTML = hits.map(h => `<div class="search-item" onclick="document.getElementById('searchResults').style.display='none';navigate('${h.route}')">${h.title}</div>`).join('');
+  }
+  box.style.display = 'block';
+}
+
+// ============================================================================
+// MÓDULO 01 — FUNDAMENTOS, CONCEITOS HISTÓRICOS, ETIMOLOGIA & TABELA PERIÓDICA
+// ============================================================================
+function renderMod1(container) {
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>Módulo 01 — Apresentação, Conceitos Históricos & Tabela Periódica</span></div>
+    <div class="hero">
+      <span class="pill pill-nonmetal">NÍVEL SUPERIOR • GRADUAÇÃO EM QUÍMICA</span>
+      <span class="pill pill-halogen">BASE TEÓRICA: SHRIVER & ATKINS • J.D. LEE</span>
+      <h1>Química Descritiva dos Não Metais e Halogênios</h1>
+      <p>Ambiente digital interativo dedicado ao estudo aprofundado das propriedades periódicas, estrutura eletrônica, ligação química, alotropia, cristalografia, radioatividade e aplicações industriais e biológicas dos principais não metais do bloco <em>p</em> (<strong>N, P, O, S</strong>) e dos halogênios do Grupo 17 (<strong>F, Cl, Br, I, At, Ts</strong>).</p>
+      <div style="margin-top:1.1rem;display:flex;gap:0.6rem;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="navigate('lab-atoms')">⚛ Átomos 3D em Movimento</button>
+        <button class="btn btn-amber" onclick="navigate('lab-molecules')">🧬 Laboratório Molecular 3D</button>
+        <button class="btn" onclick="navigate('mod4')">📊 Tabelas Comparativas</button>
+      </div>
+    </div>
+
+    <!-- SEÇÃO CRÍTICA: O QUE É METAL, NÃO METAL E HALOGÊNIO + ORIGEM E QUEM CLASSIFICOU -->
+    <div class="card">
+      <h2>1. Fundamentos Conceituais, Etimologia e História das Classificações</h2>
+      <p>Antes de explorar cada elemento individualmente, é indispensável compreender a origem histórica e o significado químico rigoroso (segundo <strong>Shriver & Atkins</strong> e <strong>J.D. Lee</strong>) dos conceitos de <strong>Metal</strong>, <strong>Não Metal</strong> e <strong>Halogênio</strong>, bem como quem cunhou e sistematizou esses termos na história da Química.</p>
+
+      <div class="grid-3" style="margin-top:1rem;">
+        <div class="card" style="margin:0;background:var(--bg-secondary);">
+          <h3>⚙️ O que é um Metal?</h3>
+          <p><strong>Definição Química e Física:</strong> Elementos caracterizados por <strong>baixa energia de ionização</strong>, baixa eletronegatividade e tendência a perder elétrons de valência formando cátions. No estado sólido, seus átomos empacotam-se em redes cristalinas compactas unidas por <strong>ligação metálica</strong> (elétrons deslocalizados em bandas de condução parcialmente preenchidas), conferindo brilho característico, maleabilidade, ductilidade e alta condutividade térmica e elétrica. Seus óxidos inferiores possuem caráter predominantemente <strong>básico</strong>.</p>
+          <p style="margin-top:0.5rem;"><strong>Origem do Nome (Etimologia):</strong> Deriva do grego antigo <em>métallon</em> (<strong>μέταλλον</strong>, que significava "mina", "pedreira" ou "substância extraída por escavação") e passou ao latim como <em>metallum</em>.</p>
+          <p style="margin-top:0.5rem;"><strong>Quem classificou:</strong> Conhecidos empiricamente desde a Antiguidade (os sete metais clássicos: Au, Ag, Cu, Fe, Sn, Pb, Hg), foram formalmente opostos às substâncias não metálicas por <strong>Antoine-Laurent de Lavoisier (1789)</strong> em seu <em>Traité Élémentaire de Chimie</em> e definidos eletroquimicamente como elementos <strong>eletropositivos</strong> por <strong>Jöns Jacob Berzelius (1811)</strong>.</p>
+        </div>
+
+        <div class="card" style="margin:0;background:var(--bg-secondary);border-color:var(--accent-cyan);">
+          <h3>🧪 O que é um Não Metal?</h3>
+          <p><strong>Definição Química e Física:</strong> Elementos localizados à direita da linha diagonal da Tabela Periódica (exceto o hidrogênio no topo do Grupo 1) que possuem <strong>alta carga nuclear efetiva ($Z_{ef}$)</strong>, elevadas energias de ionização e afinidades eletrônicas favoráveis. Não formam bandas de condução metálica: existem como moléculas discretas (N₂, O₂, P₄, S₈) ou redes covalentes estendidas, ganham elétrons formando ânions simples (N³⁻, O²⁻, S²⁻) ou compartilham elétrons em ligações covalentes direcionais. Seus óxidos (CO₂, SO₃, P₄O₁₀, N₂O₅) são tipicamente <strong>ácidos</strong>.</p>
+          <p style="margin-top:0.5rem;"><strong>Origem do Nome e Quem Criou:</strong> O termo surgiu por oposição sistemática às propriedades metálicas. Em <strong>1789</strong>, <strong>Antoine Lavoisier</strong> dividiu as substâncias simples em <em>substâncias metálicas</em> e <em>substâncias não metálicas oxidáveis e acidificáveis</em> (como enxofre, fósforo e carbono). Em <strong>1811</strong>, o químico sueco <strong>Jöns Jacob Berzelius</strong> consolidou a divisão binária da Tabela entre <strong>metais</strong> (eletropositivos) e <strong>não metais</strong> (eletronegativos, inicialmente chamados por ele de <em>metalloids</em> antes da restrição moderna do termo semimetal).</p>
+        </div>
+
+        <div class="card" style="margin:0;background:var(--bg-secondary);border-color:var(--accent-violet);">
+          <h3>🧂 O que é um Halogênio?</h3>
+          <p><strong>Definição Química e Física:</strong> São os elementos do <strong>Grupo 17</strong> da Tabela Periódica (<strong>F, Cl, Br, I, At, Ts</strong>) com configuração eletrônica geral de valência <strong>$ns^2 np^5$</strong> (a apenas 1 elétron da configuração de gás nobre). Embora sejam <em>não metais em sentido amplo</em>, constituem uma família própria pela extraordinária reatividade, existência como moléculas diatômicas homonucleares ($X_2$), altíssimo poder oxidante e formação direta de <strong>sais iônicos (haletos, $X^-$)</strong> ao reagir com metais.</p>
+          <p style="margin-top:0.5rem;"><strong>Origem do Nome (Etimologia):</strong> Do grego <em>háls</em> (<strong>ἅλς</strong> = "sal" ou "sal marinho") + <em>gennán</em> (<strong>γεννᾶν</strong> = "gerar", "produzir"), significando literalmente <strong>"gerador de sais"</strong>.</p>
+          <p style="margin-top:0.5rem;"><strong>Quem criou o nome e quem classificou:</strong> O termo <em>halogen</em> (e <em>haloid</em> para seus sais) foi cunhado em <strong>1811</strong> pelo químico e físico alemão <strong>Johann Salomo Christoph Schweigger</strong> inicialmente para designar o <strong>cloro</strong>, destacando que ele formava sais diretamente com metais sem conter oxigênio (refutando a teoria de Lavoisier de que todo ácido/sal exigia oxigênio). Posteriormente, <strong>Jöns Jacob Berzelius</strong> adotou e estendeu o nome <em>halogênios</em> (<em>corpora halogenia</em>) para toda a família (F, Cl, Br, I), cuja relação periódica foi reforçada pela <strong>Lei das Tríades de Johann Wolfgang Döbereiner (1829)</strong> na tríade Cl–Br–I.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABELA PERIÓDICA INTERATIVA -->
+    <div class="card">
+      <h2>2. Tabela Periódica Interativa</h2>
+      <p>Clique em qualquer elemento para inspecionar sua ficha atômica. Os elementos em destaque (<span style="color:var(--accent-cyan);font-weight:700;">Ciano = Não Metais N, P, O, S</span> e <span style="color:#c4b5fd;font-weight:700;">Violeta = Halogênios F, Cl, Br, I, At, Ts</span>) dão acesso direto às suas monografias e modelos 3D.</p>
+      <div class="ptable-wrap" style="margin-top:1rem;">
+        <div class="ptable" id="ptableGrid"></div>
+      </div>
+    </div>
+
+    <!-- MAPA DOS MÓDULOS -->
+    <div class="grid-2">
+      <div class="card">
+        <h2>Grupo I — Não Metais Estudados (N, P, O, S)</h2>
+        <p>Comparação entre elementos do <strong>2º período (N, O)</strong>, dominados por ligações múltiplas $p\pi-p\pi$ fortes e ausência de expansão do octeto, e seus congêneres mais pesados do <strong>3º período (P, S)</strong>, marcados por catenação em ligações simples ($P_4$, $S_8$), alotropia complexa e hipervalência.</p>
+        <div style="margin-top:0.8rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button class="btn" onclick="navigate('el-N')">7 • Nitrogênio (N)</button>
+          <button class="btn" onclick="navigate('el-P')">15 • Fósforo (P)</button>
+          <button class="btn" onclick="navigate('el-O')">8 • Oxigênio (O)</button>
+          <button class="btn" onclick="navigate('el-S')">16 • Enxofre (S)</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Grupo II — Halogênios Estudados (F, Cl, Br, I, At, Ts)</h2>
+        <p>Estudo completo do Grupo 17 ($ns^2np^5$): desde o flúor (maior eletronegatividade, anomalia da energia de ligação F–F), passando por cloro, bromo e iodo, até os efeitos relativísticos e o acoplamento spin-órbita gigante nos radioelementos pesados <strong>Astato (At)</strong> e <strong>Tenessino (Ts)</strong>.</p>
+        <div style="margin-top:0.8rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button class="btn" onclick="navigate('el-F')">9 • Flúor</button>
+          <button class="btn" onclick="navigate('el-Cl')">17 • Cloro</button>
+          <button class="btn" onclick="navigate('el-Br')">35 • Bromo</button>
+          <button class="btn" onclick="navigate('el-I')">53 • Iodo</button>
+          <button class="btn" onclick="navigate('el-At')">85 • Astato</button>
+          <button class="btn" onclick="navigate('el-Ts')">117 • Tenessino</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const grid = document.getElementById('ptableGrid');
+  PTABLE_LAYOUT.forEach(cell => {
+    const div = document.createElement('div');
+    if (cell[0] === 0) {
+      div.className = 'pt-empty';
+    } else {
+      div.className = `pt-cell ${cell[5] || ''}`;
+      div.innerHTML = `<span class="pt-num">${cell[0]}</span><span class="pt-sym">${cell[1]}</span><span class="pt-name">${cell[2]}</span>`;
+      div.onclick = () => openPTModal(cell);
+    }
+    grid.appendChild(div);
+  });
+}
+
+function openPTModal(cell) {
+  const [Z, sym, name, mass, config] = cell;
+  const full = ELEMENTS[sym];
+  const modal = document.getElementById('ptModal');
+  const body = document.getElementById('ptModalBody');
+  if (full) {
+    body.innerHTML = `
+      <span class="pill ${full.category.includes('Halogênio') ? 'pill-halogen' : 'pill-nonmetal'}">${full.category}</span>
+      <h2 style="margin-top:0.4rem;">${full.name} (${full.sym}) — Z = ${full.Z}</h2>
+      <p style="margin:0.5rem 0;"><strong>Massa Atômica:</strong> ${full.mass} | <strong>Configuração:</strong> ${full.config}</p>
+      <p><strong>Grupo / Período:</strong> ${full.group} • Período ${full.period} (Bloco ${full.block})</p>
+      <p><strong>Estado Físico:</strong> ${full.state}</p>
+      <p><strong>Eletronegatividade (Pauling):</strong> ${full.en} | <strong>EI₁:</strong> ${full.ie1} kJ/mol | <strong>AE:</strong> ${full.ea} kJ/mol</p>
+      <p><strong>Raio Covalente:</strong> ${full.rCov} | <strong>Raio Iônico:</strong> ${full.rIon}</p>
+      <p><strong>Substância Simples & Magnetismo:</strong> ${full.simpleSub} — <em>${full.magnetism}</em></p>
+      <p style="margin-top:0.5rem;"><strong>Isótopos:</strong> ${full.isotopes}</p>
+      <div style="margin-top:1.2rem;display:flex;gap:0.6rem;justify-content:flex-end;">
+        <button class="btn" onclick="closeModal()">Fechar</button>
+        <button class="btn btn-primary" onclick="closeModal();navigate('el-${sym}')">Abrir Monografia Completa & Átomo 3D →</button>
+      </div>
+    `;
+  } else {
+    body.innerHTML = `
+      <h2>${name} (${sym}) — Z = ${Z}</h2>
+      <p style="margin:0.6rem 0;"><strong>Massa Atômica:</strong> ${mass}</p>
+      <p><strong>Configuração Eletrônica:</strong> ${config}</p>
+      <p style="margin-top:0.6rem;color:var(--text-muted);">Elemento de contextualização periódica. Selecione N, P, O, S, F, Cl, Br, I, At ou Ts para acessar os estudos completos.</p>
+      <div style="margin-top:1rem;text-align:right;"><button class="btn" onclick="closeModal()">Fechar</button></div>
+    `;
+  }
+  modal.style.display = 'flex';
+}
+function closeModal() { document.getElementById('ptModal').style.display = 'none'; }
+
+// ============================================================================
+// VISÕES GERAIS DOS GRUPOS (MÓDULOS 02 E 03)
+// ============================================================================
+function renderNMOverview(container) {
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>Módulo 02 — Visão Geral dos Não Metais (N, P, O, S)</span></div>
+    <div class="hero">
+      <h1>Grupo I — Não Metais do Bloco <em>p</em> (N, P, O, S)</h1>
+      <p>Análise comparativa entre os elementos do 2º período (Nitrogênio e Oxigênio) e seus homólogos do 3º período (Fósforo e Enxofre) sob a ótica da Química Inorgânica moderna (Shriver & Atkins / J.D. Lee).</p>
+    </div>
+    <div class="card">
+      <h2>Princípio da Singularidade do 2º Período</h2>
+      <p>Uma das diretrizes centrais da química descritiva do bloco <em>p</em> é a profunda diferença entre o primeiro membro de cada grupo (N, O, F) e os elementos mais pesados (P, S, Cl):</p>
+      <ul>
+        <li><strong>Sobreposição $p\pi - p\pi$ vs. Catenação:</strong> Devido ao pequeno raio covalente, N e O formam ligações múltiplas muito fortes ($N\equiv N$ com 945 kJ/mol; $O=O$ com 498 kJ/mol), existindo como gases diatômicos. Já P e S têm raios maiores, sobreposição $\pi$ fraca e menor repulsão de pares isolados em ligações simples, preferindo formar cadeias e anéis ($P_4$ tetraédrico e $S_8$ em coroa).</li>
+        <li><strong>Expansão do Número de Coordenação (Hipervalência):</strong> Enquanto N e O obedecem estritamente à regra do octeto (número de coordenação máximo 4), P e S atingem números de coordenação 5 e 6 em compostos como $PF_5$, $PCl_5$, $SF_6$ e $H_2SO_4$, descritos pela teoria das ligações de 3 centros e 4 elétrons (3c–4e).</li>
+      </ul>
+    </div>
+    <div class="grid-2">
+      ${['N','P','O','S'].map(s => {
+        const e = ELEMENTS[s];
+        return `<div class="card">
+          <span class="pill pill-nonmetal">Z = ${e.Z} • ${e.group}</span>
+          <h3>${e.name} (${e.sym})</h3>
+          <p><strong>Substância Simples:</strong> ${e.simpleSub}</p>
+          <p><strong>Magnetismo:</strong> ${e.magnetism}</p>
+          <p style="margin-top:0.4rem;">${e.etymology}</p>
+          <button class="btn btn-primary" style="margin-top:0.8rem;" onclick="navigate('el-${s}')">Estudar ${e.name} em 3D →</button>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+function renderHalOverview(container) {
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>Módulo 03 — Visão Geral dos Halogênios (Grupo 17)</span></div>
+    <div class="hero">
+      <h1>Grupo II — Os Halogênios (F, Cl, Br, I, At, Ts)</h1>
+      <p>Do grego <em>háls</em> (sal) + <em>gennán</em> (gerar) — termo cunhado por <strong>Johann Salomo Christoph Schweigger (1811)</strong> e sistematizado por <strong>Berzelius</strong> e <strong>Döbereiner</strong> para os elementos de valência $ns^2np^5$.</p>
+    </div>
+    <div class="card">
+      <h2>Tendências Periódicas, Anomalias e Efeitos Relativísticos</h2>
+      <ul>
+        <li><strong>Estado Físico e Polarizabilidade:</strong> À temperatura ambiente, a família abrange os três estados físicos clássicos: $F_2$ e $Cl_2$ são gases, $Br_2$ é líquido e $I_2$ (bem como $At$ e $Ts$) são sólidos. Isso decorre do aumento da massa molar e da polarizabilidade da nuvem eletrônica, intensificando as forças de dispersão de London.</li>
+        <li><strong>Poder Oxidante em Solução Aquosa ($E^\circ$):</strong> O potencial padrão de redução decresce monotonicamente: $F_2 (+2,87\text{ V}) > Cl_2 (+1,36\text{ V}) > Br_2 (+1,07\text{ V}) > I_2 (+0,54\text{ V})$. Assim, cada halogênio oxida os íons haleto situados abaixo dele no grupo (ex.: $Cl_2 + 2Br^- \rightarrow 2Cl^- + Br_2$).</li>
+        <li><strong>Compostos Inter-halogênios ($XY_n$):</strong> Formados entre dois halogênios distintos, onde $X$ é o menos eletronegativo e $n \in \{1, 3, 5, 7\}$. Quanto maior a diferença de raio e eletronegatividade, maior o número de coordenação alcançado (ex.: $IF_7$ bipirâmide pentagonal, $IF_5$ pirâmide quadrada, $ClF_3$ em forma de T).</li>
+        <li><strong>Efeitos Relativísticos em At e Ts:</strong> No 6º e 7º períodos, a estabilização relativística do orbital $ns^2$ (efeito do par inerte) e o desdobramento spin-órbita $p_{1/2} - p_{3/2}$ enfraquecem a ligação homonuclear $X–X$, conferindo caráter metálico ao astato sólido e ao tenessino.</li>
+      </ul>
+    </div>
+    <div class="grid-3">
+      ${['F','Cl','Br','I','At','Ts'].map(s => {
+        const e = ELEMENTS[s];
+        return `<div class="card">
+          <span class="pill pill-halogen">Z = ${e.Z} • Período ${e.period}</span>
+          <h3>${e.name} (${e.sym})</h3>
+          <p><strong>Substância Simples:</strong> ${e.simpleSub}</p>
+          <p><strong>Magnetismo:</strong> ${e.magnetism}</p>
+          <p style="margin-top:0.4rem;">${e.discovery.slice(0, 145)}...</p>
+          <button class="btn btn-primary" style="margin-top:0.8rem;" onclick="navigate('el-${s}')">Estudar ${e.name} em 3D →</button>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+// ============================================================================
+// PÁGINA MONOGRÁFICA INDIVIDUAL DE CADA ELEMENTO (COM ÁTOMO 3D EM MOVIMENTO)
+// ============================================================================
+function renderElementPage(container, sym) {
+  const el = ELEMENTS[sym];
+  if (!el) return;
+  const isPara = el.magnetism.toUpperCase().includes('PARAMAGNÉTICA');
+
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>${el.category}</span> / <span>${el.name} (${el.sym})</span></div>
+    <div class="hero">
+      <span class="pill ${el.category.includes('Halogênio') ? 'pill-halogen' : 'pill-nonmetal'}">Z = ${el.Z} • ${el.group}</span>
+      <span class="pill ${isPara ? 'pill-para' : 'pill-dia'}">🧲 ${el.magnetism}</span>
+      <h1>${el.name} (${el.sym})</h1>
+      <p><strong>Configuração:</strong> ${el.config} | <strong>Massa Atômica:</strong> ${el.mass} | <strong>Estados de Oxidação:</strong> ${el.oxStates}</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>⚛ Modelo Atômico 3D em Movimento (${el.sym})</h2>
+        <p style="margin-bottom:0.6rem;">Núcleo compacto (${el.protons} prótons em vermelho, ${el.neutrons} nêutrons em cinza) e ${el.Z} elétrons orbitando em camadas quânticas (${el.shells.join(' – ')}). Arraste para girar e use o scroll para zoom.</p>
+        <div class="controls-bar">
+          <button class="btn" id="atomPauseBtn">⏸ Pausar Órbita</button>
+          <label style="font-size:0.8rem;">Velocidade: <input type="range" id="atomSpeed" min="0" max="3" step="0.1" value="1" /></label>
+        </div>
+        <div class="viewport-3d" id="singleAtomViewport" style="height:340px;">
+          <div class="hud-overlay">
+            <strong>${el.name} (${el.sym}) • Z = ${el.Z}</strong><br/>
+            Camadas: ${el.shells.join(', ')}<br/>
+            Valência: ${el.valence}<br/>
+            Substância simples: ${el.simpleSub}
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>📜 Etimologia, Descoberta e Ocorrência</h2>
+        <h3>Origem do Nome</h3>
+        <p>${el.etymology}</p>
+        <h3>História da Descoberta</h3>
+        <p>${el.discovery}</p>
+        <h3>Ocorrência Natural</h3>
+        <p>${el.occurrence}</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🔬 Química Descritiva Aprofundada (Shriver & Atkins / J.D. Lee)</h2>
+      <p>${el.theory}</p>
+      <div class="info-box">
+        <strong>Propriedade Magnética da Substância Simples (${el.simpleSub}):</strong> ${el.magnetism}.
+      </div>
+      <h3>Alotropia e Estrutura</h3>
+      <p>${el.allotropes}</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>📊 Dados Físicos, Periódicos e Isotópicos</h2>
+        <ul>
+          <li><strong>Estado Físico (298 K):</strong> ${el.state}</li>
+          <li><strong>Ponto de Fusão / Ebulição:</strong> ${el.mp} K / ${el.bp} K</li>
+          <li><strong>Densidade:</strong> ${el.density}</li>
+          <li><strong>Eletronegatividade (Pauling):</strong> ${el.en}</li>
+          <li><strong>1ª Energia de Ionização:</strong> ${el.ie1} kJ/mol</li>
+          <li><strong>Afinidade Eletrônica:</strong> ${el.ea} kJ/mol</li>
+          <li><strong>Raio Covalente / Iônico:</strong> ${el.rCov} / ${el.rIon}</li>
+          <li><strong>Isótopos e Radioatividade:</strong> ${el.isotopes}</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🏭 Compostos, Aplicações e Segurança Química</h2>
+        <h3>Compostos Principais</h3>
+        <p>${el.compounds}</p>
+        <h3>Obtenção Industrial e Papel Biológico</h3>
+        <p>${el.industrialBio}</p>
+        <div class="danger-box">
+          <strong>⚠️ Toxicidade e Riscos:</strong> ${el.toxicity}
+        </div>
+      </div>
+    </div>
+  `;
+
+  initAtom3DScene('singleAtomViewport', el, 'atomPauseBtn', 'atomSpeed');
+}
+
+// ============================================================================
+// MÓDULO 04 — TABELAS COMPARATIVAS INTERATIVAS & CICLO DE BORN-HABER
+// ============================================================================
+function renderMod4(container) {
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>Módulo 04 — Tabelas Comparativas Interativas & Termodinâmica</span></div>
+    <div class="hero">
+      <h1>Tabelas Comparativas & Ciclo de Born-Haber</h1>
+      <p>Compare propriedades físicas, periódicas, energéticas, estruturais e isotópicas com conversão de unidades, filtragem e destaque automático de valores máximos e mínimos.</p>
+    </div>
+
+    <div class="card">
+      <h2>Tabelas Comparativas Interativas (A – E)</h2>
+      <div class="controls-bar">
+        <select id="tableSelector" onchange="renderSelectedTable()">
+          <option value="tabA">Tabela A — Não Metais (N, P, O, S)</option>
+          <option value="tabB">Tabela B — Halogênios (F, Cl, Br, I, At, Ts)</option>
+          <option value="tabC">Tabela C — Dados Energéticos e Termodinâmicos</option>
+          <option value="tabD">Tabela D — Ligações, Geometrias e Magnetismo</option>
+          <option value="tabE">Tabela E — Radioatividade e Isótopos</option>
+        </select>
+        <button class="btn" onclick="toggleTempUnit()" id="tempUnitBtn">Temperatura: Kelvin (K)</button>
+        <button class="btn" onclick="toggleEnergyUnit()" id="energyUnitBtn">Energia: kJ/mol</button>
+        <input type="text" id="tableFilter" placeholder="Filtrar propriedade..." oninput="renderSelectedTable()" />
+      </div>
+      <div class="table-wrap" id="dynamicTableWrap"></div>
+    </div>
+
+    <div class="card">
+      <h2>Simulador Interativo — Ciclo de Born-Haber (Haletos Alcalinos MX)</h2>
+      <p>Selecione um haleto alcalino para visualizar as etapas termodinâmicas da formação do cristal iônico $M(s) + \frac{1}{2}X_2(g/l/s) \rightarrow MX(s)$ e calcular a <strong>Energia de Rede Cristalográfica ($U_{rede}$)</strong> pela Lei de Hess:</p>
+      <div class="controls-bar" style="margin-top:0.8rem;">
+        <select id="bhCompound" onchange="updateBornHaber()">
+          <option value="NaF">NaF — Fluoreto de Sódio</option>
+          <option value="NaCl" selected>NaCl — Cloreto de Sódio</option>
+          <option value="KBr">KBr — Brometo de Potássio</option>
+          <option value="KI">KI — Iodeto de Potássio</option>
+        </select>
+      </div>
+      <div id="bhOutput" class="info-box"></div>
+    </div>
+  `;
+  renderSelectedTable();
+  updateBornHaber();
+}
+
+let useCelsius = false;
+let useEV = false;
+function toggleTempUnit() {
+  useCelsius = !useCelsius;
+  document.getElementById('tempUnitBtn').textContent = useCelsius ? 'Temperatura: Celsius (°C)' : 'Temperatura: Kelvin (K)';
+  renderSelectedTable();
+}
+function toggleEnergyUnit() {
+  useEV = !useEV;
+  document.getElementById('energyUnitBtn').textContent = useEV ? 'Energia: eV' : 'Energia: kJ/mol';
+  renderSelectedTable();
+}
+function fmtT(k) { return useCelsius ? `${(k - 273.15).toFixed(1)} °C` : `${k} K`; }
+function fmtE(kj) { return useEV ? `${(kj / 96.485).toFixed(2)} eV` : `${kj} kJ/mol`; }
+
+function renderSelectedTable() {
+  const type = document.getElementById('tableSelector').value;
+  const filter = (document.getElementById('tableFilter').value || '').toLowerCase();
+  const wrap = document.getElementById('dynamicTableWrap');
+
+  let headers = [];
+  let rows = [];
+
+  if (type === 'tabA' || type === 'tabB') {
+    const syms = type === 'tabA' ? ['N','P','O','S'] : ['F','Cl','Br','I','At','Ts'];
+    headers = ['Propriedade', ...syms.map(s => `${ELEMENTS[s].name} (${s})`)];
+    const props = [
+      ['Número Atômico (Z)', s => ELEMENTS[s].Z],
+      ['Massa Atômica', s => ELEMENTS[s].mass],
+      ['Configuração Eletrônica', s => ELEMENTS[s].config],
+      ['Estado Físico (298 K)', s => ELEMENTS[s].state],
+      ['Ponto de Fusão', s => fmtT(ELEMENTS[s].mp)],
+      ['Ponto de Ebulição', s => fmtT(ELEMENTS[s].bp)],
+      ['Eletronegatividade (Pauling)', s => ELEMENTS[s].en],
+      ['1ª Energia de Ionização', s => fmtE(ELEMENTS[s].ie1)],
+      ['Afinidade Eletrônica', s => fmtE(ELEMENTS[s].ea)],
+      ['Raio Covalente / Iônico', s => `${ELEMENTS[s].rCov} / ${ELEMENTS[s].rIon}`],
+      ['Estados de Oxidação', s => ELEMENTS[s].oxStates],
+      ['Substância Simples & Magnetismo', s => ELEMENTS[s].magnetism],
+      ['Dados Experimentais vs. Previstos', s => (s==='At'||s==='Ts') ? 'Parcialmente estimado / previsto (relativístico)' : 'Experimental consolidado']
+    ];
+    rows = props.filter(p => p[0].toLowerCase().includes(filter)).map(p => [p[0], ...syms.map(s => p[1](s))]);
+  } else if (type === 'tabC') {
+    headers = ['Espécie / Processo', 'EI₁', 'Afinidade Eletrônica', 'Dissociação X–X', 'ΔH°_hidratação (íon)', 'Potencial Padrão E° (V)'];
+    rows = [
+      ['Nitrogênio (N / N₂)', fmtE(1402), fmtE(-7), fmtE(945) + ' (N≡N)', '—', '+1,25 V (NO₃⁻/N₂)'],
+      ['Fósforo (P / P₄)', fmtE(1012), fmtE(-72), fmtE(201) + ' (P–P)', '—', '-0,06 V (P₄/PH₃)'],
+      ['Oxigênio (O / O₂)', fmtE(1314), fmtE(-141), fmtE(498) + ' (O=O)', '—', '+1,23 V (O₂/H₂O)'],
+      ['Enxofre (S / S₈)', fmtE(1000), fmtE(-200), fmtE(266) + ' (S–S)', '—', '+0,14 V (S/H₂S)'],
+      ['Flúor (F / F₂ / F⁻)', fmtE(1681), fmtE(-328), fmtE(158) + ' (F–F)', fmtE(-515) + ' (F⁻)', '+2,87 V (F₂/F⁻)'],
+      ['Cloro (Cl / Cl₂ / Cl⁻)', fmtE(1251), fmtE(-349), fmtE(243) + ' (Cl–Cl)', fmtE(-381) + ' (Cl⁻)', '+1,36 V (Cl₂/Cl⁻)'],
+      ['Bromo (Br / Br₂ / Br⁻)', fmtE(1140), fmtE(-325), fmtE(193) + ' (Br–Br)', fmtE(-347) + ' (Br⁻)', '+1,07 V (Br₂/Br⁻)'],
+      ['Iodo (I / I₂ / I⁻)', fmtE(1008), fmtE(-295), fmtE(151) + ' (I–I)', fmtE(-305) + ' (I⁻)', '+0,54 V (I₂/I⁻)']
+    ].filter(r => r.join(' ').toLowerCase().includes(filter));
+  } else if (type === 'tabD') {
+    headers = ['Molécula', 'Ordem de Ligação', 'Comprimento', 'Ângulo / Geometria VSEPR', 'Polaridade', 'Propriedade Magnética'];
+    rows = [
+      ['N₂', '3 (N≡N)', '109,8 pm', '180° • Linear (D∞h)', 'Apolar', 'Diamagnética'],
+      ['O₂', '2 (TOM)', '121,0 pm', '180° • Linear (D∞h)', 'Apolar', 'Paramagnética (2 e⁻ desemparelhados)'],
+      ['O₃', '1,5 (ressonância)', '127,8 pm', '116,8° • Angular (C₂v)', 'Polar (0,53 D)', 'Diamagnética'],
+      ['P₄', '1 (P–P)', '221,0 pm', '60,0° • Tetraédrica (Td)', 'Apolar', 'Diamagnética'],
+      ['S₈', '1 (S–S)', '206,0 pm', '108,0° • Coroa (D₄d)', 'Apolar', 'Diamagnética'],
+      ['F₂ / Cl₂ / Br₂ / I₂', '1 (X–X)', '142 / 199 / 228 / 267 pm', '180° • Linear (D∞h)', 'Apolar', 'Diamagnética'],
+      ['ClF₃', '1 (3c–4e ax)', '160 / 170 pm', '87,5° • Forma de T (AX₃E₂)', 'Polar (0,6 D)', 'Diamagnética'],
+      ['IF₅', '1 (3c–4e eq)', '184 / 187 pm', '81,9° • Pirâmide Quadrada (AX₅E)', 'Polar (2,18 D)', 'Diamagnética'],
+      ['IF₇', '1', '179 / 186 pm', '72° / 90° • Bipirâmide Pentagonal', 'Apolar', 'Diamagnética']
+    ].filter(r => r.join(' ').toLowerCase().includes(filter));
+  } else if (type === 'tabE') {
+    headers = ['Isótopo', 'Estabilidade', 'Decaimento', 'Meia-vida (t½)', 'Aplicação Científica / Médica'];
+    rows = [
+      ['¹⁴N / ¹⁵N', 'Estáveis (99,64% / 0,36%)', '—', 'Estável', 'RMN de ¹⁵N e estudos de fixação biológica'],
+      ['³¹P / ³²P', '³¹P Estável | ³²P Radioativo (artificial)', 'β⁻ (³²P → ³²S)', '14,27 dias (³²P)', 'RMN de ³¹P; ³²P em biologia molecular'],
+      ['¹⁶O / ¹⁸O / ¹⁵O', '¹⁶O, ¹⁸O Estáveis | ¹⁵O Radioativo', 'β⁺ (¹⁵O → ¹⁵N)', '122 segundos (¹⁵O)', 'Paleoclimatologia (¹⁸O); PET cerebral (¹⁵O)'],
+      ['³²S / ³⁵S', '³²S Estável | ³⁵S Radioativo (artificial)', 'β⁻ (³⁵S → ³⁵Cl)', '87,37 dias (³⁵S)', 'Marcação isotópica de cisteína/metionina'],
+      ['¹⁹F / ¹⁸F', '¹⁹F Estável | ¹⁸F Radioativo (cíclotron)', 'β⁺ (¹⁸F → ¹⁸O)', '109,7 min (¹⁸F)', 'Radiofármaco ¹⁸F-FDG em tomografia PET'],
+      ['³⁵Cl / ³⁷Cl / ³⁶Cl', '³⁵Cl, ³⁷Cl Estáveis | ³⁶Cl Radioativo', 'β⁻ / CE', '3,01 × 10⁵ anos (³⁶Cl)', 'Datação de águas subterrâneas antigas'],
+      ['¹²⁷I / ¹³¹I', '¹²⁷I Estável | ¹³¹I Radioativo (fissão)', 'β⁻ + γ (¹³¹I → ¹³¹Xe)', '8,02 dias (¹³¹I)', 'Terapia e diagnóstico da glândula tireoide'],
+      ['²¹⁰At / ²¹¹At', 'Todos radioativos (sintéticos/traços)', 'α + CE (²¹¹At)', '7,21 horas (²¹¹At)', 'Terapia alfa-alvo (TAT) contra tumores'],
+      ['²⁹⁴Ts', 'Todos radioativos (sintéticos)', 'α (²⁹⁴Ts → ²⁹⁰Mc)', '51 ms (²⁹⁴Ts)', 'Pesquisa nuclear de elementos superpesados']
+    ].filter(r => r.join(' ').toLowerCase().includes(filter));
+  }
+
+  wrap.innerHTML = `<table><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+
+function updateBornHaber() {
+  const data = {
+    NaF: { dHf: -574, subM: 107, ieM: 496, dissX: 158, eaX: -328, uRede: -928 },
+    NaCl: { dHf: -411, subM: 107, ieM: 496, dissX: 243, eaX: -349, uRede: -787 },
+    KBr: { dHf: -394, subM: 89, ieM: 419, dissX: 193, eaX: -325, uRede: -682 },
+    KI: { dHf: -328, subM: 89, ieM: 419, dissX: 151, eaX: -295, uRede: -649 }
+  };
+  const c = document.getElementById('bhCompound').value;
+  const d = data[c];
+  document.getElementById('bhOutput').innerHTML = `
+    <strong>Ciclo Termodinâmico para ${c}(s):</strong><br/>
+    1. Sublimação do metal ($\Delta H^\circ_{sub}$): <strong>+${d.subM} kJ/mol</strong><br/>
+    2. Ionização do metal ($EI_1$): <strong>+${d.ieM} kJ/mol</strong><br/>
+    3. Dissociação de $\frac{1}{2}X_2$ ($\frac{1}{2}D_{X-X}$): <strong>+${(d.dissX/2).toFixed(1)} kJ/mol</strong><br/>
+    4. Afinidade Eletrônica do halogênio ($AE_1$): <strong>${d.eaX} kJ/mol</strong><br/>
+    5. Entalpia Padrão de Formação ($\Delta H^\circ_f$): <strong>${d.dHf} kJ/mol</strong><br/>
+    <hr style="margin:0.5rem 0;border-color:var(--border);"/>
+    <strong>Energia de Rede Cristalográfica ($U_{rede}$):</strong> $\Delta H^\circ_f - (\Delta H_{sub} + EI_1 + \frac{1}{2}D + AE_1) =$ <span style="color:var(--accent-emerald);font-weight:800;font-size:1.05rem;">${d.uRede} kJ/mol</span>
+  `;
+}
+
+// ============================================================================
+// MÓDULO 05A — ÁTOMOS 3D EM MOVIMENTO (ESTILO IMAGEM 2) PARA TODOS OS 10 ELEMENTOS
+// ============================================================================
+function renderLabAtoms(container) {
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>Módulo 05 — Laboratório Virtual 3D: Átomos em Movimento</span></div>
+    <div class="hero">
+      <h1>Simulador 3D de Estrutura Atômica (Não Metais & Halogênios)</h1>
+      <p>Visualização tridimensional em tempo real dos 10 elementos estudados (<strong>N, P, O, S, F, Cl, Br, I, At, Ts</strong>) com núcleo composto por prótons e nêutrons agrupados e elétrons orbitando em camadas quânticas inclinadas em 3D.</p>
+    </div>
+    <div class="card">
+      <div class="controls-bar">
+        <select id="labAtomSelect" onchange="switchLabAtom()">
+          <optgroup label="Não Metais (Grupo I)">
+            <option value="N">7 • Nitrogênio (N) — [He] 2s² 2p³</option>
+            <option value="P">15 • Fósforo (P) — [Ne] 3s² 3p³</option>
+            <option value="O">8 • Oxigênio (O) — [He] 2s² 2p⁴</option>
+            <option value="S">16 • Enxofre (S) — [Ne] 3s² 3p⁴</option>
+          </optgroup>
+          <optgroup label="Halogênios (Grupo II — Grupo 17)">
+            <option value="F">9 • Flúor (F) — [He] 2s² 2p⁵</option>
+            <option value="Cl">17 • Cloro (Cl) — [Ne] 3s² 3p⁵</option>
+            <option value="Br">35 • Bromo (Br) — [Ar] 3d¹⁰ 4s² 4p⁵</option>
+            <option value="I">53 • Iodo (I) — [Kr] 4d¹⁰ 5s² 5p⁵</option>
+            <option value="At">85 • Astato (At) — [Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁵</option>
+            <option value="Ts">117 • Tenessino (Ts) — [Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁵</option>
+          </optgroup>
+        </select>
+        <button class="btn" id="labAtomPause">⏸ Pausar</button>
+        <label style="font-size:0.82rem;">Velocidade Orbital: <input type="range" id="labAtomSpeed" min="0" max="3" step="0.1" value="1" /></label>
+      </div>
+      <div class="viewport-3d" id="labAtomViewport" style="height:460px;">
+        <div class="hud-overlay" id="labAtomHud"></div>
+      </div>
+    </div>
+  `;
+  switchLabAtom();
+}
+
+function switchLabAtom() {
+  clearAnimFrames();
+  const sym = document.getElementById('labAtomSelect').value;
+  const el = ELEMENTS[sym];
+  document.getElementById('labAtomHud').innerHTML = `
+    <strong style="font-size:0.95rem;color:var(--accent-cyan);">${el.name} (${el.sym}) • Z = ${el.Z}</strong><br/>
+    Classificação: ${el.category}<br/>
+    Prótons: ${el.protons} | Nêutrons: ${el.neutrons}<br/>
+    Camadas: ${el.shells.join(' – ')}<br/>
+    Configuração: ${el.config}<br/>
+    Magnetismo (${el.simpleSub}): <strong>${el.magnetism}</strong>
+  `;
+  initAtom3DScene('labAtomViewport', el, 'labAtomPause', 'labAtomSpeed');
+}
+
+function initAtom3DScene(containerId, el, pauseBtnId, speedInputId) {
+  const wrap = document.getElementById(containerId);
+  if (!wrap) return;
+  const hud = wrap.querySelector('.hud-overlay');
+  wrap.innerHTML = '';
+  if (hud) wrap.appendChild(hud);
+
+  const w = wrap.clientWidth || 600;
+  const h = wrap.clientHeight || 380;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+  camera.position.set(0, 3.2, 11.5);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  wrap.appendChild(renderer.domElement);
+
+  const ambient = new THREE.AmbientLight(0xffffff, 0.65);
+  const point = new THREE.PointLight(0x00d4ff, 1.4, 50);
+  point.position.set(6, 8, 8);
+  const point2 = new THREE.PointLight(0xf43f5e, 0.8, 50);
+  point2.position.set(-6, -5, 6);
+  scene.add(ambient, point, point2);
+
+  // Grupo principal interativo
+  const rootGroup = new THREE.Group();
+  scene.add(rootGroup);
+
+  // Núcleo compacto de prótons (vermelho/coral) e nêutrons (cinza-azulado)
+  const nucleusGroup = new THREE.Group();
+  const totalNucleons = Math.min(el.protons + el.neutrons, 90);
+  const pRatio = el.protons / (el.protons + el.neutrons);
+  const nucGeom = new THREE.SphereGeometry(0.18, 14, 14);
+  const pMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3, metalness: 0.2 });
+  const nMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.4, metalness: 0.2 });
+
+  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < totalNucleons; i++) {
+    const r = 0.48 * Math.cbrt(i / totalNucleons);
+    const y = 1 - (i / Math.max(1, totalNucleons - 1)) * 2;
+    const radiusAtY = Math.sqrt(Math.max(0, 1 - y * y));
+    const theta = goldenAngle * i;
+    const mesh = new THREE.Mesh(nucGeom, (i / totalNucleons) < pRatio ? pMat : nMat);
+    mesh.position.set(Math.cos(theta) * radiusAtY * r * 1.4, y * r * 1.4, Math.sin(theta) * radiusAtY * r * 1.4);
+    nucleusGroup.add(mesh);
+  }
+  rootGroup.add(nucleusGroup);
+
+  // Órbitas e elétrons em movimento
+  const electrons = [];
+  const eGeom = new THREE.SphereGeometry(0.11, 14, 14);
+  const eMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, emissive: 0x0284c7, emissiveIntensity: 0.85 });
+
+  el.shells.forEach((count, shellIdx) => {
+    const orbitRadius = 1.45 + shellIdx * 0.62;
+    const shellGroup = new THREE.Group();
+    shellGroup.rotation.x = (shellIdx * 0.52) + 0.35;
+    shellGroup.rotation.y = (shellIdx * 0.78);
+    shellGroup.rotation.z = (shellIdx % 2 === 0 ? 0.28 : -0.28);
+
+    const ringGeom = new THREE.RingGeometry(orbitRadius - 0.012, orbitRadius + 0.012, 96);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide, transparent: true, opacity: 0.32 });
+    const ring = new THREE.Mesh(ringGeom, ringMat);
+    ring.rotation.x = Math.PI / 2;
+    shellGroup.add(ring);
+
+    for (let j = 0; j < count; j++) {
+      const eMesh = new THREE.Mesh(eGeom, eMat);
+      shellGroup.add(eMesh);
+      electrons.push({
+        mesh: eMesh,
+        radius: orbitRadius,
+        angle: (j / count) * Math.PI * 2,
+        speed: (0.024 / (1 + shellIdx * 0.28)) * (shellIdx % 2 === 0 ? 1 : -1)
+      });
+    }
+    rootGroup.add(shellGroup);
+  });
+
+  // Controles de arraste e zoom
+  let isDragging = false, prevX = 0, prevY = 0, paused = false;
+  const pauseBtn = document.getElementById(pauseBtnId);
+  if (pauseBtn) {
+    pauseBtn.onclick = () => {
+      paused = !paused;
+      pauseBtn.textContent = paused ? '▶ Retomar Órbita' : '⏸ Pausar Órbita';
+    };
+  }
+  renderer.domElement.addEventListener('pointerdown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
+  window.addEventListener('pointerup', () => { isDragging = false; });
+  renderer.domElement.addEventListener('pointermove', e => {
+    if (!isDragging) return;
+    rootGroup.rotation.y += (e.clientX - prevX) * 0.008;
+    rootGroup.rotation.x += (e.clientY - prevY) * 0.008;
+    prevX = e.clientX; prevY = e.clientY;
+  });
+  renderer.domElement.addEventListener('wheel', e => {
+    e.preventDefault();
+    camera.position.z = Math.max(5, Math.min(22, camera.position.z + e.deltaY * 0.01));
+  }, { passive: false });
+
+  function animate() {
+    const id = requestAnimationFrame(animate);
+    activeAnimFrames.push(id);
+    const speedMult = parseFloat(document.getElementById(speedInputId)?.value || '1');
+    if (!paused) {
+      nucleusGroup.rotation.y += 0.006 * speedMult;
+      electrons.forEach(elObj => {
+        elObj.angle += elObj.speed * speedMult;
+        elObj.mesh.position.set(
+          Math.cos(elObj.angle) * elObj.radius,
+          0,
+          Math.sin(elObj.angle) * elObj.radius
+        );
+      });
+    }
+    renderer.render(scene, camera);
+  }
+  animate();
+}
+
+// ============================================================================
+// MÓDULO 05B — MOLÉCULAS 3D & VSEPR (COM PARAMAGNETISMO / DIAMAGNETISMO)
+// ============================================================================
+function renderLabMolecules(container) {
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>Módulo 05 — Laboratório Virtual 3D: Moléculas & VSEPR</span></div>
+    <div class="hero">
+      <h1>Visualizador Molecular 3D Interativo (23 Espécies)</h1>
+      <p>Explore as geometrias VSEPR, comprimentos de ligação, ângulos e comportamento magnético (<strong>Paramagnético</strong> vs. <strong>Diamagnético</strong>) de todos os não metais e halogênios estudados.</p>
+    </div>
+    <div class="card">
+      <div class="controls-bar">
+        <select id="molSelect" onchange="buildMolecule3D()">
+          <optgroup label="Substâncias Simples & Compostos de Não Metais">
+            <option value="N2">N₂ — Dinitrogênio (Diamagnética)</option>
+            <option value="O2" selected>O₂ — Dioxigênio (Paramagnética)</option>
+            <option value="O3">O₃ — Ozônio (Diamagnética)</option>
+            <option value="P4">P₄ — Fósforo Branco (Diamagnética)</option>
+            <option value="S8">S₈ — Enxofre Rômbico Coroa (Diamagnética)</option>
+            <option value="NH3">NH₃ — Amônia</option>
+            <option value="H2S">H₂S — Sulfeto de Hidrogênio</option>
+            <option value="SO2">SO₂ — Dióxido de Enxofre</option>
+            <option value="SO3">SO₃ — Trióxido de Enxofre</option>
+            <option value="H2SO4">H₂SO₄ — Ácido Sulfúrico</option>
+            <option value="PCl3">PCl₃ — Tricloreto de Fósforo</option>
+            <option value="PCl5">PCl₅ — Pentacloreto de Fósforo</option>
+          </optgroup>
+          <optgroup label="Halogênios, Hidrácidos & Inter-halogênios">
+            <option value="F2">F₂ — Diflúor</option>
+            <option value="Cl2">Cl₂ — Dicloro</option>
+            <option value="Br2">Br₂ — Dibromo</option>
+            <option value="I2">I₂ — Di-iodo</option>
+            <option value="HF">HF — Fluoreto de Hidrogênio</option>
+            <option value="HCl">HCl — Cloreto de Hidrogênio</option>
+            <option value="HBr">HBr — Brometo de Hidrogênio</option>
+            <option value="HI">HI — Iodeto de Hidrogênio</option>
+            <option value="ClF3">ClF₃ — Trifluoreto de Cloro (Forma de T)</option>
+            <option value="IF5">IF₅ — Pentafluoreto de Iodo (Pirâmide Quadrada)</option>
+            <option value="IF7">IF₇ — Heptafluoreto de Iodo (Bipirâmide Pentagonal)</option>
+          </optgroup>
+        </select>
+        <button class="btn" id="molStyleBtn" onclick="toggleMolStyle()">Modo: Bola-Vareta</button>
+      </div>
+      <div class="viewport-3d" id="molViewport" style="height:440px;">
+        <div class="hud-overlay" id="molHud"></div>
+      </div>
+    </div>
+  `;
+  buildMolecule3D();
+}
+
+let molSpaceFilling = false;
+function toggleMolStyle() {
+  molSpaceFilling = !molSpaceFilling;
+  document.getElementById('molStyleBtn').textContent = molSpaceFilling ? 'Modo: Espaço Preenchido (CPK)' : 'Modo: Bola-Vareta';
+  buildMolecule3D();
+}
+
+function buildMolecule3D() {
+  clearAnimFrames();
+  const key = document.getElementById('molSelect').value;
+  const mol = MOLECULES_3D[key];
+  const wrap = document.getElementById('molViewport');
+  const hud = document.getElementById('molHud');
+  hud.innerHTML = `
+    <strong style="color:var(--accent-cyan);font-size:0.95rem;">${mol.name}</strong><br/>
+    Geometria VSEPR: <strong>${mol.geom}</strong><br/>
+    Ângulos: ${mol.angle}<br/>
+    Ligação: ${mol.bondLen}<br/>
+    Hibridização/Modelo: ${mol.hyb}<br/>
+    Magnetismo: <strong style="color:${mol.mag.includes('Paramagnética')?'#f59e0b':'#10b981'};">${mol.mag}</strong>
+  `;
+  wrap.innerHTML = '';
+  wrap.appendChild(hud);
+
+  const w = wrap.clientWidth || 600, h = wrap.clientHeight || 440;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+  camera.position.set(0, 0, 6.2);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(w, h);
+  wrap.appendChild(renderer.domElement);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+  const dl = new THREE.DirectionalLight(0xffffff, 1.1);
+  dl.position.set(5, 7, 8);
+  scene.add(dl);
+
+  const group = new THREE.Group();
+  scene.add(group);
+
+  mol.atoms.forEach(([sym, x, y, z]) => {
+    const rad = (CPK_RADII[sym] || 0.5) * (molSpaceFilling ? 1.85 : 0.78);
+    const mesh = new THREE.Mesh(
+      new THREE.SphereGeometry(rad, 24, 24),
+      new THREE.MeshStandardMaterial({ color: CPK_COLORS[sym] || 0x38bdf8, roughness: 0.25, metalness: 0.15 })
+    );
+    mesh.position.set(x, y, z);
+    group.add(mesh);
+  });
+
+  if (!molSpaceFilling) {
+    mol.bonds.forEach(([i, j, order]) => {
+      const p1 = new THREE.Vector3(...mol.atoms[i].slice(1));
+      const p2 = new THREE.Vector3(...mol.atoms[j].slice(1));
+      const dist = p1.distanceTo(p2);
+      const mid = p1.clone().add(p2).multiplyScalar(0.5);
+      const dir = p2.clone().sub(p1).normalize();
+      const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+
+      for (let b = 0; b < order; b++) {
+        const offset = order === 1 ? 0 : (b - (order - 1) / 2) * 0.14;
+        const cyl = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.065, 0.065, dist, 12),
+          new THREE.MeshStandardMaterial({ color: 0xcbd5e1, roughness: 0.35 })
+        );
+        cyl.position.copy(mid);
+        cyl.position.z += offset;
+        cyl.quaternion.copy(quat);
+        group.add(cyl);
+      }
+    });
+  }
+
+  let drag = false, px = 0, py = 0;
+  renderer.domElement.addEventListener('pointerdown', e => { drag = true; px = e.clientX; py = e.clientY; });
+  window.addEventListener('pointerup', () => drag = false);
+  renderer.domElement.addEventListener('pointermove', e => {
+    if (!drag) return;
+    group.rotation.y += (e.clientX - px) * 0.01;
+    group.rotation.x += (e.clientY - py) * 0.01;
+    px = e.clientX; py = e.clientY;
+  });
+  renderer.domElement.addEventListener('wheel', e => {
+    e.preventDefault();
+    camera.position.z = Math.max(2.5, Math.min(14, camera.position.z + e.deltaY * 0.008));
+  }, { passive: false });
+
+  function anim() {
+    const id = requestAnimationFrame(anim);
+    activeAnimFrames.push(id);
+    if (!drag) group.rotation.y += 0.005;
+    renderer.render(scene, camera);
+  }
+  anim();
+}
+
+// ============================================================================
+// MÓDULO 05C — EMPACOTAMENTO CRISTALINO 3D
+// ============================================================================
+function renderLabCrystals(container) {
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>Módulo 05 — Laboratório Virtual 3D: Empacotamento Cristalino</span></div>
+    <div class="hero">
+      <h1>Visualizador Cristalográfico 3D</h1>
+      <p>Compare redes cristalinas clássicas (CS, CCC, CFC, HC) com as estruturas cristalográficas reais dos sólidos moleculares e lamelares estudados: <strong>Enxofre Rômbico ($\alpha-S_8$)</strong>, <strong>Fósforo Negro</strong> e <strong>Iodo Ortorrômbico ($I_2$)</strong>.</p>
+    </div>
+    <div class="card">
+      <div class="controls-bar">
+        <select id="crystalSelect" onchange="buildCrystal3D()">
+          <option value="S8_ortho">Enxofre Rômbico (α-S₈ — Ortorrômbico Fddd)</option>
+          <option value="P_black">Fósforo Negro (Ortorrômbico em Camadas Onduladas)</option>
+          <option value="I2_ortho">Iodo Cristalino (I₂ — Ortorrômbico Lamelar Cmca)</option>
+          <option value="FCC">Cúbica de Face Centrada (CFC — NC=12, FEA=74%)</option>
+          <option value="BCC">Cúbica de Corpo Centrado (CCC — NC=8, FEA=68%)</option>
+          <option value="SC">Cúbica Simples (CS — NC=6, FEA=52%)</option>
+        </select>
+        <button class="btn" onclick="toggleSupercell()" id="superBtn">Repetição: Célula Unitária (1×1×1)</button>
+      </div>
+      <div class="viewport-3d" id="crystalViewport" style="height:440px;">
+        <div class="hud-overlay" id="crystalHud"></div>
+      </div>
+    </div>
+  `;
+  buildCrystal3D();
+}
+
+let supercellMode = false;
+function toggleSupercell() {
+  supercellMode = !supercellMode;
+  document.getElementById('superBtn').textContent = supercellMode ? 'Repetição: Supercélula (2×2×1)' : 'Repetição: Célula Unitária (1×1×1)';
+  buildCrystal3D();
+}
+
+function buildCrystal3D() {
+  clearAnimFrames();
+  const type = document.getElementById('crystalSelect').value;
+  const infoMap = {
+    S8_ortho: { title: 'Enxofre Rômbico (α-S₈)', sys: 'Ortorrômbico (grupo Fddd)', nc: 'Anéis S₈ empacotados por van der Waals', fea: '16 anéis S₈ por célula unitária', note: 'Sólido molecular; a=1046 pm, b=1287 pm, c=2449 pm.' },
+    P_black: { title: 'Fósforo Negro (Pₙ)', sys: 'Ortorrômbico (grupo Cmca)', nc: 'NC = 3 (piramidal) + interação interlamelar', fea: 'Camadas duplas onduladas (fosforeno)', note: 'Semicondutor lamelar estável.' },
+    I2_ortho: { title: 'Iodo Molecular Cristalino (I₂)', sys: 'Ortorrômbico (grupo Cmca)', nc: '1 vizinho covalente (272 pm) + 2 secundários (350 pm)', fea: 'Camadas planas em zigue-zague', note: 'Interações secundárias dão brilho submetálico.' },
+    FCC: { title: 'Cúbica de Face Centrada (CFC)', sys: 'Cúbica (Fm3̄m)', nc: 'NC = 12', fea: 'FEA = 74,05% (empacotamento compacto ABCABC)', note: 'Referência de empacotamento denso.' },
+    BCC: { title: 'Cúbica de Corpo Centrado (CCC)', sys: 'Cúbica (Im3̄m)', nc: 'NC = 8', fea: 'FEA = 68,02%', note: 'Referência não compacta.' },
+    SC: { title: 'Cúbica Simples (CS)', sys: 'Cúbica (Pm3̄m)', nc: 'NC = 6', fea: 'FEA = 52,36%', note: 'Apenas vértices ocupados.' }
+  };
+  const info = infoMap[type];
+  const wrap = document.getElementById('crystalViewport');
+  const hud = document.getElementById('crystalHud');
+  hud.innerHTML = `<strong style="color:var(--accent-cyan);">${info.title}</strong><br/>Sistema: ${info.sys}<br/>Coordenação: ${info.nc}<br/>Empacotamento: ${info.fea}<br/><em>${info.note}</em>`;
+  wrap.innerHTML = ''; wrap.appendChild(hud);
+
+  const w = wrap.clientWidth || 600, h = wrap.clientHeight || 440;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+  camera.position.set(4.5, 3.8, 6.2);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(w, h);
+  wrap.appendChild(renderer.domElement);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+  const dl = new THREE.DirectionalLight(0xffffff, 1);
+  dl.position.set(6, 9, 7);
+  scene.add(dl);
+
+  const root = new THREE.Group();
+  scene.add(root);
+
+  const nx = supercellMode ? 2 : 1;
+  const ny = supercellMode ? 2 : 1;
+
+  for (let cx = 0; cx < nx; cx++) {
+    for (let cy = 0; cy < ny; cy++) {
+      const cell = new THREE.Group();
+      cell.position.set((cx - (nx - 1) / 2) * 2.4, (cy - (ny - 1) / 2) * 2.4, 0);
+
+      const box = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.BoxGeometry(2.2, 2.2, 2.2)),
+        new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.45 })
+      );
+      cell.add(box);
+
+      const addSphere = (x, y, z, r, col) => {
+        const m = new THREE.Mesh(new THREE.SphereGeometry(r, 18, 18), new THREE.MeshStandardMaterial({ color: col, roughness: 0.3 }));
+        m.position.set(x, y, z);
+        cell.add(m);
+      };
+
+      if (type === 'SC' || type === 'BCC' || type === 'FCC') {
+        [-1.1, 1.1].forEach(x => [-1.1, 1.1].forEach(y => [-1.1, 1.1].forEach(z => addSphere(x, y, z, 0.28, 0x3b82f6))));
+        if (type === 'BCC') addSphere(0, 0, 0, 0.32, 0xf59e0b);
+        if (type === 'FCC') {
+          [[1.1,0,0],[-1.1,0,0],[0,1.1,0],[0,-1.1,0],[0,0,1.1],[0,0,-1.1]].forEach(p => addSphere(...p, 0.28, 0x10b981));
+        }
+      } else if (type === 'S8_ortho') {
+        [[-0.45,0.45,-0.4],[0.45,-0.45,0.4]].forEach(([ox,oy,oz]) => {
+          for (let k = 0; k < 8; k++) {
+            const a = k * Math.PI / 4;
+            addSphere(ox + 0.42 * Math.cos(a), oy + 0.42 * Math.sin(a), oz + (k % 2 === 0 ? 0.1 : -0.1), 0.14, 0xeab308);
+          }
+        });
+      } else if (type === 'P_black') {
+        [-0.55, 0.55].forEach(layerY => {
+          for (let ix = -1; ix <= 1; ix++) {
+            for (let iz = -1; iz <= 1; iz++) {
+              addSphere(ix * 0.7, layerY + ((ix + iz) % 2 === 0 ? 0.14 : -0.14), iz * 0.7, 0.2, 0xf97316);
+            }
+          }
+        });
+      } else if (type === 'I2_ortho') {
+        [-0.6, 0.6].forEach(z => {
+          [-0.5, 0.5].forEach(y => {
+            addSphere(-0.35, y - 0.12, z, 0.24, 0x7e22ce);
+            addSphere(0.35, y + 0.12, z, 0.24, 0x7e22ce);
+          });
+        });
+      }
+      root.add(cell);
+    }
+  }
+
+  let drag = false, px = 0, py = 0;
+  renderer.domElement.addEventListener('pointerdown', e => { drag = true; px = e.clientX; py = e.clientY; });
+  window.addEventListener('pointerup', () => drag = false);
+  renderer.domElement.addEventListener('pointermove', e => {
+    if (!drag) return;
+    root.rotation.y += (e.clientX - px) * 0.01;
+    root.rotation.x += (e.clientY - py) * 0.01;
+    px = e.clientX; py = e.clientY;
+  });
+
+  function anim() {
+    const id = requestAnimationFrame(anim);
+    activeAnimFrames.push(id);
+    if (!drag) root.rotation.y += 0.004;
+    renderer.render(scene, camera);
+  }
+  anim();
+}
+
+// ============================================================================
+// MÓDULO 06 — DIAGRAMA TOM (PARAMAGNÉTICO / DIAMAGNÉTICO) & DECAIMENTO RADIOATIVO
+// ============================================================================
+function renderMod6(container) {
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>Módulo 06 — Diagrama TOM, Magnetismo & Decaimento Radioativo</span></div>
+    <div class="hero">
+      <h1>Teoria dos Orbitais Moleculares (TOM) & Cinética Nuclear</h1>
+      <p>Verifique o preenchimento dos orbitais moleculares, ordem de ligação e classificação <strong>Paramagnética vs. Diamagnética</strong> para todas as moléculas diatômicas dos não metais e halogênios, além de simular o decaimento exponencial $N(t) = N_0 e^{-\lambda t}$.</p>
+    </div>
+
+    <div class="card">
+      <h2>1. Diagrama TOM Interativo — Paramagnética vs. Diamagnética (Todos os Não Metais & Halogênios)</h2>
+      <div class="controls-bar">
+        <select id="tomSpecies" onchange="drawTOMCanvas()">
+          <option value="N2">N₂ — Dinitrogênio (10 e⁻ valência)</option>
+          <option value="P2">P₂ — Difósforo gasoso (10 e⁻ valência)</option>
+          <option value="O2" selected>O₂ — Dioxigênio (12 e⁻ valência)</option>
+          <option value="S2">S₂ — Dienxofre vapor (12 e⁻ valência)</option>
+          <option value="NO">NO — Óxido Nítrico (11 e⁻ valência)</option>
+          <option value="F2">F₂ — Diflúor (14 e⁻ valência)</option>
+          <option value="Cl2">Cl₂ — Dicloro (14 e⁻ valência)</option>
+          <option value="Br2">Br₂ — Dibromo (14 e⁻ valência)</option>
+          <option value="I2">I₂ — Di-iodo (14 e⁻ valência)</option>
+          <option value="At2">At₂ — Diastato (14 e⁻ valência)</option>
+          <option value="Ts2">Ts₂ — Ditenessino (14 e⁻ valência)</option>
+        </select>
+      </div>
+      <canvas id="tomCanvas" width="760" height="320" style="width:100%;max-width:760px;background:#060a14;border-radius:12px;border:1px solid var(--border);display:block;"></canvas>
+      <div id="tomExplain" class="info-box" style="margin-top:0.8rem;"></div>
+    </div>
+
+    <div class="card">
+      <h2>2. Simulador de Decaimento Radioativo — $N(t) = N_0 \cdot e^{-\lambda t}$</h2>
+      <div class="controls-bar">
+        <select id="isoSelect" onchange="updateDecaySim()">
+          <option value="P32">Fósforo-32 (³²P) — t½ = 14,27 dias (β⁻)</option>
+          <option value="S35">Enxofre-35 (³⁵S) — t½ = 87,37 dias (β⁻)</option>
+          <option value="I131">Iodo-131 (¹³¹I) — t½ = 8,02 dias (β⁻/γ)</option>
+          <option value="F18">Flúor-18 (¹⁸F) — t½ = 109,7 min (β⁺)</option>
+          <option value="At211">Astato-211 (²¹¹At) — t½ = 7,21 horas (α)</option>
+          <option value="Ts294">Tenessino-294 (²⁹⁴Ts) — t½ = 51 ms (α)</option>
+        </select>
+        <label style="font-size:0.85rem;">Tempo decorrido (em meias-vidas): <input type="range" id="halfLifeSlider" min="0" max="6" step="0.1" value="1" oninput="updateDecaySim()" /></label>
+      </div>
+      <div id="decayStats" class="highlight-box"></div>
+      <canvas id="decayCanvas" width="760" height="230" style="width:100%;max-width:760px;background:#060a14;border-radius:12px;border:1px solid var(--border);display:block;"></canvas>
+    </div>
+  `;
+  drawTOMCanvas();
+  updateDecaySim();
+}
+
+function drawTOMCanvas() {
+  const sp = document.getElementById('tomSpecies').value;
+  const configs = {
+    N2: { e: 10, inv: true, ol: '3,0', mag: 'DIAMAGNÉTICA (0 e⁻ desemparelhados)', desc: 'Em N₂ (e P₂), a mistura s–p coloca σ₂p acima de π₂p. Os 10 elétrons de valência preenchem (σ₂s)²(σ*₂s)²(π₂px)²(π₂py)²(σ₂pz)², resultando em ordem de ligação 3 e diamagnetismo.' },
+    P2: { e: 10, inv: true, ol: '3,0', mag: 'DIAMAGNÉTICA (0 e⁻ desemparelhados)', desc: 'Espécie presente apenas em fase vapor acima de 800 °C; análoga eletrônica do N₂ com 10 elétrons de valência emparelhados.' },
+    O2: { e: 12, inv: false, ol: '2,0', mag: 'PARAMAGNÉTICA (2 e⁻ desemparelhados em π*)', desc: 'Os 12 elétrons de valência preenchem até π*₂px¹ π*₂py¹ com spins paralelos (Regra de Hund), explicando o forte paramagnetismo do O₂ líquido.' },
+    S2: { e: 12, inv: false, ol: '2,0', mag: 'PARAMAGNÉTICA (2 e⁻ desemparelhados em π*)', desc: 'O vapor S₂ (responsável pela chama azul do enxofre queimando) possui a mesma estrutura eletrônica triplete ³Σg⁻ que o O₂.' },
+    NO: { e: 11, inv: true, ol: '2,5', mag: 'PARAMAGNÉTICA (1 e⁻ desemparelhado em π*)', desc: 'Molécula heteronuclear radicalar com 11 elétrons de valência; possui 1 elétron desemparelhado no orbital antiligante π*.' },
+    F2: { e: 14, inv: false, ol: '1,0', mag: 'DIAMAGNÉTICA (0 e⁻ desemparelhados)', desc: 'Todos os halogênios diatômicos (F₂, Cl₂, Br₂, I₂, At₂, Ts₂) possuem 14 elétrons de valência: (σs)²(σ*s)²(σp)²(πp)⁴(π*p)⁴, ordem de ligação 1 e são diamagnéticos.' },
+    Cl2: { e: 14, inv: false, ol: '1,0', mag: 'DIAMAGNÉTICA (0 e⁻ desemparelhados)', desc: '14 elétrons de valência totalmente emparelhados nos orbitais derivados de 3s e 3p; ordem de ligação 1.' },
+    Br2: { e: 14, inv: false, ol: '1,0', mag: 'DIAMAGNÉTICA (0 e⁻ desemparelhados)', desc: '14 elétrons de valência totalmente emparelhados nos orbitais derivados de 4s e 4p; ordem de ligação 1.' },
+    I2: { e: 14, inv: false, ol: '1,0', mag: 'DIAMAGNÉTICA (0 e⁻ desemparelhados)', desc: '14 elétrons de valência totalmente emparelhados nos orbitais derivados de 5s e 5p; ordem de ligação 1.' },
+    At2: { e: 14, inv: false, ol: '1,0 (enfraquecida por spin-órbita)', mag: 'DIAMAGNÉTICA (molécula gasosa isolada)', desc: '14 elétrons de valência; o acoplamento relativístico spin-órbita mistura caráter antiligante e reduz a energia de dissociação.' },
+    Ts2: { e: 14, inv: false, ol: '< 1,0 (previsão relativística)', mag: 'DIAMAGNÉTICA (dímero teórico)', desc: 'O desdobramento gigante 7p₁/₂ – 7p₃/₂ torna a ligação Ts–Ts extremamente fraca.' }
+  };
+  const c = configs[sp];
+  const canvas = document.getElementById('tomCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#9fb0cc';
+  ctx.font = 'bold 14px Inter, sans-serif';
+  ctx.fillText(`Diagrama de Orbitais Moleculares de Valência: ${sp}`, 24, 28);
+
+  const levels = c.inv
+    ? [
+        { name: 'σ*p', y: 65, slots: 1 },
+        { name: 'π*p', y: 110, slots: 2 },
+        { name: 'σp', y: 160, slots: 1 },
+        { name: 'πp', y: 205, slots: 2 },
+        { name: 'σ*s', y: 250, slots: 1 },
+        { name: 'σs', y: 290, slots: 1 }
+      ]
+    : [
+        { name: 'σ*p', y: 65, slots: 1 },
+        { name: 'π*p', y: 110, slots: 2 },
+        { name: 'πp', y: 160, slots: 2 },
+        { name: 'σp', y: 205, slots: 1 },
+        { name: 'σ*s', y: 250, slots: 1 },
+        { name: 'σs', y: 290, slots: 1 }
+      ];
+
+  // Preencher de baixo para cima respeitando Hund
+  let rem = c.e;
+  const ordered = [...levels].reverse();
+  ordered.forEach(lvl => {
+    lvl.occ = Array(lvl.slots).fill(0);
+    for (let s = 0; s < lvl.slots; s++) { if (rem > 0) { lvl.occ[s]++; rem--; } }
+    for (let s = 0; s < lvl.slots; s++) { if (rem > 0) { lvl.occ[s]++; rem--; } }
+  });
+
+  levels.forEach(lvl => {
+    ctx.fillStyle = '#e6edf8';
+    ctx.font = '13px monospace';
+    ctx.fillText(lvl.name, 220, lvl.y + 4);
+
+    lvl.occ.forEach((n, idx) => {
+      const x = 300 + idx * 110;
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x, lvl.y); ctx.lineTo(x + 70, lvl.y); ctx.stroke();
+
+      if (n >= 1) {
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = 'bold 20px sans-serif';
+        ctx.fillText('↑', x + 18, lvl.y + 6);
+      }
+      if (n === 2) {
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('↓', x + 38, lvl.y + 6);
+      }
+    });
+  });
+
+  document.getElementById('tomExplain').innerHTML = `
+    <strong>Espécie: ${sp}</strong> | Ordem de Ligação: <strong>${c.ol}</strong> | Classificação Magnética: <strong style="color:${c.mag.includes('PARAMAGNÉTICA')?'#f59e0b':'#10b981'};">${c.mag}</strong><br/>
+    ${c.desc}
+  `;
+}
+
+function updateDecaySim() {
+  const isoData = {
+    P32: { name: 'Fósforo-32 (³²P)', hl: '14,27 dias', prod: '³²S estável' },
+    S35: { name: 'Enxofre-35 (³⁵S)', hl: '87,37 dias', prod: '³⁵Cl estável' },
+    I131: { name: 'Iodo-131 (¹³¹I)', hl: '8,02 dias', prod: '¹³¹Xe estável' },
+    F18: { name: 'Flúor-18 (¹⁸F)', hl: '109,7 min', prod: '¹⁸O estável' },
+    At211: { name: 'Astato-211 (²¹¹At)', hl: '7,21 horas', prod: '²⁰⁷Bi / ²¹¹Po' },
+    Ts294: { name: 'Tenessino-294 (²⁹⁴Ts)', hl: '51 ms', prod: '²⁹⁰Mc' }
+  };
+  const iso = isoData[document.getElementById('isoSelect').value];
+  const k = parseFloat(document.getElementById('halfLifeSlider').value);
+  const pct = Math.pow(0.5, k) * 100;
+  const nuclei = Math.round(1000 * Math.pow(0.5, k));
+
+  document.getElementById('decayStats').innerHTML = `
+    <strong>${iso.name}</strong> ($t_{1/2} = ${iso.hl}$) → Produto: <strong>${iso.prod}</strong><br/>
+    Tempo decorrido: <strong>${k.toFixed(1)} meias-vidas</strong> | Núcleos remanescentes ($N_0 = 1000$): <strong>${nuclei} (${pct.toFixed(1)}%)</strong>
+  `;
+
+  const canvas = document.getElementById('decayCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Curva exponencial
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  for (let i = 0; i <= 60; i++) {
+    const xVal = i / 10;
+    const px = 50 + (xVal / 6) * 660;
+    const py = 200 - Math.pow(0.5, xVal) * 165;
+    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+
+  // Ponto atual
+  const curX = 50 + (k / 6) * 660;
+  const curY = 200 - Math.pow(0.5, k) * 165;
+  ctx.fillStyle = '#f59e0b';
+  ctx.beginPath(); ctx.arc(curX, curY, 7, 0, Math.PI * 2); ctx.fill();
+}
+
+// ============================================================================
+// MÓDULO 07 — TOXICIDADE, SEGURANÇA QUÍMICA & ESTUDOS DE CASO REAIS
+// ============================================================================
+function renderMod7(container) {
+  container.innerHTML = `
+    <div class="breadcrumb">ChemLab / <span>Módulo 07 — Toxicidade, Segurança Química & Química em Situações Reais</span></div>
+    <div class="hero">
+      <h1>Segurança Química, Toxicologia e Acidentes Históricos</h1>
+      <p>Protocolos laboratoriais, limites de exposição ocupacional e análise técnica de acidentes reais envolvendo não metais e halogênios com documentação oficial.</p>
+    </div>
+
+    <div class="card">
+      <h2>Alertas Críticos de Segurança em Laboratório</h2>
+      <div class="danger-box">
+        <strong>☠️ Ácido Fluorídrico (HF) e Flúor (F₂):</strong> Risco letal por absorção dérmica silenciosa e sequestro de cálcio sérico. Exige capela dedicada, luvas de neoprene/butila e kit de emergência com gel de gluconato de cálcio a 2,5%.
+      </div>
+      <div class="danger-box">
+        <strong>☠️ Sulfeto de Hidrogênio (H₂S) e Fosfina (PH₃):</strong> Gases altamente tóxicos por inalação; o H₂S causa fadiga olfatória rápida acima de 100 ppm, fazendo a vítima acreditar que o gás dissipou antes do colapso respiratório.
+      </div>
+      <div class="highlight-box">
+        <strong>🔥 Fósforo Branco (P₄):</strong> Deve ser armazenado submerso em água destilada e manipulado apenas sob atmosfera inerte; em contato com o ar inflama-se espontaneamente gerando nuvem corrosiva de P₄O₁₀.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Química em Situações Reais — Estudos de Caso Históricos</h2>
+      <div class="grid-2">
+        <div class="card" style="margin:0;background:var(--bg-secondary);">
+          <span class="pill pill-halogen">Cloro Gasoso (Cl₂)</span>
+          <h3>Descarrilamento Ferroviário de Graniteville (EUA, 2005)</h3>
+          <p><strong>Contexto e Causas:</strong> Em 6 de janeiro de 2005, falha na chave de desvio ferroviário provocou colisão de trens rompendo um vagão-tanque com 90 toneladas de cloro liquefeito.</p>
+          <p><strong>Consequências:</strong> Formação de nuvem tóxica densa que causou 9 mortes imediatas por edema pulmonar agudo, mais de 550 hospitalizações e evacuação de 5.400 moradores.</p>
+          <p><strong>Fonte Oficial:</strong> <a href="https://www.ntsb.gov/investigations/AccidentReports/Reports/RAR0504.pdf" target="_blank" style="color:var(--accent-cyan);">Relatório NTSB RAR-05/04</a></p>
+        </div>
+
+        <div class="card" style="margin:0;background:var(--bg-secondary);">
+          <span class="pill pill-nonmetal">Amônia Anidra (NH₃)</span>
+          <h3>Vazamento na Fábrica de Fertilizantes de Yazoo City (EUA, 2025) / CSB</h3>
+          <p><strong>Contexto e Causas:</strong> Falha de integridade mecânica em tubulações pressurizadas de amônia anidra durante operações industriais.</p>
+          <p><strong>Lições de Segurança:</strong> Necessidade de válvulas de bloqueio remoto, sensores contínuos de NH₃ e planos de evacuação comunitária.</p>
+          <p><strong>Fonte Oficial:</strong> <a href="https://www.csb.gov/" target="_blank" style="color:var(--accent-cyan);">U.S. Chemical Safety and Hazard Investigation Board (CSB)</a></p>
+        </div>
+
+        <div class="card" style="margin:0;background:var(--bg-secondary);">
+          <span class="pill pill-nonmetal">Sulfeto de Hidrogênio (H₂S)</span>
+          <h3>Explosão e Vazamento de Gás Ácido em Kaixian (China, 2003)</h3>
+          <p><strong>Contexto e Causas:</strong> Ruptura durante perfuração de poço de gás natural com alto teor de H₂S na região de Chongqing.</p>
+          <p><strong>Consequências:</strong> 243 fatalidades humanas e evacuação de mais de 60.000 pessoas devido à pluma letal de sulfeto de hidrogênio.</p>
+          <p><strong>Fonte Institucional:</strong> <a href="https://www.who.int/teams/environment-climate-change-and-health/chemical-safety-and-health" target="_blank" style="color:var(--accent-cyan);">Organização Mundial da Saúde (OMS — Segurança Química)</a></p>
+        </div>
+
+        <div class="card" style="margin:0;background:var(--bg-secondary);">
+          <span class="pill pill-halogen">Ácido Fluorídrico (HF)</span>
+          <h3>Vazamento Industrial de HF em Gumi (Coreia do Sul, 2012)</h3>
+          <p><strong>Contexto e Causas:</strong> Erro operacional durante o descarregamento de tanque contendo ácido fluorídrico anidro.</p>
+          <p><strong>Consequências:</strong> 5 trabalhadores mortos, milhares de atendimentos médicos e severa contaminação agrícola e ambiental local.</p>
+          <p><strong>Fonte Institucional:</strong> <a href="https://www.cdc.gov/niosh/topics/hydrofluoric-acid/" target="_blank" style="color:var(--accent-cyan);">NIOSH / CDC — Guia Técnico de Ácido Fluorídrico</a></p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Inicialização
+navigate('mod1');
+</script>
+</body>
+</html>
